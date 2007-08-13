@@ -14,6 +14,7 @@ jQuery.iNestedSortable = {
 	checkHover : function(e,o) {
 		if(e.isNestedSortable){
 			//A brand new NestedSortable hovering check
+			jQuery.iNestedSortable.scroll(e);
 			return jQuery.iNestedSortable.newCheckHover(e);
 		} else {
 			//The legacy hovering check performed by plain Sortables
@@ -49,6 +50,21 @@ jQuery.iNestedSortable = {
 			//no element on top, but touches the first item on the list
 			jQuery.iNestedSortable.insertOnTop(e);
 		}
+	},
+	/*
+	 * Auto scrolls the page when we are dragging an element.
+	 */
+	scroll: function(e) {
+
+		var sensitivity = e.nestedSortCfg.scrollSensitivity;
+		var speed = e.nestedSortCfg.scrollSpeed;
+		var pointer = jQuery.iDrag.dragged.dragCfg.currentPointer;
+		var docDim = jQuery.iUtil.getScroll(document.body);
+		if((pointer.y - docDim.ih) - docDim.t > -sensitivity) window.scrollBy(0,speed);
+		if(pointer.y - docDim.t < sensitivity) window.scrollBy(0,-speed);
+		if((pointer.x - docDim.iw) - docDim.l > -sensitivity) window.scrollBy(speed,0);
+		if(pointer.x - docDim.l < sensitivity) window.scrollBy(-speed,0);
+
 	},
 	/*
 	 * Called when the item is released after a drag. 
@@ -373,9 +389,11 @@ jQuery.iNestedSortable = {
 						nestingPxSpace : parseInt(conf.nestingPxSpace, 10) || 30 ,
 						currentNestingClass :  conf.currentNestingClass ? conf.currentNestingClass : "",
 						currentParentClass : conf.currentParentClass ? conf.currentParentClass : "",
-						nestingLimit : conf.nestingLimit ? conf.nestingLimit : false
+						nestingLimit : conf.nestingLimit ? conf.nestingLimit : false,
+						scrollSensitivity: conf.scrollSensitivity ? conf.scrollSensitivity : 20,
+						scrollSpeed: conf.scrollSpeed ? conf.scrollSpeed : 20
 					};
-					
+										
 					//a "do nothing" tolerance when nesting/un-nesting, to stop things from jumping up too quickly
 					this.nestedSortCfg.snapTolerance = parseInt(this.nestedSortCfg.nestingPxSpace * 0.4, 10);
 						
@@ -392,13 +410,14 @@ jQuery.iNestedSortable = {
 						
 				}
 			);
-			this.Sortable(conf);
 			
 			//overides checkhover, check and serialize, without losing backwards compatilibity (eg. plain Sortables can stil be used) 
 			jQuery.iSort.checkhover = jQuery.iNestedSortable.checkHover;
 			jQuery.iSort.check = jQuery.iNestedSortable.check;
 			jQuery.iSort.serialize = jQuery.iNestedSortable.serialize;
 		}
+		
+		return this.Sortable(conf);
 	}
 }
 
