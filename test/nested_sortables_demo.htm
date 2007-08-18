@@ -87,32 +87,32 @@
 			helperclass: 'helper',
 			onChange: function(serialized) {
 				$('#left-to-right-ser')
-				.html("This can be passed as parameter to a GET request: <br/>" 
-						+ serialized[0].hash);
-			}
+				.html("This can be passed as parameter to a GET request: <br/>" + serialized[0].hash);
+			},
+			handle: '.sort-handle'
 		}
 	);
 </pre>
 
         <div class="wrap">
             <ul id="left-to-right" class="page-list">
-                <li id="ele1" class="clear-element page-item1 sort-handle left">
-                    <div>Element 1</div>
+                <li id="ele-1" class="clear-element page-item1 left">
+                    <div class='sort-handle'>Element 1</div>
                 </li>
-                <li id="ele2" class="clear-element page-item1 sort-handle left">
-                    <div>Element 2</div>
+                <li id="ele-2" class="clear-element page-item1 left">
+                    <div class='sort-handle'>Element 2</div>
                 </li>
-                <li id="ele3" class="clear-element page-item1 sort-handle left">
-                    <div>Element 3</div>
+                <li id="ele-3" class="clear-element page-item1 left">
+                    <div class='sort-handle'>Element 3</div>
                 </li>
-                 <li id="ele4" class="clear-element page-item1 sort-handle left">
-                    <div>Element 4</div>
+                 <li id="ele-4" class="clear-element page-item1 left">
+                    <div class='sort-handle'>Element 4</div>
 					<ul class="page-list">
-		                <li id="ele5" class="clear-element page-item1 sort-handle left">
-		                 	<div>Element 5</div>
+		                <li id="ele-5" class="clear-element page-item1 left">
+		                 	<div class='sort-handle'>Element 5</div>
 							<ul  class="page-list" >
-				                <li id="ele6" class="clear-element page-item1 sort-handle left">
-	                            	<div>Element 6</div>
+				                <li id="ele-6" class="clear-element page-item1 left">
+	                            	<div class='sort-handle'>Element 6</div>
 				                </li>
 							</ul>
 						</li>
@@ -179,7 +179,7 @@
 		opacity: .8,
 		helperclass: 'helper',
 		nestingPxSpace: 20,
-		currentNestingClass: 'current-nesting',
+		currentNestingClass: 'current-nesting'
 		}
 	);
 </pre>
@@ -256,8 +256,10 @@
 						opacity: .8,
 						helperclass: 'helper',
 						onChange: function(serialized) {
-							$('#left-to-right-ser').html("This can be passed as parameter to a GET request: <br/>" + serialized[0].hash);
-						}
+							$('#left-to-right-ser')
+							.html("This can be passed as parameter to a GET request: <br/>" + serialized[0].hash);
+						},
+						handle: '.sort-handle'
 					}
 				);
 				
@@ -278,7 +280,7 @@
 					opacity: .8,
 					helperclass: 'helper',
 					nestingPxSpace: 20,
-					currentNestingClass: 'current-nesting',
+					currentNestingClass: 'current-nesting'
 					}
 				);
 				
