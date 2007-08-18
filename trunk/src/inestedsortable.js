@@ -113,7 +113,7 @@ jQuery.iNestedSortable = {
 	newSerialize: function (s) {
 		var i;
 		var h = ''; //url get string that represents the element order
-		var currentPath = ''; //used so the recursive function can build h
+		var currentPath = ''; 	//used so the recursive function can build h
 		var o = {}; //json object that represents the element order
 		var e; //NestedSortable element being worked on
 		/*
@@ -124,11 +124,16 @@ jQuery.iNestedSortable = {
 			var retVal = [];
 			thisChildren = jQuery(context).children('.' + jQuery.iSort.collected[s]);
 			thisChildren.each( function(i) {
+				
+				//Extracts part of the HTML element ID that 
+				//will be shown in the serialization, using a RegExp.
+				var serId = jQuery.attr(this,'id').match(e.nestedSortCfg.serializeRegExp)[0]
+				
 				if (h.length > 0) {
 					h += '&';
 				}
-				h += s + currentPath + '['+i+'][id]=' + jQuery.attr(this,'id');
-				retVal[i] = {id: jQuery.attr(this,'id')}
+				h += s + currentPath + '['+i+'][id]=' + serId;
+				retVal[i] = {id: serId}
 				var newContext = jQuery(this).children(e.nestedSortCfg.nestingTag + "." + e.nestedSortCfg.nestingTagClass.split(" ").join(".")).get(0);
 				var oldPath = currentPath;
 				currentPath += '['+i+'][children]';
@@ -391,7 +396,8 @@ jQuery.iNestedSortable = {
 						currentParentClass : conf.currentParentClass ? conf.currentParentClass : "",
 						nestingLimit : conf.nestingLimit ? conf.nestingLimit : false,
 						scrollSensitivity: conf.scrollSensitivity ? conf.scrollSensitivity : 20,
-						scrollSpeed: conf.scrollSpeed ? conf.scrollSpeed : 20
+						scrollSpeed: conf.scrollSpeed ? conf.scrollSpeed : 20,
+						serializeRegExp : conf.serializeRegExp ? conf.serializeRegExp : /[^\-]*$/
 					};
 										
 					//a "do nothing" tolerance when nesting/un-nesting, to stop things from jumping up too quickly
