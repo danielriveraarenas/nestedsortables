@@ -127,7 +127,11 @@ jQuery.iNestedSortable = {
 				
 				//Extracts part of the HTML element ID that 
 				//will be shown in the serialization, using a RegExp.
-				var serId = jQuery.attr(this,'id').match(e.nestedSortCfg.serializeRegExp)[0]
+				var serId = jQuery.attr(this,'id')
+				if(serId && serId.match) {
+					serId = serId.match(e.nestedSortCfg.serializeRegExp)[0]
+				}
+				
 				
 				if (h.length > 0) {
 					h += '&';
