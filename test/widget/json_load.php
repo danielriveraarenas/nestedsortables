@@ -1,5 +1,5 @@
 <?php
-require('lib/JSON.php');
+require('JSON.php');
 
 function countItems($item) {
 	$count = 0;
