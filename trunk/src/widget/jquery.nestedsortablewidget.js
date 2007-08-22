@@ -1137,3 +1137,35 @@ jQuery.fn.extend(
 	}
 );
 
+
+
+/*
+ * There is a bug in the remeasure function in Interface's iDrop, 
+ * which makes it give a javascript error. I submited a patch to 
+ * fix it, but while it is not applied, we have to patch it here.
+ */
+jQuery.iDrop.remeasure = function()
+	{
+		jQuery.iDrop.highlighted = {};
+		for (i in jQuery.iDrop.zones) {
+			if (jQuery.iDrop.zones[i] != null) {
+				var iEL = jQuery.iDrop.zones[i].get(0);
+				if (jQuery(jQuery.iDrag.dragged).is('.' + iEL.dropCfg.a)) {
+					iEL.dropCfg.p = jQuery.extend(
+						jQuery.iUtil.getPosition(iEL),
+						jQuery.iUtil.getSizeLite(iEL)
+					);
+					if (iEL.dropCfg.ac) {
+						jQuery.iDrop.zones[i].addClass(iEL.dropCfg.ac);
+					}
+					jQuery.iDrop.highlighted[i] = jQuery.iDrop.zones[i];
+					
+					if (jQuery.iSort && iEL.dropCfg.s && jQuery.iDrag.dragged.dragCfg.so) {
+						iEL.dropCfg.el = jQuery('.' + iEL.dropCfg.a, iEL);
+						jQuery.iSort.measure(iEL);
+					}
+				}
+			}
+		}
+	}
+
