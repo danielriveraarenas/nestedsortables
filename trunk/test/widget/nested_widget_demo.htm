@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr"><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Nested Sortable Widget Demo</title>
+
+<link rel="stylesheet" href="wp-admin.css" type="text/css">
+<link rel="stylesheet" href="nestedSortableWidget.css" type="text/css">
+
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/interface/source/iutil.js"></script>
+<script type="text/javascript" src="lib/interface/source/ifx.js"></script>
+<script type="text/javascript" src="lib/interface/source/ifxhighlight.js"></script>
+<script type="text/javascript" src="lib/interface/source/ifxfold.js"></script>
+<script type="text/javascript" src="lib/interface/source/idrag.js"></script>
+<script type="text/javascript" src="lib/interface/source/idrop.js"></script>
+<script type="text/javascript" src="lib/interface/source/isortables.js"></script>
+<script type="text/javascript" src="lib/inestedsortable.js"></script>
+<script type="text/javascript" src="lib/json.js"></script>
+<script type="text/javascript" src="jquery.nestedsortablewidget.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+	jQuery( function($) { 
+		$('#ajax-response1').NestedSortableWidget({
+			name: 'widget_no_config',
+			loadUrl: "json_load.php"
+		});
+
+		$('#ajax-response2').NestedSortableWidget({
+			name: 'my_first_widget',
+			loadUrl: "json_load.php",
+			paginate: true,
+			colsWidth: [30, 15],
+			whiteMargin: 0.25,
+			padding: 0.25,
+			measureUnit: "em",
+			handle: true,
+			initHighlight: false,
+			nestedSortCfg: {
+				opacity: 0.6,
+				fx:400,
+				revert: true
+			},
+			text: {
+				saveButton: "Showing you can easily change the text"
+			}
+		});
+
+		$('#ajax-response3').NestedSortableWidget({
+			name: 'my_second_widget',
+			loadUrl: "json_load.php",
+			paginate: true,
+			itemsPerPage: 5,
+			startPage: 2,
+			nestedSortCfg: {
+				rightToLeft: true
+			},
+			fadeOutHover: false,
+			transitionAnim: "custom-parallel",
+			transitionOut: jQuery.fn.fadeOut,
+			transitionIn: jQuery.fn.fadeIn
+		});
+		
+		$('#ajax-response4').NestedSortableWidget({
+			name: 'my_third_widget',
+			loadUrl: "json_load.php",
+			paginate: true,
+			itemsPerPage: 4,
+			startPage: 1,
+			transitionAnim: "custom-series",
+			transitionOut: function(callback){
+				this.Fold(1000, 40, callback );
+			},
+			transitionIn: function(callback){
+				this.UnFold(1000, 40, callback );
+			},
+			pageChangeTimer: "3000"
+		});
+
+		$('#ajax-response5').NestedSortableWidget({
+			name: 'my_fourth_widget',
+			loadUrl: "json_load.php",
+			paginate: true,
+			itemsPerPage: 5,
+			startPage: 3,
+			incremental: true,
+			onLoad: function() {
+				alert('The last widget finished loading.');
+			}
+		});
+
+	});
+/* ]]> */
+</script>
+</head>
+
+<body>
+<h2>
+Code:
+</h2>
+<pre>
+	$('#ajax-response1').NestedSortableWidget({
+		name: 'widget_no_config',
+		loadUrl: "json_load.php"
+	});
+</pre>
+<h2>
+Output:
+</h2>
+<div id="ajax-response1"></div>
+<h2>
+Code:
+</h2>
+<pre>
+	$('#ajax-response2').NestedSortableWidget({
+		name: 'my_first_widget',
+		loadUrl: "json_load.php",
+		paginate: true,
+		colsWidth: [30, 15],
+		whiteMargin: 0.25,
+		padding: 0.25,
+		measureUnit: "em",
+		handle: true,
+		initHighlight: false,
+		nestedSortCfg: {
+			opacity: 0.6,
+			fx:400,
+			revert: true
+		},
+		text: {
+			saveButton: "Showing you can easily change the text"
+		}
+	});
+</pre>
+<h2>
+Output:
+</h2>
+<div id="ajax-response2"></div>
+<h2>
+Code:
+</h2>
+<pre>
+	$('#ajax-response3').NestedSortableWidget({
+		name: 'my_second_widget',
+		loadUrl: "json_load.php",
+		paginate: true,
+		itemsPerPage: 5,
+		startPage: 2,
+		nestedSortCfg: {
+			rightToLeft: true
+		},
+		fadeOutHover: false,
+		transitionAnim: "custom-parallel",
+		transitionOut: jQuery.fn.fadeOut,
+		transitionIn: jQuery.fn.fadeIn
+	});
+</pre>
+<h2>
+Output:
+</h2>
+<div id="ajax-response3"></div>
+<h2>
+Code:
+</h2>
+<pre>
+	$('#ajax-response4').NestedSortableWidget({
+		name: 'my_third_widget',
+		loadUrl: "json_load.php",
+		paginate: true,
+		itemsPerPage: 4,
+		startPage: 1,
+		transitionAnim: "custom-series",
+		transitionOut: function(callback){
+			this.Fold(1000, 40, callback );
+		},
+		transitionIn: function(callback){
+			this.UnFold(1000, 40, callback );
+		},
+		pageChangeTimer: "3000"
+	});
+</pre>
+<h2>
+Output:
+</h2>
+<div id="ajax-response4"></div>
+<h2>
+Code:
+</h2>
+<pre>
+	$('#ajax-response5').NestedSortableWidget({
+		name: 'my_fourth_widget',
+		loadUrl: "json_load.php",
+		paginate: true,
+		itemsPerPage: 5,
+		startPage: 3,
+		incremental: true,
+		onLoad: function() {
+			alert('The last widget finished loading.');
+		}
+	});
+</pre>
+<h2>
+Output:
+</h2>
+<div id="ajax-response5"></div>
+
+</body></html>
