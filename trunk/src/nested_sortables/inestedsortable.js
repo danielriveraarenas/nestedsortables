@@ -142,7 +142,9 @@ jQuery.iNestedSortable = {
 				var oldPath = currentPath;
 				currentPath += '['+i+'][children]';
 				var thisChildren = buildHierarchySer(newContext)
-				if (thisChildren.length > 0) retVal[i].children = thisChildren;
+				if (thisChildren.length > 0) {
+					retVal[i].children = thisChildren;
+				}
 				currentPath = oldPath;
 			});
 			return retVal;
