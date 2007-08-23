@@ -73,7 +73,11 @@ float: none;
 	font-weight: bold;
 }
 
-.nsw-save-button {
+.nsw-save-button,
+.nsw-disabled-save-button, 
+.nsw-disabled-save-button:focus, 
+.nsw-disabled-save-button:active, 
+.nsw-save-button:focus {
 	background-color: #F2F2F2;
 	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
 	border-style:double;
@@ -81,6 +85,19 @@ float: none;
 	color:#333333;
 	padding:0.25em;
 	float:right;
+}
+
+.nsw-disabled-save-button,
+.nsw-disabled-save-button:focus, 
+.nsw-disabled-save-button:active {
+	color: #AAAAAA;
+}
+
+.nsw-save-button:active {
+	background:#F4F4F4 none repeat scroll 0%;
+	border-color:#999999 rgb(204, 204, 204) rgb(204, 204, 204) rgb(153, 153, 153);
+	border-style:double;
+	border-width:3px;
 }
 
 .nsw-progress {
