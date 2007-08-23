@@ -32,76 +32,123 @@
 <script type="text/javascript" src="../../src/nested_sortables/inestedsortable.js"></script>
 <script type="text/javascript" src="../../src/widget/jquery.nestedsortablewidget.js"></script>
 
+
+<!-- Chili - Just to make the code look prettier -->
+<script type="text/javascript" src="chili/chili.pack.js"></script>
+<script type="text/javascript"> 
+    ChiliBook.recipeFolder     = "chili/";  
+    ChiliBook.stylesheetFolder = "chili/";  
+</script>  
+
 <script type="text/javascript">
 /* <![CDATA[ */
 	jQuery( function($) { 
-		$('#ajax-response1').NestedSortableWidget({
-			name: 'widget_no_config',
-			loadUrl: "json_load.php"
-		});
+	
+/*
+ * Even with no configuration you get sensible defaults.
+ */
+$('#ajax-response1').NestedSortableWidget({
+	loadUrl: "json_load.php"
+});
 
-		$('#ajax-response2').NestedSortableWidget({
-			name: 'my_first_widget',
-			loadUrl: "json_load.php",
-			paginate: true,
-			colsWidth: [30, 15],
-			whiteMargin: 0.25,
-			padding: 0.25,
-			measureUnit: "em",
-			handle: true,
-			initHighlight: false,
-			nestedSortCfg: {
-				opacity: 0.6,
-				fx:400,
-				revert: true
-			},
-			text: {
-				saveButton: "Showing you can easily change the text"
-			}
-		});
+/*
+ * Showing how you can:
+ *  * Customize the size of the columns and margins
+ *  * Add pagination 
+ * 	* Add a drag handle (whose text and css can be configured)
+ *  * Add configuration to the underlying NestedSortable	
+ *  * Change the text of anything (good for internationalization)
+ *  
+ */
+$('#ajax-response2').NestedSortableWidget({
+	name: 'my_first_widget',
+	loadUrl: "json_load.php",
+	paginate: true,
+	colsWidth: [30, 15],
+	whiteMargin: 0.25,
+	padding: 0.25,
+	measureUnit: "em",
+	handle: true,
+	nestedSortCfg: {
+		opacity: 0.6,
+		fx:400,
+		revert: true
+	},
+	text: {
+		saveButton: "Showing how you can easily change the text"
+	}
+});
 
-		$('#ajax-response3').NestedSortableWidget({
-			name: 'my_second_widget',
-			loadUrl: "json_load.php",
-			paginate: true,
-			itemsPerPage: 5,
-			startPage: 2,
-			nestedSortCfg: {
-				rightToLeft: true
-			},
-			fadeOutHover: false,
-			transitionAnim: "custom-parallel",
-			transitionOut: jQuery.fn.fadeOut,
-			transitionIn: jQuery.fn.fadeIn
-		});
-		
-		$('#ajax-response4').NestedSortableWidget({
-			name: 'my_third_widget',
-			loadUrl: "json_load.php",
-			paginate: true,
-			itemsPerPage: 4,
-			startPage: 1,
-			transitionAnim: "custom-series",
-			transitionOut: function(callback){
-				this.Fold(1000, 40, callback );
-			},
-			transitionIn: function(callback){
-				this.UnFold(1000, 40, callback );
-			},
-			pageChangeTimer: "3000"
-		});
 
-		$('#ajax-response5').NestedSortableWidget({
-			name: 'my_fourth_widget',
-			loadUrl: "json_load.php",
-			paginate: true,
-			itemsPerPage: 5,
-			startPage: 3,
-			incremental: true,
-			onLoad: function() {
-				alert('The last widget finished loading.');
-			}
-		});
+/*
+ * Showing how you can:
+ *  * Define a diferent url to save the changes
+ *  * How an error is generated and displayed
+ *  * How you can configure pagination 
+ * 	* How the widget will adapt to right to left nesting (probably for right to left languages)
+ * 	* Disable the effect applied to the droppable used to change pages
+ * 	* Configure how long it takes to change pages when hovering over the droppable
+ *  * Use custom effects in parallel for the page transitions
+ *  * 
+ */
+$('#ajax-response3').NestedSortableWidget({
+	name: 'my_second_widget',
+	loadUrl: "json_load.php",
+	saveUrl: "non_existant_url_to_cause_error",
+	paginate: true,
+	itemsPerPage: 5,
+	startPage: 2,
+	nestedSortCfg: {
+		rightToLeft: true
+	},
+	fadeOutHover: false,
+	pageChangeTimer: "1000",
+	transitionAnim: "custom-parallel",
+	transitionOut: jQuery.fn.fadeOut,
+	transitionIn: jQuery.fn.fadeIn
+});
+
+/*
+ * Showing how you can:
+ *  - Use custom effects in series for the page transitions.
+ *  - Your data source may be as dumb as a static file and 
+ *	  always return everything.
+ */
+$('#ajax-response4').NestedSortableWidget({
+	name: 'my_third_widget',
+	loadUrl: "json_load.js",
+	paginate: true,
+	itemsPerPage: 4,
+	startPage: 1,
+	transitionAnim: "custom-series",
+	transitionOut: function(callback){
+		this.Fold(100, 30, callback );
+	},
+	transitionIn: function(callback){
+		this.UnFold(100, 30, callback );
+	}
+});
+
+/*
+ * Showing how you can:
+ *  * 	Display the pages to the user in an incremental way.
+ *  * 	Use use JSON to serialize the data back to the server
+ *  	(the default is url query string like serialization)
+ *  *	Define callbacks that are called at key 
+ *  	points of the widget life.
+ */
+$('#ajax-response5').NestedSortableWidget({
+	name: 'my_fourth_widget',
+	loadUrl: "json_load.php",
+	paginate: true,
+	itemsPerPage: 5,
+	startPage: 3,
+	incremental: true,
+	onInitialLoad: function() {
+		alert('The last widget finished loading.');
+	},
+	serializeWithJSON: true
+});
 
 	});
 /* ]]> */
@@ -112,12 +159,14 @@
 <h2>
 Code:
 </h2>
-<pre>
-	$('#ajax-response1').NestedSortableWidget({
-		name: 'widget_no_config',
-		loadUrl: "json_load.php"
-	});
-</pre>
+<code class="javascript">
+/*
+ * Even with no configuration you get sensible defaults.
+ */
+$('#ajax-response1').NestedSortableWidget({
+	loadUrl: "json_load.php"
+});
+</code>
 <h2>
 Output:
 </h2>
@@ -125,27 +174,35 @@ Output:
 <h2>
 Code:
 </h2>
-<pre>
-	$('#ajax-response2').NestedSortableWidget({
-		name: 'my_first_widget',
-		loadUrl: "json_load.php",
-		paginate: true,
-		colsWidth: [30, 15],
-		whiteMargin: 0.25,
-		padding: 0.25,
-		measureUnit: "em",
-		handle: true,
-		initHighlight: false,
-		nestedSortCfg: {
-			opacity: 0.6,
-			fx:400,
-			revert: true
-		},
-		text: {
-			saveButton: "Showing you can easily change the text"
-		}
-	});
-</pre>
+<code class="javascript">
+/*
+ * Showing how you can:
+ *  - Customize the size of the columns and margins
+ *  - Add pagination
+ * 	- Add a drag handle (whose text and css can be configured)
+ *  - Add configuration to the underlying NestedSortable	
+ *  - Change the text of anything (good for internationalization)
+ *  
+ */
+$('#ajax-response2').NestedSortableWidget({
+	name: 'my_first_widget',
+	loadUrl: "json_load.php",
+	paginate: true,
+	colsWidth: [30, 15],
+	whiteMargin: 0.25,
+	padding: 0.25,
+	measureUnit: "em",
+	handle: true,
+	nestedSortCfg: {
+		opacity: 0.6,
+		fx:400,
+		revert: true
+	},
+	text: {
+		saveButton: "Showing how you can easily change the text"
+	}
+});
+</code>
 <h2>
 Output:
 </h2>
@@ -153,22 +210,34 @@ Output:
 <h2>
 Code:
 </h2>
-<pre>
-	$('#ajax-response3').NestedSortableWidget({
-		name: 'my_second_widget',
-		loadUrl: "json_load.php",
-		paginate: true,
-		itemsPerPage: 5,
-		startPage: 2,
-		nestedSortCfg: {
-			rightToLeft: true
-		},
-		fadeOutHover: false,
-		transitionAnim: "custom-parallel",
-		transitionOut: jQuery.fn.fadeOut,
-		transitionIn: jQuery.fn.fadeIn
-	});
-</pre>
+<code class="javascript">
+/*
+ * Showing how you can:
+ *  - Define a diferent url to save the changes
+ *  - How an error is generated and displayed
+ *  - How you can configure pagination 
+ * 	- How the widget will adapt to right to left nesting (probably for right to left languages)
+ * 	- Disable the effect applied to the droppable used to change pages
+ * 	- Configure how long it takes to change pages when hovering over the droppable
+ *  - Use custom effects in parallel for the page transitions 
+ */
+$('#ajax-response3').NestedSortableWidget({
+	name: 'my_second_widget',
+	loadUrl: "json_load.php",
+	saveUrl: "non_existant_url_to_cause_error",
+	paginate: true,
+	itemsPerPage: 5,
+	startPage: 2,
+	nestedSortCfg: {
+		rightToLeft: true
+	},
+	fadeOutHover: false,
+	pageChangeTimer: "1000",
+	transitionAnim: "custom-parallel",
+	transitionOut: jQuery.fn.fadeOut,
+	transitionIn: jQuery.fn.fadeIn
+});
+</code>
 <h2>
 Output:
 </h2>
@@ -176,23 +245,28 @@ Output:
 <h2>
 Code:
 </h2>
-<pre>
-	$('#ajax-response4').NestedSortableWidget({
-		name: 'my_third_widget',
-		loadUrl: "json_load.php",
-		paginate: true,
-		itemsPerPage: 4,
-		startPage: 1,
-		transitionAnim: "custom-series",
-		transitionOut: function(callback){
-			this.Fold(1000, 40, callback );
-		},
-		transitionIn: function(callback){
-			this.UnFold(1000, 40, callback );
-		},
-		pageChangeTimer: "3000"
-	});
-</pre>
+<code class="javascript">
+/*
+ * Showing how you can:
+ *  - Use custom effects in series for the page transitions.
+ *  - Your data source may be as dumb as a static file and 
+ *	  always return everything.
+ */
+$('#ajax-response4').NestedSortableWidget({
+	name: 'my_third_widget',
+	loadUrl: "json_load.js",
+	paginate: true,
+	itemsPerPage: 4,
+	startPage: 1,
+	transitionAnim: "custom-series",
+	transitionOut: function(callback){
+		this.Fold(100, 30, callback );
+	},
+	transitionIn: function(callback){
+		this.UnFold(100, 30, callback );
+	}
+});
+</code>
 <h2>
 Output:
 </h2>
@@ -200,19 +274,28 @@ Output:
 <h2>
 Code:
 </h2>
-<pre>
-	$('#ajax-response5').NestedSortableWidget({
-		name: 'my_fourth_widget',
-		loadUrl: "json_load.php",
-		paginate: true,
-		itemsPerPage: 5,
-		startPage: 3,
-		incremental: true,
-		onLoad: function() {
-			alert('The last widget finished loading.');
-		}
-	});
-</pre>
+<code class="javascript">
+/*
+ * Showing how you can:
+ *  - 	Display the pages to the user in an incremental way.
+ *  - 	Use use JSON to serialize the data back to the server
+ *  	(the default is url query string like serialization)
+ *  -	Define callbacks that are called at key 
+ *  	points of the widget life.
+ */
+$('#ajax-response5').NestedSortableWidget({
+	name: 'my_fourth_widget',
+	loadUrl: "json_load.php",
+	paginate: true,
+	itemsPerPage: 5,
+	startPage: 3,
+	incremental: true,
+	onInitialLoad: function() {
+		alert('The last widget finished loading.');
+	},
+	serializeWithJSON: true
+});
+</code>
 <h2>
 Output:
 </h2>

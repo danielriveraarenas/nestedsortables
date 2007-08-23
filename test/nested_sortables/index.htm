@@ -21,7 +21,7 @@
 
 <!--Nested Sortables-->
 <script type="text/javascript" src="../../src/nested_sortables/inestedsortable.js"></script>
-		
+
 		<style type="text/css">
 			div.wrap {
 				border:1px solid #BBBBBB;
@@ -85,18 +85,22 @@
 
 <pre>
 //Code:
-	$('#left-to-right').NestedSortable(
-		{
-			accept: 'page-item1',
-			opacity: .8,
-			helperclass: 'helper',
-			onChange: function(serialized) {
-				$('#left-to-right-ser')
-				.html("This can be passed as parameter to a GET request: <br/>" + serialized[0].hash);
-			},
-			handle: '.sort-handle'
-		}
-	);
+$('#left-to-right').NestedSortable(
+	{
+		accept: 'page-item1',
+		opacity: .8,
+		helperclass: 'helper',
+		onChange: function(serialized) {
+			$('#left-to-right-ser')
+			.html(
+				"This can be passed as parameter to 
+				a GET or POST request:" +
+				serialized[0].hash
+			);
+		},
+		handle: '.sort-handle'
+	}
+);
 </pre>
 
         <div class="wrap">
@@ -134,16 +138,16 @@
 
 <pre>
 //Code:
-	$('#right-to-left').NestedSortable(
-		{
-		accept: 'page-item2',
-		opacity: .8,
-		helperclass: 'helper',
-		rightToLeft: true,
-		nestingPxSpace: '60', 
-		currentNestingClass: 'current-nesting'
-		}
-	);
+$('#right-to-left').NestedSortable(
+	{
+	accept: 'page-item2',
+	opacity: .8,
+	helperclass: 'helper',
+	rightToLeft: true,
+	nestingPxSpace: '60', 
+	currentNestingClass: 'current-nesting'
+	}
+);
 </pre>
 
         <div class="wrap">
@@ -178,15 +182,15 @@
 
 <pre>
 //Code:
-	$('#spans-divs').NestedSortable(
-		{
-		accept: 'page-item3',
-		opacity: .8,
-		helperclass: 'helper',
-		nestingPxSpace: 20,
-		currentNestingClass: 'current-nesting'
-		}
-	);
+$('#spans-divs').NestedSortable(
+	{
+	accept: 'page-item3',
+	opacity: .8,
+	helperclass: 'helper',
+	nestingPxSpace: 20,
+	currentNestingClass: 'current-nesting'
+	}
+);
 </pre>
 		
         <div class="wrap">
@@ -220,13 +224,13 @@
 
 <pre>
 //Code:
-	$('#spans-divs-regular').Sortable(
-		{
-		accept: 'page-item4',
-		opacity: .8,
-		helperclass: 'helper'
-		}
-	);
+$('#spans-divs-regular').Sortable(
+	{
+	accept: 'page-item4',
+	opacity: .8,
+	helperclass: 'helper'
+	}
+);
 </pre>
 		
         <div class="wrap">
@@ -262,7 +266,7 @@
 						helperclass: 'helper',
 						onChange: function(serialized) {
 							$('#left-to-right-ser')
-							.html("This can be passed as parameter to a GET request: <br/>" + serialized[0].hash);
+							.html("This can be passed as parameter to a GET or POST request: <br/>" + serialized[0].hash);
 						},
 						handle: '.sort-handle'
 					}
