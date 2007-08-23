@@ -8,7 +8,7 @@
  * 
  */
 
-jQuery.iNestedSortableWidget = {
+jQuery.NestedSortableWidget = {
 	
 	setBusyState : function(e, isBusy) {
 		e.nestedSortWidgetCfg.busyLoading = isBusy;
@@ -42,7 +42,7 @@ jQuery.iNestedSortableWidget = {
 	},
 	loadPage: function (e, where) {
 		var curPage = e.nestedSortWidgetCfg.currentPage;
-		var loadData = jQuery.iNestedSortableWidget.loadData;
+		var loadData = jQuery.NestedSortableWidget.loadData;
 		var nextPage;
 		switch (where) {
 			case 'before':
@@ -79,9 +79,9 @@ jQuery.iNestedSortableWidget = {
 					} else {
 						var cur = e.nestedSortWidgetCfg.bottomPage;
 					}
-					var retVal = jQuery.iNestedSortableWidget.nextPageContents(e, page, cur);									
+					var retVal = jQuery.NestedSortableWidget.nextPageContents(e, page, cur);									
 				}else {
-					var retVal = jQuery.iNestedSortableWidget.nextPageContents(e, page, e.nestedSortWidgetCfg.currentPage);				
+					var retVal = jQuery.NestedSortableWidget.nextPageContents(e, page, e.nestedSortWidgetCfg.currentPage);				
 				}
 				jQuery.each(
 					e.nestedSortWidgetCfg.loadedJsons,
@@ -110,13 +110,19 @@ jQuery.iNestedSortableWidget = {
 			
 			var tempProg = e.nestedSortWidgetCfg.tempProgress
 			if(tempProg) {
-				//we need to remove the temporary progress indicator
 				//the first time we load the data
+				
+				//we need to remove the temporary progress indicator
 				e.nestedSortWidgetCfg.tempProgress = null;
 				tempProg.remove();
+				
+				//we call onInitialLoad callback
+				if(e.nestedSortWidgetCfg.onInitialLoad) {
+					e.nestedSortWidgetCfg.onInitialLoad.apply(e);	
+				}
 			}
-			jQuery.iNestedSortableWidget.augmentJson(e, json);
-			jQuery.iNestedSortableWidget.buildAndShowList(e, page);
+			jQuery.NestedSortableWidget.augmentJson(e, json);
+			jQuery.NestedSortableWidget.buildAndShowList(e, page);
 			if(e.nestedSortWidgetCfg.onLoad) {
 				e.nestedSortWidgetCfg.onLoad.apply(e);	
 			}
@@ -124,20 +130,20 @@ jQuery.iNestedSortableWidget = {
 			//highlights the component after the initial load
 			if(tempProg) {
 				if(e.nestedSortWidgetCfg.initHighlight) {
-					jQuery.iNestedSortableWidget.highlight(e);
+					jQuery.NestedSortableWidget.highlight(e);
 				}
 			}
 			//hides the progress indicator
-			jQuery.iNestedSortableWidget.setBusyState(e, false);
+			jQuery.NestedSortableWidget.setBusyState(e, false);
 			
 		};
 		/*
 		 * Callback that gets called when there is an error.
 		 */
 		var reportFailure = function(a, b, c) {
-			jQuery.iNestedSortableWidget.userWarning(e, e.nestedSortWidgetCfg.text.loadError);
+			jQuery.NestedSortableWidget.userWarning(e, e.nestedSortWidgetCfg.text.loadError);
 			//hides the progress indicator
-			jQuery.iNestedSortableWidget.setBusyState(e, false);
+			jQuery.NestedSortableWidget.setBusyState(e, false);
 		}
 		
 		/*
@@ -149,7 +155,7 @@ jQuery.iNestedSortableWidget = {
 			return false;
 		}
 		//signals the user there is something going on
-		jQuery.iNestedSortableWidget.setBusyState(e, true);
+		jQuery.NestedSortableWidget.setBusyState(e, true);
 			
 		//figures out what needs to be fetched from the server
 		var itemsToRequest; 
@@ -166,9 +172,9 @@ jQuery.iNestedSortableWidget = {
 			);
 		} else {
 			// or displays it from the cache
-			jQuery.iNestedSortableWidget.buildAndShowList(e, page);
+			jQuery.NestedSortableWidget.buildAndShowList(e, page);
 			//hides the progress indicator
-			jQuery.iNestedSortableWidget.setBusyState(e, false);
+			jQuery.NestedSortableWidget.setBusyState(e, false);
 		}
 
 	},
@@ -271,7 +277,7 @@ jQuery.iNestedSortableWidget = {
 	countItems : function(element) {
 		var retVar = 0;
 		var a;
-		if(element.prototype == Array) {
+		if(element.constructor == Array) {
 			a = element;
 		} else {
 			a = element.children;
@@ -285,7 +291,7 @@ jQuery.iNestedSortableWidget = {
 					retVar ++; 
 					
 					//counts this' children
-					retVar += jQuery.iNestedSortableWidget.countItems(this);
+					retVar += jQuery.NestedSortableWidget.countItems(this);
 				}
 			);
 		}
@@ -310,9 +316,9 @@ jQuery.iNestedSortableWidget = {
 				} else {
 					var insertPage = e.nestedSortWidgetCfg.bottomPage;
 				}
-				var contents = jQuery.iNestedSortableWidget.nextPageContents(e, page, insertPage);									
+				var contents = jQuery.NestedSortableWidget.nextPageContents(e, page, insertPage);									
 			}else {
-				var contents = jQuery.iNestedSortableWidget.nextPageContents(e, page, lastPage);
+				var contents = jQuery.NestedSortableWidget.nextPageContents(e, page, lastPage);
 			}
 			var firstIndex = contents.firstIndex;
 			var count = contents.count;
@@ -353,7 +359,7 @@ jQuery.iNestedSortableWidget = {
 			jQuery.each(
 				json.items,
 				function(i) {
-					var nextPos = jQuery.iNestedSortableWidget.countItems(this) + 1 + curPos;
+					var nextPos = jQuery.NestedSortableWidget.countItems(this) + 1 + curPos;
 					if(first === null && firstIndex <= curPos ) {
 						//the first one in the cluster is the first to be displayed
 						first = i;
@@ -572,11 +578,11 @@ jQuery.iNestedSortableWidget = {
 				var prev = "", next= "";
 				if(pageBefore) {
 					prev = jQuery("<div class='"+classes.navPrevious+"'><a href='javascript:;'>"+text.previousItems+"</a></div>")
-						.one("click", function() {jQuery.iNestedSortableWidget.loadPage(e, "before");});
+						.one("click", function() {jQuery.NestedSortableWidget.loadPage(e, "before");});
 				}
 				if(pageAfter) {
 					next = jQuery("<div class='"+classes.navNext+"'><a href='javascript:;'>"+text.nextItems+"</a></div>")
-						.one("click", function() {jQuery.iNestedSortableWidget.loadPage(e, "after");});
+						.one("click", function() {jQuery.NestedSortableWidget.loadPage(e, "after");});
 				}
 				return jQuery("<div class='"+classes.navLinks+"'></div>")
 					.append(prev)
@@ -593,13 +599,7 @@ jQuery.iNestedSortableWidget = {
 		var buildSaveAndProgress = function () {
 			var classes = e.nestedSortWidgetCfg.classes;
 			var text = e.nestedSortWidgetCfg.text;
-			var saveButton = jQuery("<input type='submit' class='"+classes.saveButton+"' value='"+text.saveButton+"'/>")
-				.click(
-					function(event){
-						jQuery(e).NestedSortableWidgetSave();
-						event.preventDefault();
-					}
-				);
+			var saveButton = jQuery("<input type='submit' class='"+classes.disabledSaveButton+"' value='"+text.saveButton+"'/>");
 			return jQuery("<div class='"+classes.saveAndProgress+"'></div>")
 					.append("<div class='"+classes.warning+"' style='display:none;'>&nbsp;</div>")
 					.append("<div class='"+classes.progress+"' style='display:none;'>&nbsp;</div>")
@@ -635,7 +635,7 @@ jQuery.iNestedSortableWidget = {
 		//if no list was built for this page, builds it now
 		if (!sort) {
 			//extracts the list to be built and saves
-			json = e.nestedSortWidgetCfg.builtLists.jsons[page] = jQuery.iNestedSortableWidget.jsonToDisplay(e, page, lastPage);
+			json = e.nestedSortWidgetCfg.builtLists.jsons[page] = jQuery.NestedSortableWidget.jsonToDisplay(e, page, lastPage);
 			
 			//builds the list
 			sort = e.nestedSortWidgetCfg.builtLists.sorts[page] = buildListHtml(json);
@@ -694,7 +694,7 @@ jQuery.iNestedSortableWidget = {
 						lastSort.hide();
 					}
 					sort.show();
-					jQuery.iNestedSortableWidget.highlight(e);
+					jQuery.NestedSortableWidget.highlight(e);
 				break;
 				case "none":
 					if(!e.nestedSortWidgetCfg.incremental) {
@@ -804,9 +804,9 @@ jQuery.iNestedSortableWidget = {
 					accept: e.nestedSortWidgetCfg.classes.item,
 					tolerance: 'pointer',
 					hoverclass: e.nestedSortWidgetCfg.classes.activeDrop,
-					onHover: function(drag) {jQuery.iNestedSortableWidget.onBoxHover(e, drag, "before", this);},
-					onOut: function (drag) {jQuery.iNestedSortableWidget.onBoxOutOrDrop(e, drag, "before", this);},
-					onDrop: function (drag) {jQuery.iNestedSortableWidget.onBoxOutOrDrop(e, drag, "before", this);}
+					onHover: function(drag) {jQuery.NestedSortableWidget.onBoxHover(e, drag, "before", this);},
+					onOut: function (drag) {jQuery.NestedSortableWidget.onBoxOutOrDrop(e, drag, "before", this);},
+					onDrop: function (drag) {jQuery.NestedSortableWidget.onBoxOutOrDrop(e, drag, "before", this);}
 				}
 			);
 		}
@@ -816,9 +816,9 @@ jQuery.iNestedSortableWidget = {
 					accept: e.nestedSortWidgetCfg.classes.item,
 					tolerance: 'pointer',
 					hoverclass: e.nestedSortWidgetCfg.classes.activeDrop,
-					onHover: function(drag) {jQuery.iNestedSortableWidget.onBoxHover(e, drag, "after", this);},
-					onOut: function (drag) {jQuery.iNestedSortableWidget.onBoxOutOrDrop(e, drag, "after", this);},
-					onDrop: function (drag) {jQuery.iNestedSortableWidget.onBoxOutOrDrop(e, drag, "after", this);}
+					onHover: function(drag) {jQuery.NestedSortableWidget.onBoxHover(e, drag, "after", this);},
+					onOut: function (drag) {jQuery.NestedSortableWidget.onBoxOutOrDrop(e, drag, "after", this);},
+					onDrop: function (drag) {jQuery.NestedSortableWidget.onBoxOutOrDrop(e, drag, "after", this);}
 				}
 			);
 		}
@@ -854,15 +854,14 @@ jQuery.iNestedSortableWidget = {
 		jQuery.recallDroppables();
 
 		//makes rows alternate CSS classes
-		jQuery.iNestedSortableWidget.alternateClasses(e);
+		jQuery.NestedSortableWidget.alternateClasses(e);
 	},
 	onListChange: function (e, ser) {
 		//makes rows alternate CSS classes
-		jQuery.iNestedSortableWidget.alternateClasses(e);
+		jQuery.NestedSortableWidget.alternateClasses(e);
 		
 		//The ser param is an array containing the serialization for all
 		//the nestedsortables that were changed. We have to iterate over this array.
-		
 		jQuery.each(
 			ser,
 			function (i) {
@@ -870,7 +869,19 @@ jQuery.iNestedSortableWidget = {
 				var index = e.nestedSortWidgetCfg.builtLists.indexFromSortId[this.id];
 				e.nestedSortWidgetCfg.builtLists.sers[index] = this.o[this.id];
 			}
-		);		
+		);
+		
+		//Enables the save button
+		jQuery("." + e.nestedSortWidgetCfg.classes.disabledSaveButton, e)
+			.click(
+					function(event){
+						jQuery(e).NestedSortableWidgetSave();
+						event.preventDefault();
+					}
+				)
+			.addClass(e.nestedSortWidgetCfg.classes.saveButton)
+			.removeClass(e.nestedSortWidgetCfg.classes.disabledSaveButton);
+			
 	},
 	onBoxHover: function(e, drag, where, drop) {
 		callback = function() {
@@ -880,7 +891,7 @@ jQuery.iNestedSortableWidget = {
 				jQuery(drop).css('opacity', '1');
 			}
 			
-			jQuery.iNestedSortableWidget.loadPage(e, where);
+			jQuery.NestedSortableWidget.loadPage(e, where);
 		};
 		var changeTime = e.nestedSortWidgetCfg.pageChangeTimer;
 		if(e.nestedSortWidgetCfg.fadeOutHover) {
@@ -913,17 +924,39 @@ jQuery.iNestedSortableWidget = {
 			.addClass(e.nestedSortWidgetCfg.classes.altItem);
 	},
 	save: function() {
+			
+		var onSuccess = function(e, returnText) {
+			jQuery.NestedSortableWidget.userWarning(e, e.nestedSortWidgetCfg.text.saveMessage);
+			
+			if(e.nestedSortWidgetCfg.onSave) {
+				e.nestedSortWidgetCfg.onSave.apply(e, [returnText]);	
+			}
+		};
+		
+		var onError = function(e) {
+			jQuery.NestedSortableWidget.userWarning(e, e.nestedSortWidgetCfg.text.saveError);
+		};
+		
+		var onBoth = function(e) {
+			jQuery.NestedSortableWidget.setBusyState(e, false);
+		};
+		
 		return this.each( function() {
 			if(this.isNestedSortableWidget) {
 				//The idea here is to gather the serialization 
 				//generated for each page into a unified array.
 				
-				//If we have separate blocks of loaded pages 
-				//(eg. only page 1, 2, 5 and 6), two blocks
-				//would be generated.
+				//If we have separate blocks of modified pages 
+				//(eg. only page 1, 2, 5 and 6 were changed), more than a one unified
+				// block would be generated.
 				
-				//Currently all pages need to be continously loaded, so
-				//there will only be one block.
+				if(this.nestedSortWidgetCfg.busyLoading || this.nestedSortWidgetCfg.builtLists.sers.length == 0) {
+					//gives up if something is being loaded
+					//or if nothing was changed yet
+					return false;
+				}
+				
+				jQuery.NestedSortableWidget.setBusyState(this, true);
 				
 				var jsonSer = []; //the array with all serialization blocks
 				var currentJsonSer; //the current serialization block
@@ -932,18 +965,24 @@ jQuery.iNestedSortableWidget = {
 				jQuery.each(
 					that.nestedSortWidgetCfg.builtLists.sers,
 					function(i) {
-						var serObj = this.o[this.o.s];
 						
-						if(lastIndex + 1 == i ) {
+						//skips the one with index 0
+						if(!that.nestedSortWidgetCfg.builtLists.sers[i]) {
+							return true;
+						}
+						
+						var serObj = this;
+						
+						if( currentJsonSer && lastIndex && (lastIndex + 1 == i) ) {
 							//if there was a serialized page right before this
 							currentJsonSer.items = currentJsonSer.items.concat(serObj);
-							currentJsonSer.count += jQuery.iNestedSortableWidget.countItems(serObj);
+							currentJsonSer.count += jQuery.NestedSortableWidget.countItems(serObj);
 						} else {
 							
 							currentJsonSer = jsonSer[jsonSer.length] = 
 								{
 									firstIndex:that.nestedSortWidgetCfg.builtLists.jsons[i].firstIndex, 
-									count: jQuery.iNestedSortableWidget.countItems(serObj), 
+									count: jQuery.NestedSortableWidget.countItems(serObj), 
 									items: serObj
 								};
 						}
@@ -951,14 +990,61 @@ jQuery.iNestedSortableWidget = {
 						lastIndex = i;
 					}
 				);
-				var sendObj;
+				
+				//if sendObj one was one block we will send it as a single element, not an array
+				var sendObj = (jsonSer.length) > 1 ? jsonSer : jsonSer[0];
+				
+				var sendString;
 				if(jQuery.toJSON && that.nestedSortWidgetCfg.serializeWithJSON) {
-					sendObj = (jsonSer.length) > 1 ? jsonSer : jsonSer[0];
+					//json serialization
+					sendString = {};
+					sendString[that.nestedSortWidgetCfg.name] = jQuery.toJSON(sendObj);
 				} else {
+					sendString = "";
+					//recursive function that creates a query string
+					//based on the JavaScript object
+					var buildQueryString = function(arrayObject, currentPath){
+						var retQuery = "";
+						jQuery.each(
+							arrayObject,
+							function(i) {
+								if(retQuery.length > 0) {
+									retQuery += '&';
+								}
+								retQuery += currentPath + '['+i+'][id]=' + this.id;
+								if(this.children && this.children.constructor == Array) {
+									retQuery += "&" + buildQueryString(this.children, currentPath + '['+i+'][children]');
+								}
+							}
+						);	
+						return retQuery;
+					};
 					
+					if(sendObj.constructor == Array) {
+						jQuery.each(
+							sendObj,
+							function(i) {
+								if(sendString.length > 0) {
+									sendString += "&";
+								}
+								sendString += that.nestedSortWidgetCfg.name + "["+i+"][count]=" + this.count + "&" + that.nestedSortWidgetCfg.name + "["+i+"][firstIndex]=" + this.firstIndex + "&";
+								sendString += buildQueryString(this.items, that.nestedSortWidgetCfg.name + "["+i+"][items]");
+
+							}
+						);
+					} else {
+						sendString = that.nestedSortWidgetCfg.name + "[count]=" + sendObj.count + "&" + that.nestedSortWidgetCfg.name + "[firstIndex]=" + sendObj.firstIndex + "&";
+						sendString += buildQueryString(sendObj.items, that.nestedSortWidgetCfg.name + "[items]");
+					}
 				}
+				
 				jQuery.ajax({
-					
+					url: that.nestedSortWidgetCfg.saveUrl,
+					type: 'POST',
+					data: sendString,
+					success: function(ret) {onSuccess(that, ret);},
+					error: function(xml, error, ex) {onError(that);},
+					complete: function(xml, status) {onBoth(that);} 
 				});
 			}
 		});
@@ -999,8 +1085,10 @@ jQuery.iNestedSortableWidget = {
 					name : conf.name ? conf.name : "nested-sortable-widget",
 					loadUrl : conf.loadUrl,
 					saveUrl : conf.saveUrl ? conf.saveUrl : conf.loadUrl,
-					serializeWithJSON : conf.serializeWithJSON ? conf.serializeWithJSON : false,
+					serializeWithJSON : conf.serializeWithJSON === undefined ? false : conf.serializeWithJSON,
 					onLoad : (conf.onLoad && conf.onLoad.constructor == Function) ? conf.onLoad :false,
+					onInitialLoad : (conf.onInitialLoad && conf.onInitialLoad.constructor == Function) ? conf.onInitialLoad : false,
+					onSave : (conf.onSave && conf.onSave.constructor == Function) ? conf.onSave :false,
 					nestedSortCfg : conf.nestedSortCfg ? conf.nestedSortCfg : {},
 					loadButtonSel : conf.loadButtonSel ? conf.loadButtonSel :false,
 					colsWidth: conf.colsWidth ? conf.colsWidth : 150,
@@ -1010,7 +1098,7 @@ jQuery.iNestedSortableWidget = {
 					transitionAnim: conf.transitionAnim ? conf.transitionAnim : 'slide',
 					transitionOut: typeof conf.transitionOut =='function' ? conf.transitionOut : false,
 					transitionIn: typeof conf.transitionIn =='function' ? conf.transitionIn : false,
-					initHighlight: conf.initHighlight ? conf.initHighlight : true,
+					initHighlight: conf.initHighlight ? conf.initHighlight : false,
 					highlightColor: conf.highlightColor ? conf.highlightColor : "#FFFF66",
 					handle: conf.handle ? conf.handle : false,
 										
@@ -1043,6 +1131,7 @@ jQuery.iNestedSortableWidget = {
 					itemRow: 'nsw-item-row',
 					progress: 'nsw-progress',
 					saveButton: 'nsw-save-button',
+					disabledSaveButton: 'nsw-disabled-save-button',
 					saveAndProgress: 'nsw-save-progress',
 					warning: 'nsw-warning',
 					handle: 'nsw-handle',
@@ -1062,6 +1151,8 @@ jQuery.iNestedSortableWidget = {
 					previousItems: "&laquo; Previous Entries",
 					saveButton: "Save Order &raquo; ",
 					loadError: "Could not load the data from the server.",
+					saveError: "Could not send the data to the server.",
+					saveMessage: "Data successfully saved.",
 					handle: "[drag]"
 				};
 				
@@ -1077,7 +1168,7 @@ jQuery.iNestedSortableWidget = {
 				var userOnChange = this.nestedSortWidgetCfg.nestedSortCfg.onChange;
 				this.nestedSortWidgetCfg.nestedSortCfg.onChange = function(ser) {
 					if(userOnChange){userOnChange(ser);};
-					jQuery.iNestedSortableWidget.onListChange(that, ser);
+					jQuery.NestedSortableWidget.onListChange(that, ser);
 				};
 				
 				//Sets up the helper class for the sortable
@@ -1118,9 +1209,9 @@ jQuery.iNestedSortableWidget = {
 				//sets up the load buttom or loads the stuff right now
 				if(this.nestedSortWidgetCfg.loadButtonSel) {
 					jQuery(this.nestedSortWidgetCfg.loadButtonSel)
-						.click(function(){jQuery.iNestedSortableWidget.loadData(that, that.nestedSortWidgetCfg.startPage);});
+						.click(function(){jQuery.NestedSortableWidget.loadData(that, that.nestedSortWidgetCfg.startPage);});
 				} else {
-					jQuery.iNestedSortableWidget.loadData(this, this.nestedSortWidgetCfg.startPage);
+					jQuery.NestedSortableWidget.loadData(this, this.nestedSortWidgetCfg.startPage);
 				}
 			}
 		);
@@ -1131,9 +1222,9 @@ jQuery.iNestedSortableWidget = {
 //Extends jQuery to add the plugin.
 jQuery.fn.extend(
 	{
-		NestedSortableWidget : jQuery.iNestedSortableWidget.build,
-		NestedSortableWidgetSave : jQuery.iNestedSortableWidget.save,
-		NestedSortableWidgetDestroy: jQuery.iNestedSortableWidget.destroy
+		NestedSortableWidget : jQuery.NestedSortableWidget.build,
+		NestedSortableWidgetSave : jQuery.NestedSortableWidget.save,
+		NestedSortableWidgetDestroy: jQuery.NestedSortableWidget.destroy
 	}
 );
 
@@ -1144,7 +1235,7 @@ jQuery.fn.extend(
  * which makes it give a javascript error. I submited a patch to 
  * fix it, but while it is not applied, we have to patch it here.
  */
-jQuery.iDrop.remeasure = function()
+jQuery.iDrop.remeasure = jQuery.recallDroppables =  function()
 	{
 		jQuery.iDrop.highlighted = {};
 		for (i in jQuery.iDrop.zones) {
