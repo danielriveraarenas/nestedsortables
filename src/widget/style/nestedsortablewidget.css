@@ -121,6 +121,10 @@ float: none;
 }
 
 .nsw-save-progress {
+	position: static;
+}
+
+.nsw-save-progress > div {
 	position: relative;
 }
 
