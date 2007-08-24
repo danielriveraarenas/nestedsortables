@@ -150,8 +150,11 @@ jQuery.NestedSortableWidget = {
 		 * ACTUAL CODE
 		 */
 		
-		if(e.nestedSortWidgetCfg.busyLoading) {
-			//gives up if something is being loaded
+		if(
+			e.nestedSortWidgetCfg.busyLoading ||
+			e.nestedSortWidgetCfg.busyAnimating
+		) {
+			//gives up if something is being loaded/animated
 			return false;
 		}
 		//signals the user there is something going on
@@ -578,11 +581,11 @@ jQuery.NestedSortableWidget = {
 				var prev = "", next= "";
 				if(pageBefore) {
 					prev = jQuery("<div class='"+classes.navPrevious+"'><a href='javascript:;'>"+text.previousItems+"</a></div>")
-						.one("click", function() {jQuery.NestedSortableWidget.loadPage(e, "before");});
+						.bind("click", function() {jQuery.NestedSortableWidget.loadPage(e, "before");});
 				}
 				if(pageAfter) {
 					next = jQuery("<div class='"+classes.navNext+"'><a href='javascript:;'>"+text.nextItems+"</a></div>")
-						.one("click", function() {jQuery.NestedSortableWidget.loadPage(e, "after");});
+						.bind("click", function() {jQuery.NestedSortableWidget.loadPage(e, "after");});
 				}
 				return jQuery("<div class='"+classes.navLinks+"'></div>")
 					.append(prev)
@@ -605,6 +608,42 @@ jQuery.NestedSortableWidget = {
 					.append("<div class='"+classes.progress+"' style='display:none;'>&nbsp;</div>")
 					.append(saveButton)
 					.append("<div style='clear:both;height:0;'>&nbsp;</div>");
+		};
+		
+		
+		var hideTransition = function(sort, showSort) {
+			e.nestedSortWidgetCfg.busyAnimating = true;
+			if(!e.nestedSortWidgetCfg.incremental) {
+				if(typeof e.nestedSortWidgetCfg.transitionOut == 'function') {
+					if(showSort) {
+						e.nestedSortWidgetCfg.transitionOut.apply(sort, [function() {showTransition(showSort);}]);
+					} else {
+						e.nestedSortWidgetCfg.transitionOut.apply(sort);
+					}
+				} else {
+					sort.hide();
+					if(showSort) {
+						showTransition(showSort);
+					}
+				}
+			}
+		};
+		
+		var showTransition = function(sort) {
+			if(typeof e.nestedSortWidgetCfg.transitionIn == 'function') {
+				e.nestedSortWidgetCfg.transitionIn.apply(
+					sort, 
+					[
+						function() {
+							jQuery.recallDroppables();
+							e.nestedSortWidgetCfg.busyAnimating = false;
+						}
+					]
+				);						
+			} else {
+				sort.show();
+				e.nestedSortWidgetCfg.busyAnimating = false;
+			}
 		};
 		
 		/*
@@ -683,56 +722,14 @@ jQuery.NestedSortableWidget = {
 			}
 			//animates the transition
 			switch(e.nestedSortWidgetCfg.transitionAnim) {
-				case "slide":
-					if(!e.nestedSortWidgetCfg.incremental) {
-						lastSort.slideUp();
-					}
-					sort.slideDown(function() {jQuery.recallDroppables();});
-				break;
-				case "highlight":
-					if(!e.nestedSortWidgetCfg.incremental) {
-						lastSort.hide();
-					}
-					sort.show();
-					jQuery.NestedSortableWidget.highlight(e);
-				break;
-				case "none":
-					if(!e.nestedSortWidgetCfg.incremental) {
-						lastSort.hide();
-					}
-					sort.show();
-				break;
 				case "custom-parallel":
 					if(!e.nestedSortWidgetCfg.incremental) {
-						if(typeof e.nestedSortWidgetCfg.transitionOut == 'function') {
-							e.nestedSortWidgetCfg.transitionOut.apply(lastSort);
-						} else {
-							lastSort.hide();
-						}
+						hideTransition(lastSort);
 					}
-					if(typeof e.nestedSortWidgetCfg.transitionIn == 'function') {
-						e.nestedSortWidgetCfg.transitionIn.apply(sort, [function() {jQuery.recallDroppables();}]);						
-					} else {
-						sort.show();
-					}
+					showTransition(sort);
 				break;
 				case "custom-series":
-					var secondTransition = function() {
-						if(typeof e.nestedSortWidgetCfg.transitionIn == 'function') {
-							e.nestedSortWidgetCfg.transitionIn.apply(sort, [function() {jQuery.recallDroppables();}]);						
-						} else {
-							sort.show();
-						}
-					}
-				
-					if(!e.nestedSortWidgetCfg.incremental) {
-						if(typeof e.nestedSortWidgetCfg.transitionOut == 'function') {
-							e.nestedSortWidgetCfg.transitionOut.apply(lastSort, [secondTransition]);
-						} else {
-							lastSort.hide();
-							secondTransition();
-						}
-					}
+					hideTransition(lastSort, sort)
 				break;
 			}		
 		}
@@ -1205,6 +1202,27 @@ jQuery.NestedSortableWidget = {
 					.append("<div class='"+this.nestedSortWidgetCfg.classes.progress+"' style='display:none;'>&nbsp;</div>")
 					.append("<div style='clear:both;height:0;'>&nbsp;</div>")
 					.appendTo(this);
+				
+				//Sets up page transition animation
+				switch(this.nestedSortWidgetCfg.transitionAnim) {
+					case "slide":
+						this.nestedSortWidgetCfg.transitionOut = jQuery.fn.slideUp;
+						this.nestedSortWidgetCfg.transitionIn = jQuery.fn.slideDown;
+						this.nestedSortWidgetCfg.transitionAnim = "custom-parallel";
+					break;
+					case "custom-series":
+					case "custom-parallel":
+						//leave as is, so the user can configure things himself
+					break;
+					case "none":
+					default:
+						//no animation
+						this.nestedSortWidgetCfg.transitionOut = false;
+						this.nestedSortWidgetCfg.transitionIn = false;
+						this.nestedSortWidgetCfg.transitionAnim = "custom-parallel";
+					break;
+				}		
+
 				
 				//sets up the load buttom or loads the stuff right now
 				if(this.nestedSortWidgetCfg.loadButtonSel) {
