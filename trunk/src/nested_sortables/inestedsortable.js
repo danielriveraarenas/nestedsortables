@@ -337,17 +337,42 @@ jQuery.iNestedSortable = {
 		//styles the nesting
 		jQuery.iNestedSortable.updateCurrentNestingClass(e, parentNesting );
 		
+		//does stuff before the helper is removed
+		jQuery.iNestedSortable.beforeHelperRemove(e);
+		
 		//puts the helper in the proper place.
 		parentNesting.prepend(helper.get(0));
 		
+		//does stuff after the helper is inserted
+		jQuery.iNestedSortable.afterHelperInsert(e);
 	},
 	appendItem: function(e, itemBefore) {
 		jQuery.iNestedSortable.updateCurrentNestingClass(e, jQuery(itemBefore).parent() );
+		jQuery.iNestedSortable.beforeHelperRemove(e);
 		jQuery(itemBefore).after(jQuery.iSort.helper.get(0));
+		jQuery.iNestedSortable.afterHelperInsert(e);
 	},
 	insertOnTop: function (e) {
 		jQuery.iNestedSortable.updateCurrentNestingClass(e, e);
+		jQuery.iNestedSortable.beforeHelperRemove(e);
 		jQuery(e).prepend(jQuery.iSort.helper.get(0));
+		jQuery.iNestedSortable.afterHelperInsert(e);
+	},
+	beforeHelperRemove : function (e) {
+		//hides the nesting when it becomes empty
+		var parent = jQuery.iSort.helper.parent(e.nestedSortCfg.nestingTag + "." + e.nestedSortCfg.nestingTagClass.split(" ").join("."));
+		var numSiblings = parent
+			.children("." + e.sortCfg.accept.split(" ").join(".") + ":visible")
+			.size();	
+		if(numSiblings === 0 && parent.get(0) !== e) {
+			parent.hide();
+		}
+	},
+	afterHelperInsert : function (e) {
+		//displays the nesting after something is inserted
+		jQuery.iSort.helper
+			.parent()
+			.show();
 	},
 	updateCurrentNestingClass : function(e, nestingElem) {
 		
