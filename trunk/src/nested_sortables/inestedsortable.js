@@ -275,7 +275,7 @@ jQuery.iNestedSortable = {
 		if(!precedingItem) return false;
 		
 		//This code is to limit the levels of nesting that can be achieved
-		//Currently halted.
+		//Development of this is currently halted.
 		/*
 		if(	e.nestedSortCfg.nestingLimit !== false) {
 			//nesting level of the preceding item
