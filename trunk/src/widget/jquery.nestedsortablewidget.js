@@ -409,10 +409,12 @@ jQuery.NestedSortableWidget = {
 			var printItem = function (item) {
 					var listToJoin = [];
 					var id = "";
+					//Cudos to M$. And some say open source is not trustable...
+					var hackyStyleForCrappyIE = (jQuery.browser.msie) ? "style='ZOOM:1;FILTER: alpha(opacity=100);'" : "";
 					if(item.id) {
 						var id = "id='" +  e.nestedSortWidgetCfg.classes.item + '-' + item.id + "' ";
 					}
-					listToJoin[listToJoin.length] = "<li "+ id + "class='"+e.nestedSortWidgetCfg.classes.clear+" "+e.nestedSortWidgetCfg.classes.item+"'>";
+					listToJoin[listToJoin.length] = "<li "+ id + "class='"+e.nestedSortWidgetCfg.classes.clear+" "+e.nestedSortWidgetCfg.classes.item+"' "+hackyStyleForCrappyIE+">";
 					var cursorStyle = "";
 					if(!e.nestedSortWidgetCfg.handle) {
 						cursorStyle = "cursor:move;"
@@ -604,8 +606,7 @@ jQuery.NestedSortableWidget = {
 			var text = e.nestedSortWidgetCfg.text;
 			var saveButton = jQuery("<input type='submit' class='"+classes.disabledSaveButton+"' value='"+text.saveButton+"'/>");
 			return jQuery("<div class='"+classes.saveAndProgress+"'></div>")
-					.append("<div class='"+classes.warning+"' style='display:none;'>&nbsp;</div>")
-					.append("<div class='"+classes.progress+"' style='display:none;'>&nbsp;</div>")
+					.append("<div><div class='"+classes.warning+"' style='display:none;'>&nbsp;</div><div class='"+classes.progress+"' style='display:none;'>&nbsp;</div></div>")
 					.append(saveButton)
 					.append("<div style='clear:both;height:0;'>&nbsp;</div>");
 		};
@@ -1251,7 +1252,7 @@ jQuery.fn.extend(
 /*
  * There is a bug in the remeasure function in Interface's iDrop, 
  * which makes it give a javascript error. I submited a patch to 
- * fix it, but while it is not applied, we have to patch it here.
+ * fix it, but while it is not applied, we have to "monkey" patch it here.
  */
 jQuery.iDrop.remeasure = jQuery.recallDroppables =  function()
 	{
