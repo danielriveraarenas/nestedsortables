@@ -40,6 +40,7 @@ jQuery.iNestedSortable = {
 		//finds item that is on top of the one being dragged,
 		//and in a compatible nesting level
 		var precItem = jQuery.iNestedSortable.findPrecedingItem(e);
+		
 		var shouldNest = jQuery.iNestedSortable.shouldNestItem(e, precItem);
 		var touchingFirst = (!precItem) ? jQuery.iNestedSortable.isTouchingFirstItem(e) : false;
 		var quit = false;
@@ -66,7 +67,7 @@ jQuery.iNestedSortable = {
 			} else  {
 				jQuery.iNestedSortable.appendItem(e, precItem);
 			}
-		} else if (jQuery.iNestedSortable.isTouchingFirstItem(e)) {
+		} else if (touchingFirst) {
 			//no element on top, but touches the first item on the list
 			jQuery.iNestedSortable.insertOnTop(e);	
 		}
