@@ -60,15 +60,15 @@ float: none;
 	padding: 0;
 }
 
-.nsw-item.nsw-alt-item > div > div {
+.nsw-item.nsw-alt-item div div {
 	background: #f1f1f1;
 }
 
-.nsw-item > div > div {
+.nsw-item div div {
 	background: #f8f8f8;
 }
 
-.nsw-header-item > div > div {
+.nsw-header-item div div {
 	background: #DFDFDF;
 	font-weight: bold;
 }
@@ -120,11 +120,11 @@ float: none;
 	text-align: center;
 }
 
-.nsw-save-progress {
+.nsw-save-progress-wrap {
 	position: static;
 }
 
-.nsw-save-progress > div {
+.nsw-progress-warning-wrap {
 	position: relative;
 }
 

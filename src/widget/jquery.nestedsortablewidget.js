@@ -605,8 +605,8 @@ jQuery.NestedSortableWidget = {
 			var classes = e.nestedSortWidgetCfg.classes;
 			var text = e.nestedSortWidgetCfg.text;
 			var saveButton = jQuery("<input type='submit' class='"+classes.disabledSaveButton+"' value='"+text.saveButton+"'/>");
-			return jQuery("<div class='"+classes.saveAndProgress+"'></div>")
-					.append("<div><div class='"+classes.warning+"' style='display:none;'>&nbsp;</div><div class='"+classes.progress+"' style='display:none;'>&nbsp;</div></div>")
+			return jQuery("<div class='"+classes.saveAndProgressWrap+"'></div>")
+					.append("<div class='"+classes.progressAndWarningWrap+"'><div class='"+classes.warning+"' style='display:none;'>&nbsp;</div><div class='"+classes.progress+"' style='display:none;'>&nbsp;</div></div>")
 					.append(saveButton)
 					.append("<div style='clear:both;height:0;'>&nbsp;</div>");
 		};
@@ -1130,7 +1130,8 @@ jQuery.NestedSortableWidget = {
 					progress: 'nsw-progress',
 					saveButton: 'nsw-save-button',
 					disabledSaveButton: 'nsw-disabled-save-button',
-					saveAndProgress: 'nsw-save-progress',
+					saveAndProgressWrap: 'nsw-save-progress-wrap',
+					progressAndWarningWrap: 'nsw-progress-warning-wrap',
 					warning: 'nsw-warning',
 					handle: 'nsw-handle',
 					helper: 'nsw-helper'
@@ -1198,7 +1199,7 @@ jQuery.NestedSortableWidget = {
 				
 				//adds some html to allow the user to see load error messages 
 				//and the progress indicator before loading the first page.
-				this.nestedSortWidgetCfg.tempProgress = jQuery("<div class='"+this.nestedSortWidgetCfg.classes.saveAndProgress+"'></div>")
+				this.nestedSortWidgetCfg.tempProgress = jQuery("<div class='"+this.nestedSortWidgetCfg.classes.saveAndProgressWrap+"'></div>")
 					.append("<div class='"+this.nestedSortWidgetCfg.classes.warning+"' style='display:none;'>&nbsp;</div>")
 					.append("<div class='"+this.nestedSortWidgetCfg.classes.progress+"' style='display:none;'>&nbsp;</div>")
 					.append("<div style='clear:both;height:0;'>&nbsp;</div>")
