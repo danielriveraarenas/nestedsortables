@@ -30,26 +30,47 @@ jQuery.iNestedSortable = {
 		if ( !(e.dropCfg.el.size() > 0) )
 			return;
 			
-		//we need to recalculate the position of the sortables, or there will be
-		//some mismatches
-		jQuery.iSort.measure(e);
+		//we need to recalculate the position of the sortables, 
+		//or there will be some mismatches
+		if(!e.nestedSortCfg.remeasured) {
+			jQuery.iSort.measure(e);
+			e.nestedSortCfg.remeasured = true;
+		}
 		
 		//finds item that is on top of the one being dragged,
 		//and in a compatible nesting level
 		var precItem = jQuery.iNestedSortable.findPrecedingItem(e);
+		var shouldNest = jQuery.iNestedSortable.shouldNestItem(e, precItem);
+		var touchingFirst = (!precItem) ? jQuery.iNestedSortable.isTouchingFirstItem(e) : false;
+		var quit = false;
+		
+		//avoids doing things more than once
+		if(precItem) {
+			if(e.nestedSortCfg.lastPrecedingItem === precItem && e.nestedSortCfg.lastShouldNest === shouldNest) {
+				quit = true;
+			}
+		}
+		else if(e.nestedSortCfg.lastPrecedingItem === precItem && e.nestedSortCfg.lastTouchingFirst === touchingFirst) {
+			quit = true;
+		}
+		e.nestedSortCfg.lastPrecedingItem = precItem;
+		e.nestedSortCfg.lastShouldNest = shouldNest;
+		e.nestedSortCfg.lastTouchingFirst = touchingFirst;
+		if(quit) {return;}
 		
 		if (precItem !== null) {
 			//there is an element on top of this one 
 			//on the same nesting, or smaller
-			if (jQuery.iNestedSortable.shouldNestItem(e, precItem)) {
+			if (shouldNest) {
 				jQuery.iNestedSortable.nestItem(e, precItem);
-			} else {
+			} else  {
 				jQuery.iNestedSortable.appendItem(e, precItem);
 			}
 		} else if (jQuery.iNestedSortable.isTouchingFirstItem(e)) {
 			//no element on top, but touches the first item on the list
-			jQuery.iNestedSortable.insertOnTop(e);
+			jQuery.iNestedSortable.insertOnTop(e);	
 		}
+
 	},
 	/*
 	 * Auto scrolls the page when we are dragging an element.
@@ -88,6 +109,11 @@ jQuery.iNestedSortable = {
 			jQuery.iNestedSortable.currentNesting = null;
 			jQuery.iNestedSortable.latestNestingClass = "";
 		}
+		
+		if(jQuery.iDrop.overzone.isNestedSortable) {
+			jQuery.iDrop.overzone.nestedSortCfg.remeasured = false;
+		}
+		
 	},
 	/*
 	 * Called when there is a need to serialize the
@@ -373,6 +399,7 @@ jQuery.iNestedSortable = {
 		jQuery.iSort.helper
 			.parent()
 			.show();
+		e.nestedSortCfg.remeasured = false;
 	},
 	updateCurrentNestingClass : function(e, nestingElem) {
 		
