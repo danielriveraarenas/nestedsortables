@@ -60,8 +60,8 @@ float: none;
 	padding: 0;
 }
 
-.nsw-item.nsw-alt-item div div {
-	background: #f1f1f1;
+.nsw-alt-cell{
+	background: #f1f1f1 !important;
 }
 
 .nsw-item div div {
