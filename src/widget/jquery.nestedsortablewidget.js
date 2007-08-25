@@ -913,13 +913,12 @@ jQuery.NestedSortableWidget = {
 		}
 	},
 	alternateClasses: function(e) {
-		jQuery('.' + e.nestedSortWidgetCfg.classes.listHolder + ' li.' + e.nestedSortWidgetCfg.classes.item)
-			.css( 'background-color', '' )
-			.filter(':even')
-			.removeClass(e.nestedSortWidgetCfg.classes.altItem)
-			.end()
-			.filter(':odd')
-			.addClass(e.nestedSortWidgetCfg.classes.altItem);
+		jQuery('div.' + e.nestedSortWidgetCfg.classes.itemRow + ':even', e)
+			.find('/div')
+			.removeClass(e.nestedSortWidgetCfg.classes.altCell);
+		jQuery('div.' + e.nestedSortWidgetCfg.classes.itemRow + ':odd', e)
+			.find('/div')
+			.addClass(e.nestedSortWidgetCfg.classes.altCell);
 	},
 	save: function() {
 			
@@ -1125,7 +1124,7 @@ jQuery.NestedSortableWidget = {
 					headerItem: 'nsw-header-item',
 					clear: 'nsw-clear',
 					item: 'nsw-item',
-					altItem: 'nsw-alt-item',
+					altCell: 'nsw-alt-cell',
 					itemRow: 'nsw-item-row',
 					progress: 'nsw-progress',
 					saveButton: 'nsw-save-button',
