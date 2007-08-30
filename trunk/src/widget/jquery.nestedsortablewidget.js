@@ -414,13 +414,14 @@ jQuery.NestedSortableWidget = {
 					if(item.id) {
 						var id = "id='" +  e.nestedSortWidgetCfg.classes.item + '-' + item.id + "' ";
 					}
-					listToJoin[listToJoin.length] = "<li "+ id + "class='"+e.nestedSortWidgetCfg.classes.clear+" "+e.nestedSortWidgetCfg.classes.item+"' "+hackyStyleForCrappyIE+">";
+					listToJoin[listToJoin.length] = "<li "+ id + "class='"+e.nestedSortWidgetCfg.classes.clear+" "+e.nestedSortWidgetCfg.classes.item+"' "+hackyStyleForCrappyIE+"'>";
 					var cursorStyle = "";
 					if(!e.nestedSortWidgetCfg.handle) {
 						cursorStyle = "cursor:move;"
 					}
-					//height needs to be 100% or will look ugly in IE
-					listToJoin[listToJoin.length] = "<div class='"+e.nestedSortWidgetCfg.classes.itemRow+"' style='"+cursorStyle+" margin:0 0 " + parseFloat(e.nestedSortWidgetCfg.whiteMargin) + e.nestedSortWidgetCfg.measureUnit + " 0;height: 100%;'>";
+          //IE requires a height of 100%
+          var heightForIE = (jQuery.browser.msie)?"height:100%;":"";
+					listToJoin[listToJoin.length] = "<div class='"+e.nestedSortWidgetCfg.classes.itemRow+"' style='"+cursorStyle+" margin:0 0 " + parseFloat(e.nestedSortWidgetCfg.whiteMargin) + e.nestedSortWidgetCfg.measureUnit + " 0; " + heightForIE +"'>";
 					listToJoin[listToJoin.length] = printInfo(item.info, e.nestedSortWidgetCfg.handle);
 					listToJoin[listToJoin.length] = "</div>";
 					if(item.children) {
@@ -537,8 +538,9 @@ jQuery.NestedSortableWidget = {
 					listToJoin[listToJoin.length]="<div class='" + e.nestedSortWidgetCfg.classes.headerWrap + "'>";
 					listToJoin[listToJoin.length] = "<ul class='"+ e.nestedSortWidgetCfg.classes.header +"'>";
 					listToJoin[listToJoin.length] = "<li class='"+ e.nestedSortWidgetCfg.classes.headerItem +"'>";
-					//height needs to be 100% or will look ugly in IE
-					listToJoin[listToJoin.length] = "<div style='margin:0 0 " + parseFloat(e.nestedSortWidgetCfg.whiteMargin) + e.nestedSortWidgetCfg.measureUnit + " 0;height: 100%;'>";
+					//IE requires a height of 100% to display it correctly
+          var heightForIE = (jQuery.browser.msie)?"height:100%;":"";
+          listToJoin[listToJoin.length] = "<div style='margin:0 0 " + parseFloat(e.nestedSortWidgetCfg.whiteMargin) + e.nestedSortWidgetCfg.measureUnit + " 0;" + heightForIE +" '>";
 					listToJoin[listToJoin.length] = printInfo(json.columns);
 					listToJoin[listToJoin.length] = "</div></li></ul>";
 					listToJoin[listToJoin.length]="</div>";
