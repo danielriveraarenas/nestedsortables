@@ -771,7 +771,8 @@ jQuery.NestedSortableWidget = {
 		//removes the old page change from the document and inserts the new one
 		var oldPageChanger = e.nestedSortWidgetCfg.pageChanger;
 		//constructs/gets the DOM element with next/previous page links
-		var pageChanger = e.nestedSortWidgetCfg.pageChanger = buildPageChanger();
+		e.nestedSortWidgetCfg.pageChanger = buildPageChanger();
+		var pageChanger = e.nestedSortWidgetCfg.pageChanger;
 		if(oldPageChanger) {
 			oldPageChanger.hide().after(pageChanger).remove();
 		}
@@ -1201,8 +1202,7 @@ jQuery.NestedSortableWidget = {
 				//adds some html to allow the user to see load error messages 
 				//and the progress indicator before loading the first page.
 				this.nestedSortWidgetCfg.tempProgress = jQuery("<div class='"+this.nestedSortWidgetCfg.classes.saveAndProgressWrap+"'></div>")
-					.append("<div class='"+this.nestedSortWidgetCfg.classes.warning+"' style='display:none;'>&nbsp;</div>")
-					.append("<div class='"+this.nestedSortWidgetCfg.classes.progress+"' style='display:none;'>&nbsp;</div>")
+					.append("<div class='"+this.nestedSortWidgetCfg.classes.progressAndWarningWrap+"'><div class='"+this.nestedSortWidgetCfg.classes.warning+"' style='display:none;'>&nbsp;</div><div class='"+this.nestedSortWidgetCfg.classes.progress+"' style='display:none;'>&nbsp;</div></div>")
 					.append("<div style='clear:both;height:0;'>&nbsp;</div>")
 					.appendTo(this);
 				
