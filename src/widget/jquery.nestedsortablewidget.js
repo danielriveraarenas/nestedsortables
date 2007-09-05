@@ -144,6 +144,9 @@ jQuery.NestedSortableWidget = {
 			jQuery.NestedSortableWidget.userWarning(e, e.nestedSortWidgetCfg.text.loadError);
 			//hides the progress indicator
 			jQuery.NestedSortableWidget.setBusyState(e, false);
+			if(e.nestedSortWidgetCfg.onLoadError) {
+				e.nestedSortWidgetCfg.onLoadError.apply(e);	
+			}
 		}
 		
 		/*
@@ -753,7 +756,8 @@ jQuery.NestedSortableWidget = {
 		var pageBefore = e.nestedSortWidgetCfg.builtLists.pageBefore[page];
 		if(hoverBefore) {
 			if(pageBefore) {
-				hoverBefore.show();
+				hoverBefore.show().css('opacity', '1');
+				
 			} else {
 				hoverBefore.hide();
 			}
@@ -762,7 +766,7 @@ jQuery.NestedSortableWidget = {
 		var pageAfter = e.nestedSortWidgetCfg.builtLists.pageAfter[page];
 		if(hoverAfter) {
 			if (pageAfter) {
-				hoverAfter.show();
+				hoverAfter.show().css('opacity', '1');
 			} else {
 				hoverAfter.hide();
 			}
@@ -885,13 +889,7 @@ jQuery.NestedSortableWidget = {
 			
 	},
 	onBoxHover: function(e, drag, where, drop) {
-		callback = function() {
-			if(e.nestedSortWidgetCfg.fadeOutHover) {
-				var animShowCfg = {};
-				animShowCfg[e.nestedSortWidgetCfg.fadeOutProperty] = 'show';
-				jQuery(drop).css('opacity', '1');
-			}
-			
+		callback = function() {		
 			jQuery.NestedSortableWidget.loadPage(e, where);
 		};
 		var changeTime = e.nestedSortWidgetCfg.pageChangeTimer;
@@ -906,8 +904,6 @@ jQuery.NestedSortableWidget = {
 	},
 	onBoxOutOrDrop: function(e, drag, where, drop) {
 		if(e.nestedSortWidgetCfg.fadeOutHover) {
-			var animShowCfg = {};
-			animShowCfg[e.nestedSortWidgetCfg.fadeOutProperty] = 'show';
 			jQuery(drop)
 				.stop()
 				.css('opacity', '1');
@@ -935,6 +931,10 @@ jQuery.NestedSortableWidget = {
 		
 		var onError = function(e) {
 			jQuery.NestedSortableWidget.userWarning(e, e.nestedSortWidgetCfg.text.saveError);
+			
+			if(e.nestedSortWidgetCfg.onSaveError) {
+				e.nestedSortWidgetCfg.onSaveError.apply(e, [returnText]);	
+			}
 		};
 		
 		var onBoth = function(e) {
@@ -1052,17 +1052,23 @@ jQuery.NestedSortableWidget = {
 	destroy : function() {
 		return this.each(function() {
 			if(this.isNestedSortableWidget) {
+				var callback = this.nestedSortWidgetCfg.onDestroy;
 				jQuery.each(
 					this.nestedSortWidgetCfg.builtLists.sorts,
 					function(i) {
-						this.NestedSortableDestroy();
+						if(this) {
+							jQuery(this).NestedSortableDestroy();
+						}
 					}
 				);
 				this.nestedSortWidgetCfg.hoverBefore.DroppableDestroy();
 				this.nestedSortWidgetCfg.hoverAfter.DroppableDestroy();
-				this.html('');
 				this.nestedSortWidgetCfg = null;
 				this.isNestedSortableWidget = false;
+				jQuery(this).html('');
+				if(callback) {
+					callback.apply(this);
+				}
 			}
 		});
 	},
@@ -1087,8 +1093,11 @@ jQuery.NestedSortableWidget = {
 					saveUrl : conf.saveUrl ? conf.saveUrl : conf.loadUrl,
 					serializeWithJSON : conf.serializeWithJSON === undefined ? false : conf.serializeWithJSON,
 					onLoad : (conf.onLoad && conf.onLoad.constructor == Function) ? conf.onLoad :false,
+					onLoadError : (conf.onLoadError && conf.onLoadError.constructor == Function) ? conf.onLoadError :false,
 					onInitialLoad : (conf.onInitialLoad && conf.onInitialLoad.constructor == Function) ? conf.onInitialLoad : false,
 					onSave : (conf.onSave && conf.onSave.constructor == Function) ? conf.onSave :false,
+					onSaveError : (conf.onSaveError && conf.onSaveError.constructor == Function) ? conf.onSaveError :false,
+					onDestroy : (conf.onDestroy && conf.onDestroy.constructor == Function) ? conf.onDestroy :false,
 					nestedSortCfg : conf.nestedSortCfg ? conf.nestedSortCfg : {},
 					loadButtonSel : conf.loadButtonSel ? conf.loadButtonSel :false,
 					colsWidth: conf.colsWidth ? conf.colsWidth : 150,
