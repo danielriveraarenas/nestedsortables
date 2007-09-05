@@ -78,14 +78,18 @@ jQuery.iNestedSortable = {
 	 */
 	scroll: function(e) {
 
+		if(!e.nestedSortCfg.autoScroll) {
+			return false;
+		}
 		var sensitivity = e.nestedSortCfg.scrollSensitivity;
 		var speed = e.nestedSortCfg.scrollSpeed;
 		var pointer = jQuery.iDrag.dragged.dragCfg.currentPointer;
 		var docDim = jQuery.iUtil.getScroll(document.body);
-		if((pointer.y - docDim.ih) - docDim.t > -sensitivity) window.scrollBy(0,speed);
-		if(pointer.y - docDim.t < sensitivity) window.scrollBy(0,-speed);
-		if((pointer.x - docDim.iw) - docDim.l > -sensitivity) window.scrollBy(speed,0);
-		if(pointer.x - docDim.l < sensitivity) window.scrollBy(-speed,0);
+		if((pointer.y - docDim.ih) - docDim.t > -sensitivity) {window.scrollBy(0,speed);}
+		if(pointer.y - docDim.t < sensitivity) {window.scrollBy(0,-speed);}
+		//The two lines bellow are for horizontal scrolling. It is not needed.
+		//if((pointer.x - docDim.iw) - docDim.l > -sensitivity) {window.scrollBy(speed,0);}
+		//if(pointer.x - docDim.l < sensitivity) {window.scrollBy(-speed,0);}
 
 	},
 	/*
@@ -433,14 +437,15 @@ jQuery.iNestedSortable = {
 		}
 	},
 	destroy: function () {
-		this.each(
+		return this.each(
 			function () {
-				this.nestedSortCfg = null;
-				this.isNestedSortable = null;
+				if(this.isNestedSortable) {
+					this.nestedSortCfg = null;
+					this.isNestedSortable = null;
+					jQuery(this).SortableDestroy();
+				}
 			}
 		);
-		
-		return this.SortableDestroy();
 	},
 	build: function(conf) {
 		if (conf.accept && jQuery.iUtil && jQuery.iDrag && jQuery.iDrop && jQuery.iSort) 
@@ -454,6 +459,7 @@ jQuery.iNestedSortable = {
 						currentNestingClass :  conf.currentNestingClass ? conf.currentNestingClass : "",
 						currentParentClass : conf.currentParentClass ? conf.currentParentClass : "",
 						nestingLimit : conf.nestingLimit ? conf.nestingLimit : false,
+						autoScroll : conf.autoScroll !== undefined ? conf.autoScroll == true : false,
 						scrollSensitivity: conf.scrollSensitivity ? conf.scrollSensitivity : 20,
 						scrollSpeed: conf.scrollSpeed ? conf.scrollSpeed : 20,
 						serializeRegExp : conf.serializeRegExp ? conf.serializeRegExp : /[^\-]*$/
