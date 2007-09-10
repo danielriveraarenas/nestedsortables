@@ -385,9 +385,7 @@ jQuery.iNestedSortable = {
 	},
 	insertOnTop: function (e) {
 		jQuery.iNestedSortable.updateCurrentNestingClass(e, e);
-		jQuery.iNestedSortable.beforeHelperRemove(e);
 		jQuery(e).prepend(jQuery.iSort.helper.get(0));
-		jQuery.iNestedSortable.afterHelperInsert(e);
 	},
 	beforeHelperRemove : function (e) {
 		//hides the nesting when it becomes empty
