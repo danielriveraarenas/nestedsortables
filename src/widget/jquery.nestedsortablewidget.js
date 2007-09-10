@@ -30,16 +30,6 @@ jQuery.NestedSortableWidget = {
 			);
 		
 	},
-	highlight : function (e) {
-		if(jQuery.fn.Highlight) {
-			var elem = e.nestedSortWidgetCfg.divWrap.get(0);
-			if ( elem.queue && elem.queue['fx'] ) {
-				//removes animations that might be on the queue
-				elem.queue.fx = [];
-			}
-			e.nestedSortWidgetCfg.divWrap.Highlight('normal', e.nestedSortWidgetCfg.highlightColor);	
-		}
-	},
 	loadPage: function (e, where) {
 		var curPage = e.nestedSortWidgetCfg.currentPage;
 		var loadData = jQuery.NestedSortableWidget.loadData;
@@ -72,7 +62,7 @@ jQuery.NestedSortableWidget = {
 		 * order to display the requested page.
 		 */
 		var whatToRequest = function() {
-			if(e.nestedSortWidgetCfg.paginate) {
+			if(e.nestedSortWidgetCfg.paginate && !e.nestedSortWidgetCfg.greedy) {
 				if(e.nestedSortWidgetCfg.incremental) {
 					if(page > e.nestedSortWidgetCfg.upperPage) {
 						var cur = e.nestedSortWidgetCfg.upperPage;
@@ -96,7 +86,7 @@ jQuery.NestedSortableWidget = {
 				return retVal;
 			} else if (e.nestedSortWidgetCfg.loadedJsons.length === 0) {
 				//no pagination and nothing requested yet
-				return ""; //the server should return everything
+				return {}; //the server should return everything
 			} else {
 				//no pagination and something requested
 				//request nothing
@@ -127,12 +117,6 @@ jQuery.NestedSortableWidget = {
 				e.nestedSortWidgetCfg.onLoad.apply(e);	
 			}
 			
-			//highlights the component after the initial load
-			if(tempProg) {
-				if(e.nestedSortWidgetCfg.initHighlight) {
-					jQuery.NestedSortableWidget.highlight(e);
-				}
-			}
 			//hides the progress indicator
 			jQuery.NestedSortableWidget.setBusyState(e, false);
 			
@@ -166,14 +150,22 @@ jQuery.NestedSortableWidget = {
 		//figures out what needs to be fetched from the server
 		var itemsToRequest; 
 		if (!e.nestedSortWidgetCfg.builtLists.sorts[page] && (itemsToRequest = whatToRequest()) !== null) {
+			if(e.nestedSortWidgetCfg.loadUrlParams) {
+				jQuery.extend(
+					itemsToRequest,
+					e.nestedSortWidgetCfg.loadUrlParams
+				);				
+			}
+
 			// fetches the data 
 			jQuery.ajax(
 				{
+					type: e.nestedSortWidgetCfg.loadRequestType,
 					data: itemsToRequest,
 					dataType : 'json',
 					success: process,
 					error: reportFailure,
-					url: e.nestedSortWidgetCfg.loadUrl
+					url: e.nestedSortWidgetCfg.loadUrl 
 				}
 			);
 		} else {
@@ -617,17 +609,20 @@ jQuery.NestedSortableWidget = {
 		};
 		
 		
-		var hideTransition = function(sort, showSort) {
+		var hideTransition = function(sortHide, showSort) {
 			e.nestedSortWidgetCfg.busyAnimating = true;
 			if(!e.nestedSortWidgetCfg.incremental) {
 				if(typeof e.nestedSortWidgetCfg.transitionOut == 'function') {
 					if(showSort) {
-						e.nestedSortWidgetCfg.transitionOut.apply(sort, [function() {showTransition(showSort);}]);
+						e.nestedSortWidgetCfg.transitionOut.apply(
+							sortHide, 
+							[function() { showTransition(showSort); }]
+						);
 					} else {
-						e.nestedSortWidgetCfg.transitionOut.apply(sort);
+						e.nestedSortWidgetCfg.transitionOut.apply(sortHide);
 					}
 				} else {
-					sort.hide();
+					sortHide.hide();
 					if(showSort) {
 						showTransition(showSort);
 					}
@@ -635,10 +630,10 @@ jQuery.NestedSortableWidget = {
 			}
 		};
 		
-		var showTransition = function(sort) {
+		var showTransition = function(sortableToShow) {
 			if(typeof e.nestedSortWidgetCfg.transitionIn == 'function') {
 				e.nestedSortWidgetCfg.transitionIn.apply(
-					sort, 
+					sortableToShow, 
 					[
 						function() {
 							jQuery.recallDroppables();
@@ -647,7 +642,8 @@ jQuery.NestedSortableWidget = {
 					]
 				);						
 			} else {
-				sort.show();
+				sortableToShow.show();
+				jQuery.recallDroppables();
 				e.nestedSortWidgetCfg.busyAnimating = false;
 			}
 		};
@@ -999,8 +995,23 @@ jQuery.NestedSortableWidget = {
 					//json serialization
 					sendString = {};
 					sendString[that.nestedSortWidgetCfg.name] = jQuery.toJSON(sendObj);
+					if(that.nestedSortWidgetCfg.saveUrlParams){
+						jQuery.extend(sendString, that.nestedSortWidgetCfg.saveUrlParams);
+					}
 				} else {
 					sendString = "";
+					if(that.nestedSortWidgetCfg.saveUrlParams) {
+						jQuery.each(
+							that.nestedSortWidgetCfg.saveUrlParams,
+							function(key) {
+								if(sendString.length > 0) {
+									sendString += "&";
+								}
+								sendString += key + "=" + this;
+							}
+						);
+					}
+
 					//recursive function that creates a query string
 					//based on the JavaScript object
 					var buildQueryString = function(arrayObject, currentPath){
@@ -1033,14 +1044,17 @@ jQuery.NestedSortableWidget = {
 							}
 						);
 					} else {
-						sendString = that.nestedSortWidgetCfg.name + "[count]=" + sendObj.count + "&" + that.nestedSortWidgetCfg.name + "[firstIndex]=" + sendObj.firstIndex + "&";
+						if(sendString.length > 0) {
+							sendString += "&";
+						}
+						sendString += that.nestedSortWidgetCfg.name + "[count]=" + sendObj.count + "&" + that.nestedSortWidgetCfg.name + "[firstIndex]=" + sendObj.firstIndex + "&";
 						sendString += buildQueryString(sendObj.items, that.nestedSortWidgetCfg.name + "[items]");
 					}
 				}
 				
 				jQuery.ajax({
 					url: that.nestedSortWidgetCfg.saveUrl,
-					type: 'POST',
+					type: that.nestedSortWidgetCfg.saveRequestType,
 					data: sendString,
 					success: function(ret) {onSuccess(that, ret);},
 					error: function(xml, error, ex) {onError(that);},
@@ -1091,6 +1105,10 @@ jQuery.NestedSortableWidget = {
 					name : conf.name ? conf.name : "nested-sortable-widget",
 					loadUrl : conf.loadUrl,
 					saveUrl : conf.saveUrl ? conf.saveUrl : conf.loadUrl,
+					loadUrlParams: conf.loadUrlParams ? conf.loadUrlParams : undefined,
+					saveUrlParams: conf.saveUrlParams ? conf.saveUrlParams : undefined,
+					loadRequestType: conf.loadRequestType ? conf.loadRequestType : 'GET',
+					saveRequestType: conf.saveRequestType ? conf.saveRequestType : 'POST',
 					serializeWithJSON : conf.serializeWithJSON === undefined ? false : conf.serializeWithJSON,
 					onLoad : (conf.onLoad && conf.onLoad.constructor == Function) ? conf.onLoad :false,
 					onLoadError : (conf.onLoadError && conf.onLoadError.constructor == Function) ? conf.onLoadError :false,
@@ -1104,15 +1122,14 @@ jQuery.NestedSortableWidget = {
 					whiteMargin: conf.whiteMargin ? conf.whiteMargin : 2,
 					padding: conf.padding ? conf.padding : 4,
 					measureUnit: conf.measureUnit ? conf.measureUnit : "px",
-					transitionAnim: conf.transitionAnim ? conf.transitionAnim : 'slide',
+					transitionAnim: conf.transitionAnim ? conf.transitionAnim : 'slide-parallel',
 					transitionOut: typeof conf.transitionOut =='function' ? conf.transitionOut : false,
 					transitionIn: typeof conf.transitionIn =='function' ? conf.transitionIn : false,
-					initHighlight: conf.initHighlight ? conf.initHighlight : false,
-					highlightColor: conf.highlightColor ? conf.highlightColor : "#FFFF66",
 					handle: conf.handle ? conf.handle : false,
 										
 					//configuration that only matters when pagination is on
 					paginate : conf.paginate ? true : false,
+					greedy : conf.greedy ? true : false,
 					incremental: conf.incremental ? conf.incremental : false,
 					itemsPerPage : parseInt(conf.itemsPerPage, 10) || 10,
 					startPage : parseInt(conf.startPage, 10) || 1,
@@ -1217,10 +1234,25 @@ jQuery.NestedSortableWidget = {
 				
 				//Sets up page transition animation
 				switch(this.nestedSortWidgetCfg.transitionAnim) {
-					case "slide":
-						this.nestedSortWidgetCfg.transitionOut = jQuery.fn.slideUp;
-						this.nestedSortWidgetCfg.transitionIn = jQuery.fn.slideDown;
+					case "slide-parallel":
+						this.nestedSortWidgetCfg.transitionOut = function(call){jQuery.fn.slideUp.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionIn = function(call){jQuery.fn.slideDown.apply(this,["normal", call]);};
 						this.nestedSortWidgetCfg.transitionAnim = "custom-parallel";
+					break;
+					case "slide-series":
+						this.nestedSortWidgetCfg.transitionOut = function(call){jQuery.fn.slideUp.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionIn = function(call){jQuery.fn.slideDown.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionAnim = "custom-series";
+					break;
+					case "normal-parallel":
+						this.nestedSortWidgetCfg.transitionOut = function(call){jQuery.fn.hide.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionIn = function(call){jQuery.fn.show.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionAnim = "custom-parallel";
+					break;
+					case "normal-series":
+						this.nestedSortWidgetCfg.transitionOut = function(call){jQuery.fn.hide.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionIn = function(call){jQuery.fn.show.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionAnim = "custom-series";
 					break;
 					case "custom-series":
 					case "custom-parallel":
