@@ -2,7 +2,7 @@
  * 
  * Nested Sortable Widget with pagination support for jQuery/Interface.
  *  
- * Copyright (c) 2007 Bernardo de Pádua dos Santos
+ * Copyright (c) 2007 Bernardo de Pï¿½dua dos Santos
  * Dual licensed under the MIT (MIT-LICENSE.txt) 
  * and GPL (GPL-LICENSE.txt) licenses.
  * 
@@ -63,15 +63,17 @@ jQuery.NestedSortableWidget = {
 		 */
 		var whatToRequest = function() {
 			if(e.nestedSortWidgetCfg.paginate && !e.nestedSortWidgetCfg.greedy) {
+				var retVal;
 				if(e.nestedSortWidgetCfg.incremental) {
+					var cur;
 					if(page > e.nestedSortWidgetCfg.upperPage) {
-						var cur = e.nestedSortWidgetCfg.upperPage;
+						cur = e.nestedSortWidgetCfg.upperPage;
 					} else {
-						var cur = e.nestedSortWidgetCfg.bottomPage;
+						cur = e.nestedSortWidgetCfg.bottomPage;
 					}
-					var retVal = jQuery.NestedSortableWidget.nextPageContents(e, page, cur);									
+					retVal = jQuery.NestedSortableWidget.nextPageContents(e, page, cur);									
 				}else {
-					var retVal = jQuery.NestedSortableWidget.nextPageContents(e, page, e.nestedSortWidgetCfg.currentPage);				
+					retVal = jQuery.NestedSortableWidget.nextPageContents(e, page, e.nestedSortWidgetCfg.currentPage);				
 				}
 				jQuery.each(
 					e.nestedSortWidgetCfg.loadedJsons,
@@ -98,7 +100,7 @@ jQuery.NestedSortableWidget = {
 		 */
 		var process = function(json) {
 			
-			var tempProg = e.nestedSortWidgetCfg.tempProgress
+			var tempProg = e.nestedSortWidgetCfg.tempProgress;
 			if(tempProg) {
 				//the first time we load the data
 				
@@ -131,7 +133,7 @@ jQuery.NestedSortableWidget = {
 			if(e.nestedSortWidgetCfg.onLoadError) {
 				e.nestedSortWidgetCfg.onLoadError.apply(e);	
 			}
-		}
+		};
 		
 		/*
 		 * ACTUAL CODE
@@ -308,15 +310,17 @@ jQuery.NestedSortableWidget = {
 			var itemsPerPage = e.nestedSortWidgetCfg.itemsPerPage;
 			
 			//what would you like to display?
+			var contents;
 			if(e.nestedSortWidgetCfg.incremental) {
+				var insertPage;
 				if(page > e.nestedSortWidgetCfg.upperPage) {
-					var insertPage = e.nestedSortWidgetCfg.upperPage;
+					insertPage = e.nestedSortWidgetCfg.upperPage;
 				} else {
-					var insertPage = e.nestedSortWidgetCfg.bottomPage;
+					insertPage = e.nestedSortWidgetCfg.bottomPage;
 				}
-				var contents = jQuery.NestedSortableWidget.nextPageContents(e, page, insertPage);									
+				contents = jQuery.NestedSortableWidget.nextPageContents(e, page, insertPage);									
 			}else {
-				var contents = jQuery.NestedSortableWidget.nextPageContents(e, page, lastPage);
+				contents = jQuery.NestedSortableWidget.nextPageContents(e, page, lastPage);
 			}
 			var firstIndex = contents.firstIndex;
 			var count = contents.count;
@@ -407,12 +411,12 @@ jQuery.NestedSortableWidget = {
 					//Cudos to M$. And some say open source is not trustable...
 					var hackyStyleForCrappyIE = (jQuery.browser.msie) ? "style='ZOOM:1;FILTER: alpha(opacity=100);'" : "";
 					if(item.id) {
-						var id = "id='" +  e.nestedSortWidgetCfg.classes.item + '-' + item.id + "' ";
+						id = "id='" +  e.nestedSortWidgetCfg.classes.item + '-' + item.id + "' ";
 					}
 					listToJoin[listToJoin.length] = "<li "+ id + "class='"+e.nestedSortWidgetCfg.classes.clear+" "+e.nestedSortWidgetCfg.classes.item+"' "+hackyStyleForCrappyIE+"'>";
 					var cursorStyle = "";
 					if(!e.nestedSortWidgetCfg.handle) {
-						cursorStyle = "cursor:move;"
+						cursorStyle = "cursor:move;";
 					}
           //IE requires a height of 100%
           var heightForIE = (jQuery.browser.msie)?"height:100%;":"";
@@ -445,10 +449,11 @@ jQuery.NestedSortableWidget = {
 						var style = "";
 						if(i !== 0) {
 							//colsWidth can be an array or a string
+							var width;
 							if(e.nestedSortWidgetCfg.colsWidth.constructor === Array) {
-								var width = (e.nestedSortWidgetCfg.colsWidth[i-1]) ? e.nestedSortWidgetCfg.colsWidth[i-1] : e.nestedSortWidgetCfg.colsWidth[e.nestedSortWidgetCfg.colsWidth.length - 1];
+								width = (e.nestedSortWidgetCfg.colsWidth[i-1]) ? e.nestedSortWidgetCfg.colsWidth[i-1] : e.nestedSortWidgetCfg.colsWidth[e.nestedSortWidgetCfg.colsWidth.length - 1];
 							} else {
-								var width = e.nestedSortWidgetCfg.colsWidth;
+								width = e.nestedSortWidgetCfg.colsWidth;
 							}
 							style += "width: " +  parseFloat(width) + unit + ";";
 							
@@ -470,10 +475,11 @@ jQuery.NestedSortableWidget = {
 						}
 						
 						//allows the user to define multi dimension padding
+						var pad;
 						if(e.nestedSortWidgetCfg.padding.constructor === Array) {
-							var pad = e.nestedSortWidgetCfg.padding.join(unit + " ") + unit;
+							pad = e.nestedSortWidgetCfg.padding.join(unit + " ") + unit;
 						} else {
-							var pad = parseFloat(e.nestedSortWidgetCfg.padding) + unit;
+							pad = parseFloat(e.nestedSortWidgetCfg.padding) + unit;
 						}
 						style += "padding:" + pad + ";";
 						
@@ -491,10 +497,11 @@ jQuery.NestedSortableWidget = {
 				
 				//calculates the sum of the left and right padding
 				var pad = e.nestedSortWidgetCfg.padding;
+				var leftRightPad;
 				if(pad.length === 4) {
-					var leftRightPad = parseFloat(pad[1]) + parseFloat(pad[3]);
+					leftRightPad = parseFloat(pad[1]) + parseFloat(pad[3]);
 				} else {
-					var leftRightPad = 2 * parseFloat(pad);
+					leftRightPad = 2 * parseFloat(pad);
 				}
 				
 			
@@ -507,10 +514,11 @@ jQuery.NestedSortableWidget = {
 						//colsWidth can be an array or a string.
 						//If is is an array an has fewer elements the the columnsArray,
 						//the last dimension will be repeated for the remaining elements.
+						var colWidth;
 						if(e.nestedSortWidgetCfg.colsWidth.constructor === Array) {
-							var colWidth = (e.nestedSortWidgetCfg.colsWidth[i-1]) ? e.nestedSortWidgetCfg.colsWidth[i-1] : e.nestedSortWidgetCfg.colsWidth[e.nestedSortWidgetCfg.colsWidth.length - 1];
+							colWidth = (e.nestedSortWidgetCfg.colsWidth[i-1]) ? e.nestedSortWidgetCfg.colsWidth[i-1] : e.nestedSortWidgetCfg.colsWidth[e.nestedSortWidgetCfg.colsWidth.length - 1];
 						} else {
-							var colWidth = e.nestedSortWidgetCfg.colsWidth;
+							colWidth = e.nestedSortWidgetCfg.colsWidth;
 						}
 						firstMargin += parseFloat(colWidth) + parseFloat(e.nestedSortWidgetCfg.whiteMargin) + leftRightPad;
 					}
@@ -518,7 +526,7 @@ jQuery.NestedSortableWidget = {
 				
 				//adds the margin for the first element
 				return firstMargin + parseFloat(e.nestedSortWidgetCfg.whiteMargin);
-			}
+			};
 			
 			/*
 			 * Actual Code
@@ -697,7 +705,7 @@ jQuery.NestedSortableWidget = {
 			e.nestedSortWidgetCfg.builtLists.pageBefore[page] = false;
 		}
 		if (e.nestedSortWidgetCfg.incremental) {
-			var json = e.nestedSortWidgetCfg.loadedJsons[e.nestedSortWidgetCfg.loadedJsons.length-1];
+			json = e.nestedSortWidgetCfg.loadedJsons[e.nestedSortWidgetCfg.loadedJsons.length-1];
 		}
 		if ( (json.firstIndex + json.count) < json.totalCount ) {
 			e.nestedSortWidgetCfg.builtLists.pageAfter[page] = true;
@@ -706,14 +714,15 @@ jQuery.NestedSortableWidget = {
 		}
 		
 		//Hides the old sortable and inserts the new one at the right place
+		var insertPage;
 		if(e.nestedSortWidgetCfg.incremental) {
 			if(page > e.nestedSortWidgetCfg.upperPage) {
-				var insertPage = e.nestedSortWidgetCfg.upperPage;
+				insertPage = e.nestedSortWidgetCfg.upperPage;
 			} else {
-				var insertPage = e.nestedSortWidgetCfg.bottomPage;
+				insertPage = e.nestedSortWidgetCfg.bottomPage;
 			}									
 		} else {
-			var insertPage = lastPage;
+			insertPage = lastPage;
 		}
 		var lastSort = e.nestedSortWidgetCfg.builtLists.sorts[insertPage];
 		if (lastSort) {
@@ -892,7 +901,7 @@ jQuery.NestedSortableWidget = {
 		if(e.nestedSortWidgetCfg.fadeOutHover) {
 			var animHideCfg = {};
 			animHideCfg[e.nestedSortWidgetCfg.fadeOutProperty] = 'hide';
-			jQuery(drop).animate({opacity:'0'}, parseInt(changeTime), callback);
+			jQuery(drop).animate({opacity:'0'}, parseInt(changeTime, 10), callback);
 		} else {
 			e.nestedSortWidgetCfg.lastTimeOut = setTimeout(callback, changeTime + "");
 		}
@@ -908,12 +917,12 @@ jQuery.NestedSortableWidget = {
 		}
 	},
 	alternateClasses: function(e) {
-		jQuery('div.' + e.nestedSortWidgetCfg.classes.itemRow + ':even', e)
-			.find('/div')
-			.removeClass(e.nestedSortWidgetCfg.classes.altCell);
 		jQuery('div.' + e.nestedSortWidgetCfg.classes.itemRow + ':odd', e)
-			.find('/div')
+			.find('div')
 			.addClass(e.nestedSortWidgetCfg.classes.altCell);
+		jQuery('div.' + e.nestedSortWidgetCfg.classes.itemRow + ':even', e)
+			.find('div')
+			.removeClass(e.nestedSortWidgetCfg.classes.altCell);
 	},
 	save: function() {
 			
@@ -946,7 +955,7 @@ jQuery.NestedSortableWidget = {
 				//(eg. only page 1, 2, 5 and 6 were changed), more than a one unified
 				// block would be generated.
 				
-				if(this.nestedSortWidgetCfg.busyLoading || this.nestedSortWidgetCfg.builtLists.sers.length == 0) {
+				if(this.nestedSortWidgetCfg.busyLoading || this.nestedSortWidgetCfg.builtLists.sers.length === 0) {
 					//gives up if something is being loaded
 					//or if nothing was changed yet
 					return false;
@@ -1199,7 +1208,7 @@ jQuery.NestedSortableWidget = {
 				//adds an onchange callback
 				var userOnChange = this.nestedSortWidgetCfg.nestedSortCfg.onChange;
 				this.nestedSortWidgetCfg.nestedSortCfg.onChange = function(ser) {
-					if(userOnChange){userOnChange(ser);};
+					if(userOnChange){userOnChange(ser);}
 					jQuery.NestedSortableWidget.onListChange(that, ser);
 				};
 				
@@ -1325,5 +1334,5 @@ jQuery.iDrop.remeasure = jQuery.recallDroppables =  function()
 				}
 			}
 		}
-	}
+	};
 
