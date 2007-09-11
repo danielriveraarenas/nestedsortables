@@ -8,16 +8,22 @@
         "text/html; charset=iso-8859-1">
 		
 <!--jQuery-->
-<script type="text/javascript" src="../../externals/jquery-src/jquery/jquery.js"></script>
+<!--development-->
+<!--<script type="text/javascript" src="../../externals/jquery-src/jquery/jquery.js"></script>
 <script type="text/javascript" src="../../externals/jquery-src/selector/selector.js"></script>
 <script type="text/javascript" src="../../externals/jquery-src/event/event.js"></script>
-<script type="text/javascript" src="../../externals/jquery-src/fx/fx.js"></script>
+<script type="text/javascript" src="../../externals/jquery-src/fx/fx.js"></script>-->
+<!--stable-->
+<script type="text/javascript" src="../../externals/released-externals/jquery-1.2.pack.js"></script>
 
 <!--Interface-->
-<script type="text/javascript" src="../../externals/interface/iutil.js"></script>
+<!--development-->
+<!--<script type="text/javascript" src="../../externals/interface/iutil.js"></script>
 <script type="text/javascript" src="../../externals/interface/idrag.js"></script>
 <script type="text/javascript" src="../../externals/interface/idrop.js"></script>
-<script type="text/javascript" src="../../externals/interface/isortables.js"></script>
+<script type="text/javascript" src="../../externals/interface/isortables.js"></script>-->
+<!--stable-->
+<script type="text/javascript" src="../../externals/released-externals/interface-1.2.js"></script>
 
 <!--Nested Sortables-->
 <script type="text/javascript" src="../../src/nested_sortables/inestedsortable.js"></script>
@@ -184,10 +190,13 @@ $('#right-to-left').NestedSortable(
 $('#spans-divs').NestedSortable(
 	{
 	accept: 'page-item3',
-	opacity: .8,
+	opacity: 0.8,
 	helperclass: 'helper',
 	nestingPxSpace: 20,
-	currentNestingClass: 'current-nesting'
+	currentNestingClass: 'current-nesting',
+	fx:400,
+	revert: true,
+	autoScroll: false
 	}
 );
 </pre>
@@ -255,54 +264,57 @@ $('#spans-divs-regular').Sortable(
             </span>
         </div>
 		
-		<script type="text/javascript">
-			jQuery( function($) {
-			
-				$('#left-to-right').NestedSortable(
-					{
-						accept: 'page-item1',
-						opacity: .8,
-						helperclass: 'helper',
-						onChange: function(serialized) {
-							$('#left-to-right-ser')
-							.html("This can be passed as parameter to a GET or POST request: <br/>" + serialized[0].hash);
-						},
-						autoScroll: true,
-						handle: '.sort-handle'
-					}
-				);
-				
-				$('#right-to-left').NestedSortable(
-					{
-					accept: 'page-item2',
-					opacity: .8,
-					helperclass: 'helper',
-					rightToLeft: true,
-					nestingPxSpace: '60', 
-					currentNestingClass: 'current-nesting'
-					}
-				);
-				
-				$('#spans-divs').NestedSortable(
-					{
-					accept: 'page-item3',
-					opacity: .8,
-					helperclass: 'helper',
-					nestingPxSpace: 20,
-					currentNestingClass: 'current-nesting'
-					}
-				);
-				
-				$('#spans-divs-regular').Sortable(
-					{
-					accept: 'page-item4',
-					opacity: .8,
-					helperclass: 'helper'
-					}
-				);
-					
-			});
-		</script>
+<script type="text/javascript">
+jQuery( function($) {
+
+$('#left-to-right').NestedSortable(
+	{
+		accept: 'page-item1',
+		opacity: 0.8,
+		helperclass: 'helper',
+		onChange: function(serialized) {
+			$('#left-to-right-ser')
+			.html("This can be passed as parameter to a GET or POST request: <br/>" + serialized[0].hash);
+		},
+		autoScroll: true,
+		handle: '.sort-handle'
+	}
+);
+
+$('#right-to-left').NestedSortable(
+	{
+	accept: 'page-item2',
+	opacity: 0.8,
+	helperclass: 'helper',
+	rightToLeft: true,
+	nestingPxSpace: '60', 
+	currentNestingClass: 'current-nesting'
+	}
+);
+
+$('#spans-divs').NestedSortable(
+	{
+	accept: 'page-item3',
+	opacity: 0.8,
+	helperclass: 'helper',
+	nestingPxSpace: 20,
+	currentNestingClass: 'current-nesting',
+	fx:400,
+	revert: true,
+	autoScroll: false
+	}
+);
+
+$('#spans-divs-regular').Sortable(
+	{
+	accept: 'page-item4',
+	opacity: 0.8,
+	helperclass: 'helper'
+	}
+);
+	
+});
+</script>
 		
     </body>
 </html>

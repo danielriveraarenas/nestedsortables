@@ -2,7 +2,7 @@
  * 
  * Nested Sortable Plugin for jQuery/Interface.
  *  
- * Copyright (c) 2007 Bernardo de Pádua dos Santos
+ * Copyright (c) 2007 Bernardo de Pï¿½dua dos Santos
  * Dual licensed under the MIT (MIT-LICENSE.txt) 
  * and GPL (GPL-LICENSE.txt) licenses.
  */
@@ -24,11 +24,12 @@ jQuery.iNestedSortable = {
 	},
 	oldCheckHover : jQuery.iSort.checkhover,
 	newCheckHover : function (e) {
-		if (!jQuery.iDrag.dragged)
+		if (!jQuery.iDrag.dragged) {
 			return;
-			
-		if ( !(e.dropCfg.el.size() > 0) )
+		}
+		if ( !(e.dropCfg.el.size() > 0) ) {
 			return;
+		}
 			
 		//we need to recalculate the position of the sortables, 
 		//or there will be some mismatches
@@ -84,9 +85,13 @@ jQuery.iNestedSortable = {
 		var sensitivity = e.nestedSortCfg.scrollSensitivity;
 		var speed = e.nestedSortCfg.scrollSpeed;
 		var pointer = jQuery.iDrag.dragged.dragCfg.currentPointer;
-		var docDim = jQuery.iUtil.getScroll(document.body);
-		if((pointer.y - docDim.ih) - docDim.t > -sensitivity) {window.scrollBy(0,speed);}
-		if(pointer.y - docDim.t < sensitivity) {window.scrollBy(0,-speed);}
+		var docDim = jQuery.iUtil.getScroll();
+		if((pointer.y - docDim.ih) - docDim.t > -sensitivity) {
+			window.scrollBy(0,speed);
+		}
+		if(pointer.y - docDim.t < sensitivity) {
+			window.scrollBy(0,-speed);
+		}
 		//The two lines bellow are for horizontal scrolling. It is not needed.
 		//if((pointer.x - docDim.iw) - docDim.l > -sensitivity) {window.scrollBy(speed,0);}
 		//if(pointer.x - docDim.l < sensitivity) {window.scrollBy(-speed,0);}
@@ -158,9 +163,9 @@ jQuery.iNestedSortable = {
 				
 				//Extracts part of the HTML element ID that 
 				//will be shown in the serialization, using a RegExp.
-				var serId = jQuery.attr(this,'id')
+				var serId = jQuery.attr(this,'id');
 				if(serId && serId.match) {
-					serId = serId.match(e.nestedSortCfg.serializeRegExp)[0]
+					serId = serId.match(e.nestedSortCfg.serializeRegExp)[0];
 				}
 				
 				
@@ -168,11 +173,11 @@ jQuery.iNestedSortable = {
 					h += '&';
 				}
 				h += s + currentPath + '['+i+'][id]=' + serId;
-				retVal[i] = {id: serId}
+				retVal[i] = {id: serId};
 				var newContext = jQuery(this).children(e.nestedSortCfg.nestingTag + "." + e.nestedSortCfg.nestingTagClass.split(" ").join(".")).get(0);
 				var oldPath = currentPath;
 				currentPath += '['+i+'][children]';
-				var thisChildren = buildHierarchySer(newContext)
+				var thisChildren = buildHierarchySer(newContext);
 				if (thisChildren.length > 0) {
 					retVal[i].children = thisChildren;
 				}
@@ -215,22 +220,26 @@ jQuery.iNestedSortable = {
 		var preceding = jQuery.grep(e.dropCfg.el, function(i) {
 			//needs to be on top of the one being dragged
 			var isOnTop = (i.pos.y < jQuery.iDrag.dragged.dragCfg.ny) && (i.pos.y > largestY);
-			if(!isOnTop)
+			if(!isOnTop) {
 				return false;
+			}
 			
 			//needs to be on the same nesting level or a "child" level
 			var isSameLevel;
-			if(e.nestedSortCfg.rightToLeft)
+			if(e.nestedSortCfg.rightToLeft) {
 				isSameLevel = (i.pos.x + i.pos.wb + e.nestedSortCfg.snapTolerance > jQuery.iDrag.dragged.dragCfg.nx + jQuery.iDrag.dragged.dragCfg.oC.wb);
-			else
+			} else {
 				isSameLevel = (i.pos.x - e.nestedSortCfg.snapTolerance < jQuery.iDrag.dragged.dragCfg.nx);
-			if(!isSameLevel)
+			}
+			if(!isSameLevel) {
 				return false;
+			}
 			
 			//can't be an element that is being dragged
 			var isBeingDragged = jQuery.iNestedSortable.isBeingDragged(e, i);
-			if(isBeingDragged)
+			if(isBeingDragged) {
 				return false;
+			}
 			
 			//got here because it is a match
 			largestY = i.pos.y;
@@ -254,13 +263,15 @@ jQuery.iNestedSortable = {
 		var firstItem = jQuery.grep(e.dropCfg.el, function(i) {
 			//needs to be on top of all elements already looked up
 			var isBefore = (lowestY === undefined || i.pos.y < lowestY);
-			if (!isBefore)
+			if (!isBefore) {
 				return false;
+			}
 			
 			//can't be an element that is being dragged
 			var isBeingDragged = jQuery.iNestedSortable.isBeingDragged(e, i);
-			if(isBeingDragged)
+			if(isBeingDragged) {
 				return false;
+			}
 			
 			//got here because it is a match 
 			lowestY = i.pos.y;
@@ -284,26 +295,29 @@ jQuery.iNestedSortable = {
 		var dragged = jQuery.iDrag.dragged;
 		
 		//nothing being dragged
-		if(!dragged)
+		if(!dragged) {
 			return false;
+		}
 			
 		//trivial case
-		if(elem == dragged)
+		if(elem == dragged) {
 			return true;
+		}
 		
 		//looks for its ancestors
 		if ( 
 			jQuery(elem)
 				.parents("." + e.sortCfg.accept.split(" ").join("."))
-				.filter(function() {return this == dragged}).length != 0
-			)
+				.filter(function() {return this == dragged;}).length !== 0
+			) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	},
 	shouldNestItem : function(e, precedingItem ) {
 		//there should be a preceding item to be able to nest
-		if(!precedingItem) return false;
+		if(!precedingItem) {return false;}
 		
 		//This code is to limit the levels of nesting that can be achieved
 		//Development of this is currently halted.
@@ -457,7 +471,7 @@ jQuery.iNestedSortable = {
 						currentNestingClass :  conf.currentNestingClass ? conf.currentNestingClass : "",
 						currentParentClass : conf.currentParentClass ? conf.currentParentClass : "",
 						nestingLimit : conf.nestingLimit ? conf.nestingLimit : false,
-						autoScroll : conf.autoScroll !== undefined ? conf.autoScroll == true : false,
+						autoScroll : conf.autoScroll !== undefined ? conf.autoScroll == true : true,
 						scrollSensitivity: conf.scrollSensitivity ? conf.scrollSensitivity : 20,
 						scrollSpeed: conf.scrollSpeed ? conf.scrollSpeed : 20,
 						serializeRegExp : conf.serializeRegExp ? conf.serializeRegExp : /[^\-]*$/
@@ -488,7 +502,7 @@ jQuery.iNestedSortable = {
 		
 		return this.Sortable(conf);
 	}
-}
+};
 
 //Extends jQuery to add the plugin.
 jQuery.fn.extend(
@@ -497,3 +511,34 @@ jQuery.fn.extend(
 		NestedSortableDestroy: jQuery.iNestedSortable.destroy
 	}
 );
+
+
+//Monkey patches interface with some corrections, which are not applied to
+//the 1.2 version yet. getScroll is needed by the autoScroll option.
+jQuery.iUtil.getScroll = function (e)
+	{
+		var t, l, w, h, iw, ih;
+		if (e && e.nodeName.toLowerCase() != 'body') {
+			t = e.scrollTop;
+			l = e.scrollLeft;
+			w = e.scrollWidth;
+			h = e.scrollHeight;
+			iw = 0;
+			ih = 0;
+		} else  {
+			if (document.documentElement && document.documentElement.scrollTop) {
+				t = document.documentElement.scrollTop;
+				l = document.documentElement.scrollLeft;
+				w = document.documentElement.scrollWidth;
+				h = document.documentElement.scrollHeight;
+			} else if (document.body) {
+				t = document.body.scrollTop;
+				l = document.body.scrollLeft;
+				w = document.body.scrollWidth;
+				h = document.body.scrollHeight;
+			}
+			iw = self.innerWidth||document.documentElement.clientWidth||document.body.clientWidth||0;
+			ih = self.innerHeight||document.documentElement.clientHeight||document.body.clientHeight||0;
+		}
+		return { t: t, l: l, w: w, h: h, iw: iw, ih: ih };
+	};
