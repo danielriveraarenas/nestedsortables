@@ -1075,8 +1075,13 @@ jQuery.NestedSortableWidget = {
 						}
 					}
 				);
-				this.nestedSortWidgetCfg.hoverBefore.DroppableDestroy();
-				this.nestedSortWidgetCfg.hoverAfter.DroppableDestroy();
+				if(this.nestedSortWidgetCfg.hoverBefore) {
+					this.nestedSortWidgetCfg.hoverBefore.DroppableDestroy();
+				}
+				if(this.nestedSortWidgetCfg.hoverAfter) {
+					this.nestedSortWidgetCfg.hoverAfter.DroppableDestroy();
+				}
+				
 				this.nestedSortWidgetCfg = null;
 				this.isNestedSortableWidget = false;
 				jQuery(this).html('');
