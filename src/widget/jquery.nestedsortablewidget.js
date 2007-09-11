@@ -898,7 +898,9 @@ jQuery.NestedSortableWidget = {
 			jQuery.NestedSortableWidget.loadPage(e, where);
 		};
 		var changeTime = e.nestedSortWidgetCfg.pageChangeTimer;
-		if(e.nestedSortWidgetCfg.fadeOutHover) {
+		if(e.nestedSortWidgetCfg.fadeOutHover && jQuery.fn.jquery !== "1.2") {
+			//Interface 1.2 has problems with jQuery 1.2, in the animations. 
+			//Until it is fixed, fadeOut hover won't work (we can't stop it).
 			var animHideCfg = {};
 			animHideCfg[e.nestedSortWidgetCfg.fadeOutProperty] = 'hide';
 			jQuery(drop).animate({opacity:'0'}, parseInt(changeTime, 10), callback);
@@ -908,10 +910,10 @@ jQuery.NestedSortableWidget = {
 		
 	},
 	onBoxOutOrDrop: function(e, drag, where, drop) {
-		if(e.nestedSortWidgetCfg.fadeOutHover) {
-			jQuery(drop)
-				.stop()
-				.css('opacity', '1');
+		if(e.nestedSortWidgetCfg.fadeOutHover&& jQuery.fn.jquery !== "1.2") {
+			//Interface 1.2 has problems with jQuery 1.2, in the animations. 
+			//Until it is fixed, fadeOut hover won't work (we can't stop it).
+			jQuery(drop).stop().css('opacity', '1');
 		} else {
 			clearTimeout(e.nestedSortWidgetCfg.lastTimeOut);
 		}
