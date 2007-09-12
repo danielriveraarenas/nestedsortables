@@ -55,6 +55,8 @@ Include the HTML that represents your nested list. I recommend you to use an UL 
 </ul>
 }}}
 
+Add the JavaScript code that will set up your NestedSortable list.
+
 {{{
 $('#list-container').NestedSortable(
 	{
