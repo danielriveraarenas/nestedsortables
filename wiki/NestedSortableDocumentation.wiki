@@ -107,6 +107,96 @@ Native options are exclusive to the NestedSortable plugin. Inherited options cam
 || `onHover` || Function || inherited || Called when an accepted draggble is hovering a NestedSortable. Gets as parameter the draggable DOMElement. `this` refers to the NestedSortable DOMElement. ||
 || `onOut` || Function || inherited || Called when an accepted draggable is leaving a NestedSortable. Gets as parameter the draggable DOMElement. `this` refers to the NestedSortable DOMElement. ||
 
+== Serialization ==
+
+The support for serialization was built into the NestedSortable in order to be similar in its usage to the original Sortable from Interface. It is not very well documented there, so I will try to explain in briefly here.
+
+The way to do it is to define an onChange callback, that will get called whenever the list is modified. This onChange will receive a parameter, with an array with the serialized representation of all altered NestedSortables since its last call. More than one NestedSortable list might be changed in only one operation, if you move one item from a list to another.
+
+You define the callback using something such as:
+
+{{{
+jQuery( function($) {
+$('#list-container').NestedSortable(
+  {
+    accept: 'sortable-element-class',
+    onChange : function(serialized) {
+      // Do something with serialized here
+      // such as sending it to the server via an AJAX call
+      // or storing it in a JS variable that you can
+      // send to the server once the user presses a button.
+    },
+  }
+);
+});
+}}}
+
+The `serialized` argument is an array of JS objects, one for each NestedSortable that was modified, each with the following format, exactly as in the original Sortable:
+
+{{{
+{
+  id: "list-container", //id of the modified NestedSortable
+  hash: "list-container[0][id]=2&list-container[1][id]=1(...)", 
+            //String representation of the all the elements that
+            //belong to this NestedSortable. It is format
+            //is compatible with GET or POST requests, so you
+            //should probably want to send this to the server.
+  o: [[Object id=2, Object id=1, (...)] 
+            //Exactly the same contents of `hash`, but represented
+            // in a JS array. Use that if you need to manipulate the
+            // the list before sending it to the server.   
+}
+}}}
+
+
+
+Due to the nature of the NestedSortable, the contents of `o` and `hash` are a little more complex. In the original Sortables, it is basically a flat array with the ids of the elements in the order they are positioned.
+
+The first difference is that, instead of the whole element id, exactly as in the HTML id, the NestedSortable will only write a portion of that id, filtered by a regular expression, thanks to the `serializeRegExp`. If you don't want to mess with this option, simply name your elements with ids in the format `some_pretty-funky-name-LASTNAMEORNUMBER`, where `LASTNAMEORNUMBER` should identify the element in your database, for saving purposes. I added this option because it simplifies a little the job you will have on the server side implementation.
+
+The biggest difference is that, instead of a simple list, we need to represent a tree-like list. To do that, I use a combination of arrays and objects. `o` is an array where each element in an object which may contain the following properties:
+
+ * *id* - the proper id of the element, after being filtered by the !RegExp.
+ * *children* - an array just like the parent one, containing all the children of this element.
+
+`hash` is basically the same thing in URL querystring format. If you pass it to a GET request, your server should be smart enough to generate an "array of objects" (or equivalent) in your server side language.
+
+Instead of being boring and wasteful by providing a formal grammar representing the `hash` format, I will just provide a simple example, which should make it obvious.
+
+
+{{{
+//o:
+[
+  {
+    "id":1, 
+  },
+  {
+    "id":2, 
+    "children": 
+      [
+        {
+        "id":3, 
+        "children": [
+          {
+          "id":4, 
+          }`,
+          {
+          "id":5, 
+          }
+        ]
+        }
+      ]
+  }
+]
+//hash:
+"list-container[0][id]=1&list-container[1][id]=2&list-container[1][children][0][id]=3&list-container[1][children][0][children][0][id]=4&list-container[1][children][0][children][1][id]=5"
+}}}
+
+
+= Known Bugs =
+
+Currently this plugin has no know bugs of its own. Interface 1.2, however, was built for jQuery 1.1 and does have a few issues, specially with animations, when you use it jQuery 1.2. You might encounter issues with the animation options in the NestedSortables, which are inherited from Interface. jQuery 1.2 was just released, lets hope Interface is updated to support it. The combination used in the demo is using jQuery 1.2 and Interface 1.2, and at least in those examples, doesn't generate any errors.
+
 = TODO for next versions = 
 
  * Provide an option to limit the levels of nesting that can be used
