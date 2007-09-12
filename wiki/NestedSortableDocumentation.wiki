@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The !NestedSortable jQuery Plugin is built on top of the popular Interface plugin. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on Interface's Sortables and works just like it. Some examples of possible usages:
+The !NestedSortable jQuery Plugin is built on top of the popular Interface plugin. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on Interface's Sortables and works on top of it. So, a NestedSortable will also have all the configuration options which are present in a regular Sortable in Interface. Some examples of possible usages:
 
  * Organizing a table of contents
  * Organizing a list of hierarchical pages (it was originally created with this goal, for WordPress)
@@ -12,12 +12,14 @@ Perhaps the easier way to get what it does it by looking at the demo. This plugi
 
 = Dependencies = 
 
- * jQuery 1.1 or 1.2
- * Interface 1.2 (only needs the components bellow, in that order)
-   * iutil
-   * idrag
-   * idrop
-   * isortable
+It was built on the latest versions of both jQuery and Interface. 
+
+ * jQuery 1.1 or above (tested with 1.2)
+ * Interface 1.2 or above (only needs the components bellow, in that order)
+   * iutil.js
+   * idrag.js
+   * idrop.js
+   * isortables.js
 
 = Usage =
 
@@ -32,6 +34,8 @@ Include the dependencies and the plugin itself on your HTML file.
 }}}
 
 Include the HTML that represents your nested list. I recommend you to use an UL with LIs to represent the list, but you can actually use any pair of HTML elements that can be nested. The elements that are being sorted (the ones with the "accept" class) should have an ID, so the list can be serialized and sent back to the server.
+
+Be aware than when a new nesting is created (eg. you make an element a child of a childless element), the plugin will create a new HTML element of the same type of the container element (in this example an UL) with all css classes this element has, inside the parent element (in this example an LI). 
 
 {{{
 <ul id="list-container">
@@ -57,17 +61,28 @@ Include the HTML that represents your nested list. I recommend you to use an UL 
 </ul>
 }}}
 
-Add the JavaScript code that will set up your NestedSortable list.
+Add the JavaScript code that will set up your NestedSortable list. The minimum configuration options are used bellow, but you probably should want to add more parameters, such as an onChange callback (read the next section).
 
 {{{
 jQuery( function($) {
 $('#list-container').NestedSortable(
-	{
-		accept: 'sortable-element-class',
-	}
+  {
+    accept: 'sortable-element-class',
+  }
 );
 });
 }}}
+
+== Configuration Parameters ==
+
+The NestedSortable plugin will add two functions to the jQuery object: `NestedSortable` and `NestedSortableDestroy`. The first will configure the nested sortable and takes a object of configuration parameters, the second undo such configuration and takes no parameters.
+
+`NestedSortable` needs to be called on a jQuery object after selecting the elements that will be list containers. If you have only one list you should probably use `$.NestedSortable("#element_id")` to select it.
+
+The table bellow shows all the parameters that can be passed to the `NestedSortable`. These parameters are passed as an js object. Use the `{}` notation to create such object. Many of those options are inherited from of the original Interface's Sortable.
+
+|| Parameter Name || Type || Value Type || Description ||
+|| accept || mandatory || String || Css class name of the elements that are going to the sorted. They have to be inside
 
 = TODO for next versions = 
 
