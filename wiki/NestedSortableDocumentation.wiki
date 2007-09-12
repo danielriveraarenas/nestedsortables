@@ -60,11 +60,13 @@ Include the HTML that represents your nested list. I recommend you to use an UL 
 Add the JavaScript code that will set up your NestedSortable list.
 
 {{{
+jQuery( function($) {
 $('#list-container').NestedSortable(
 	{
 		accept: 'sortable-element-class',
 	}
 );
+});
 }}}
 
 = TODO for next versions = 
