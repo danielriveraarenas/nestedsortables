@@ -23,13 +23,15 @@ Perhaps the easier way to get what it does it by looking at the demo. It was des
 
 == Basic Usage ==
 
-Include the dependencies on your HTML file.
+Include the dependencies and the plugin itself on your HTML file.
 
 {{{
-
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="interface.js"></script>
+<script type="text/javascript" src="inestedsortable.js"></script>
 }}}
 
-Include the HTML that represents your nested list. I recommend you to use an UL with LIs to represent the list, but you can actually use any pair of HTML elements that can be nested.
+Include the HTML that represents your nested list. I recommend you to use an UL with LIs to represent the list, but you can actually use any pair of HTML elements that can be nested. The elements that are being sorted (the ones with the "accept" class) should have an ID, so the list can be serialized and sent back to the server.
 
 {{{
 <ul id="list-container">
