@@ -2,8 +2,13 @@
 
 = Introduction =
 
-Add your content here.
+The NestedSortable jQuery Plugin is built on top of the popular Interface plugin. NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time. Some examples of possible usages:
 
+ * Organizing a table of contents
+ * Organizing a list of hierarchical pages (it was originally created with this goal, for WordPress)
+ * Organizing categories
+
+Perhaps the easier way to get what it does it by looking at the demo. It was designed as part of a Google Summer of Code project for WordPress, in 2007. 
 
 = Details =
 
@@ -11,4 +16,3 @@ Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
-
