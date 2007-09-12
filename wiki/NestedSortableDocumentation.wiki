@@ -93,9 +93,9 @@ Native options are exclusive to the NestedSortable plugin. Inherited options cam
 || `serializeRegExp` || RegExp || native / `/[^\-]*$/` || Regular expression that will be used to select only a part of the element id, when using serialization. The default will select only what comes after the last `-`, so if you have elements with ids such as `my-sortable-element-NUMBER`, only `NUMBER` will appear in the serialization, to identify the element that is in a certain position. You usually want to use that to filter only the element DB id. Refer to serialization in the docs. ||
 || `currentNestingClass` || String || native / "" || Css class that will be applied, only when dragging, to the nesting where the dragged element is currently in. Provides the user with some visual aid to help identify who is going to be the parent of the element being dragged.||
 || `activeclass` || String || inherited || When an acceptable draggable is moved the droppable (the list container for the NestedSortable) gets this class ||
-|| `hoverclass` || String || inherited || When an acceptable draggable is inside the droppable (the list container for the NestedSortable), the droppable gets this class.
+|| `hoverclass` || String || inherited || When an acceptable draggable is inside the droppable (the list container for the NestedSortable), the droppable gets this class. ||
 || `helperclass` || String || inherited || The Helper is used to point the place where the item will be positioned. This is the css class the will be applied to the helper. ||
-|| `opacity` || Float ( < 1) || inherited || Opacity of the item while it is dragged.
+|| `opacity` || Float ( < 1) || inherited || Opacity of the item while it is dragged. ||
 || `ghosting` || Boolean || inherited / false ||  When true the sorthelper will contain a copy of the dragged element, while dragging. ||
 || `fx` || Integer || inherited || When set, this dictates the duration of a special effect (a fade in) applied to the dragged element, once it is released. ||
 || `revert` ||  Boolean || inherited || When set, makes the dragged element fly from its current position to the place it will be moved to. Fx needs to be set for this to work. ||
