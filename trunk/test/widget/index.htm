@@ -1,6 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr"><head>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Nested Sortable Widget Demo</title>
@@ -30,16 +30,8 @@
 <script type="text/javascript" src="../../externals/json/json.js"></script>
 
 <!--Nested Sortables-->
-<script type="text/javascript" src="../../src/nested_sortable/inestedsortable.js"></script>
-<script type="text/javascript" src="../../src/widget/jquery.nestedsortablewidget.js"></script>
-
-
-<!-- Chili - Just to make the code look prettier -->
-<script type="text/javascript" src="chili/chili.pack.js"></script>
-<script type="text/javascript"> 
-    ChiliBook.recipeFolder     = "chili/";  
-    ChiliBook.stylesheetFolder = "chili/";  
-</script>  
+<script type="text/javascript" src="../../compressed/nested_sortable/inestedsortable.js"></script>
+<script type="text/javascript" src="../../compressed/widget/jquery.nestedsortablewidget.js"></script>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -159,14 +151,14 @@ $('#ajax-response5').NestedSortableWidget({
 <h2>
 Code:
 </h2>
-<code class="javascript">
+<pre>
 /*
  * Even with no configuration you get sensible defaults.
  */
 $('#ajax-response1').NestedSortableWidget({
 	loadUrl: "json_load.php"
 });
-</code>
+</pre>
 <h2>
 Output:
 </h2>
@@ -174,12 +166,12 @@ Output:
 <h2>
 Code:
 </h2>
-<code class="javascript">
+<pre>
 /*
  * Showing how you can:
  *  * Customize the size of the columns and margins
  *  * Add pagination 
- * 	* Add a drag handle (whose text and css can be configured)
+ *  * Add a drag handle (whose text and css can be configured)
  *  * Add configuration to the underlying NestedSortable	
  *  * Change the text of anything (good for internationalization)
  *  
@@ -203,7 +195,7 @@ $('#ajax-response2').NestedSortableWidget({
 		saveButton: "Showing how you can easily change the text"
 	}
 });
-</code>
+</pre>
 <h2>
 Output:
 </h2>
@@ -211,7 +203,7 @@ Output:
 <h2>
 Code:
 </h2>
-<code class="javascript">
+<pre>
 /*
  * Showing how you can:
  *  * Define a diferent url to save the changes
@@ -237,7 +229,7 @@ $('#ajax-response3').NestedSortableWidget({
 	pageChangeTimer: "1000",
 	transitionAnim: "normal-series"
 });
-</code>
+</pre>
 <h2>
 Output:
 </h2>
@@ -245,7 +237,7 @@ Output:
 <h2>
 Code:
 </h2>
-<code class="javascript">
+<pre>
 /*
  * Showing how you can:
  *  - Use custom effects in series for the page transitions.
@@ -266,7 +258,7 @@ $('#ajax-response4').NestedSortableWidget({
 		this.fadeIn(500, callback );
 	}
 });
-</code>
+</pre>
 <h2>
 Output:
 </h2>
@@ -274,7 +266,7 @@ Output:
 <h2>
 Code:
 </h2>
-<code class="javascript">
+<pre>
 /*
  * Showing how you can:
  *  * 	Display the pages to the user in an incremental way.
@@ -295,7 +287,7 @@ $('#ajax-response5').NestedSortableWidget({
 	},
 	serializeWithJSON: true
 });
-</code>
+</pre>
 <h2>
 Output:
 </h2>

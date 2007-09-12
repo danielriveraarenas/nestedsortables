@@ -2,9 +2,13 @@
  * 
  * Nested Sortable Widget with pagination support for jQuery/Interface.
  *  
- * Copyright (c) 2007 Bernardo de P�dua dos Santos
+ * Version 1.0
+ * 
+ * Copyright (c) 2007 Bernardo de Padua dos Santos
  * Dual licensed under the MIT (MIT-LICENSE.txt) 
  * and GPL (GPL-LICENSE.txt) licenses.
+ * 
+ * http://code.google.com/p/nestedsortables/
  * 
  */
 
@@ -503,7 +507,6 @@ jQuery.NestedSortableWidget = {
 				} else {
 					leftRightPad = 2 * parseFloat(pad);
 				}
-				
 			
 				jQuery.each(
 					columnsArray,
@@ -740,7 +743,7 @@ jQuery.NestedSortableWidget = {
 					showTransition(sort);
 				break;
 				case "custom-series":
-					hideTransition(lastSort, sort)
+					hideTransition(lastSort, sort);
 				break;
 			}		
 		}
@@ -1258,6 +1261,11 @@ jQuery.NestedSortableWidget = {
 					case "slide-series":
 						this.nestedSortWidgetCfg.transitionOut = function(call){jQuery.fn.slideUp.apply(this,["normal", call]);};
 						this.nestedSortWidgetCfg.transitionIn = function(call){jQuery.fn.slideDown.apply(this,["normal", call]);};
+						this.nestedSortWidgetCfg.transitionAnim = "custom-series";
+					break;
+					case "fade-series":
+						this.nestedSortWidgetCfg.transitionOut = function(callback){this.fadeOut("fast", callback );};
+						this.nestedSortWidgetCfg.transitionIn = function(callback){this.fadeIn("fast", callback );};
 						this.nestedSortWidgetCfg.transitionAnim = "custom-series";
 					break;
 					case "normal-parallel":
