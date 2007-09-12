@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The !NestedSortable jQuery Plugin is built on top of the popular Interface plugin. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on Interface's Sortables and works on top of it. So, a NestedSortable will also have all the configuration options which are present in a regular Sortable in Interface. Some examples of possible usages:
+The !NestedSortable [http://jquery.com/ jQuery] Plugin is built on top of the popular [http://interface.eyecon.ro Interface plugin]. jQuery is a "no-nonsense", fast, small, and extremelly easy to use JavaScript framework that is taking the world by storm. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on [http://interface.eyecon.ro/docs/sort Interface's Sortables] and works on top of it. So, a NestedSortable will also have all the configuration options which are present in a regular Sortable in Interface. Some examples of possible usages:
 
  * Organizing a table of contents
  * Organizing a list of hierarchical pages (it was originally created with this goal, for WordPress)
@@ -81,15 +81,31 @@ The NestedSortable plugin will add two functions to the jQuery object: `NestedSo
 
 The table bellow shows all the parameters that can be passed to the `NestedSortable`. These parameters are passed as a JS object. Use the `{}` notation to create such object. Many of those options are inherited from of the original Interface's Sortable.
 
-Native options are exclusive to the NestedSortable plugin. Inherited came from Interface's Sortable.
+Native options are exclusive to the NestedSortable plugin. Inherited options came from Interface's Sortable. Not all options from the original Sortable are listed here, the ones missing might work, but are not supported or useful.
 
-|| Parameter Name  || Value Type || Type / Default || Description ||
-|| accept ||  String || mandatory || Css class name of the elements that are going to the sorted. They have to be inside the selected list container. ||
-|| rightToLeft || Boolean || native / `false` || If you set this options, the indentation will be applied from right to left. Useful for right-to-left reading languages. ||
-|| nestingPxSpace || Integer || native / `30` || The indentation of the nested elements, in pixels. An "margin" css style will be applied to the nested list containers. ||
-|| autoScroll || Boolean || native / `true` || By default, when you are dragging an element and reach the top or bottom edge of the screen, your browser window scroll automatically to reveal the NestedSortable elements that are not being displayed. ||
-|| scrollSensitivity || Integer || native / 20 || How close to the edge you need to be in order for the autoScroll to happen. Only applied when is autoScroll is on. ||
-|| scrollSpeed|| Integer || native / 20 || How fast will the window be scrolled by autoScroll. Only applied when is autoScroll is on. ||
+|| *Parameter Name*  || *Value Type* || *Type / Default* || *Description* ||
+|| `accept` ||  String || mandatory || Css class name of the elements that are going to the sorted. They have to be inside the selected list container. ||
+|| `rightToLeft` || Boolean || native / `false` || If you set this options, the indentation will be applied from right to left. Useful for right-to-left reading languages. ||
+|| `nestingPxSpace` || Integer || native / `30` || The indentation of the nested elements, in pixels. An "margin" css style will be applied to the nested list containers. ||
+|| `autoScroll` || Boolean || native / `true` || By default, when you are dragging an element and reach the top or bottom edge of the screen, your browser window scroll automatically to reveal the NestedSortable elements that are not being displayed. ||
+|| `scrollSensitivity` || Integer || native / 20 || How close to the edge you need to be in order for the autoScroll to happen. Only applied when is autoScroll is on. ||
+|| `scrollSpeed` || Integer || native / 20 || How fast will the window be scrolled by autoScroll. Only applied when is autoScroll is on. ||
+|| `serializeRegExp` || RegExp || native / `/[^\-]*$/` || Regular expression that will be used to select only a part of the element id, when using serialization. The default will select only what comes after the last `-`, so if you have elements with ids such as `my-sortable-element-NUMBER`, only `NUMBER` will appear in the serialization, to identify the element that is in a certain position. You usually want to use that to filter only the element DB id. Refer to serialization in the docs. ||
+|| `currentNestingClass` || String || native / "" || Css class that will be applied, only when dragging, to the nesting where the dragged element is currently in. Provides the user with some visual aid to help identify who is going to be the parent of the element being dragged.||
+|| `activeclass` || String || inherited || When an acceptable draggable is moved the droppable (the list container for the NestedSortable) gets this class ||
+|| `hoverclass` || String || inherited || When an acceptable draggable is inside the droppable (the list container for the NestedSortable), the droppable gets this class.
+|| `helperclass` || String || inherited || The Helper is used to point the place where the item will be positioned. This is the css class the will be applied to the helper. ||
+|| `opacity` || Float ( < 1) || inherited || Opacity of the item while it is dragged.
+|| `ghosting` || Boolean || inherited / false ||  When true the sorthelper will contain a copy of the dragged element, while dragging. ||
+|| `fx` || Integer || inherited || When set, this dictates the duration of a special effect (a fade in) applied to the dragged element, once it is released. ||
+|| `revert` ||  Boolean || inherited || When set, makes the dragged element fly from its current position to the place it will be moved to. Fx needs to be set for this to work. ||
+|| `handle` || String || inherited || When this is set to the CSS class name of an HTML element that is inside the draggable items, this element will be used as the drag handle, instead of the whole item itself. ||
+|| `cursorAt` || Object || inherited || The dragged element is moved to the cursor position with the offset specified. It is an object with properties for `top`, `left`, `right` and `bottom` offset. ||
+|| `onChange` || Function || inherited || This will be called after a drag and drop operation changed the disposition of the list. An array with the serialized representation of all altered NestedSortables is provided as the first parameter (more than one Nested Sortable might be changed in only one operation, if you move one item from a list to another.). `this` refers to the NestedSortable DOMElement. Refer to the Serialization section in the docs. ||
+|| `onStart` || Function || inherited || Callback function triggered when the dragging starts. `this` refers to the NestedSortable DOMElement. ||
+|| `onStop` || Function || inherited || Callback function triggered when the dragging stops. `this` refers to the NestedSortable DOMElement. ||
+|| `onHover` || Function || inherited || Called when an accepted draggble is hovering a NestedSortable. Gets as parameter the draggable DOMElement. `this` refers to the NestedSortable DOMElement. ||
+|| `onOut` || Function || inherited || Called when an accepted draggable is leaving a NestedSortable. Gets as parameter the draggable DOMElement. `this` refers to the NestedSortable DOMElement. ||
 
 = TODO for next versions = 
 
