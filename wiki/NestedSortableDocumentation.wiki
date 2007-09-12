@@ -2,13 +2,13 @@
 
 = Introduction =
 
-The !NestedSortable [http://jquery.com/ jQuery] Plugin is built on top of the popular [http://interface.eyecon.ro Interface plugin]. jQuery is a "no-nonsense", fast, small, and extremelly easy to use JavaScript framework that is taking the world by storm. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on [http://interface.eyecon.ro/docs/sort Interface's Sortables] and works on top of it. So, a NestedSortable will also have all the configuration options which are present in a regular Sortable in Interface. Some examples of possible usages:
+The !NestedSortable [http://jquery.com/ jQuery] Plugin is built on top of the popular [http://interface.eyecon.ro Interface plugin]. jQuery is a "no-nonsense", fast, small, and extremelly easy to use JavaScript framework that is taking the world by storm. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on [http://interface.eyecon.ro/docs/sort Interface's Sortables] and works on top of it. So, a !NestedSortable will also have all the configuration options which are present in a regular Sortable in Interface. Some examples of possible usages:
 
  * Organizing a table of contents
- * Organizing a list of hierarchical pages (it was originally created with this goal, for WordPress)
+ * Organizing a list of hierarchical pages (it was originally created with this goal, for !WordPress)
  * Organizing categories
 
-Perhaps the easier way to get what it does it by looking at the demo. This plugin was designed as part of a Google Summer of Code project for WordPress, in 2007. 
+Perhaps the easier way to get what it does it by looking at the demo. This plugin was designed as part of a Google Summer of Code project for !WordPress, in 2007. 
 
 = Dependencies = 
 
@@ -81,7 +81,7 @@ The NestedSortable plugin will add two functions to the jQuery object: `NestedSo
 
 The table bellow shows all the parameters that can be passed to the `NestedSortable`. These parameters are passed as a JS object. Use the `{}` notation to create such object. Many of those options are inherited from of the original Interface's Sortable.
 
-Native options are exclusive to the NestedSortable plugin. Inherited options came from Interface's Sortable. Not all options from the original Sortable are listed here, the ones missing might work, but are not supported or useful.
+Native options are exclusive to the !NestedSortable plugin. Inherited options came from Interface's Sortable. Not all options from the [http://interface.eyecon.ro/docs/sort original Sortable] are listed here, the ones missing might work, but are not supported or useful.
 
 || *Parameter Name*  || *Value Type* || *Type / Default* || *Description* ||
 || `accept` ||  String || mandatory || Css class name of the elements that are going to the sorted. They have to be inside the selected list container. ||
@@ -109,9 +109,9 @@ Native options are exclusive to the NestedSortable plugin. Inherited options cam
 
 == Serialization ==
 
-The support for serialization was built into the NestedSortable in order to be similar in its usage to the original Sortable from Interface. It is not very well documented there, so I will try to explain in briefly here.
+The support for serialization was built into the !NestedSortable in order to be similar in its usage to the original Sortable from Interface. It is not very well documented there, so I will try to explain in briefly here.
 
-The way to do it is to define an onChange callback, that will get called whenever the list is modified. This onChange will receive a parameter, with an array with the serialized representation of all altered NestedSortables since its last call. More than one NestedSortable list might be changed in only one operation, if you move one item from a list to another.
+The way to do it is to define an onChange callback, that will get called whenever the list is modified. This onChange will receive a parameter, with an array with the serialized representation of all altered !NestedSortables since its last call. More than one NestedSortable list might be changed in only one operation, if you move one item from a list to another.
 
 You define the callback using something such as:
 
@@ -131,7 +131,7 @@ $('#list-container').NestedSortable(
 });
 }}}
 
-The `serialized` argument is an array of JS objects, one for each NestedSortable that was modified, each with the following format, exactly as in the original Sortable:
+The `serialized` argument is an array of JS objects, one for each !NestedSortable that was modified, each with the following format, exactly as in the original Sortable:
 
 {{{
 {
@@ -141,7 +141,7 @@ The `serialized` argument is an array of JS objects, one for each NestedSortable
             //belong to this NestedSortable. It is format
             //is compatible with GET or POST requests, so you
             //should probably want to send this to the server.
-  o: [[Object id=2, Object id=1, (...)] 
+  o: [Object id=2, Object id=1, (...)] 
             //Exactly the same contents of `hash`, but represented
             // in a JS array. Use that if you need to manipulate the
             // the list before sending it to the server.   
@@ -150,7 +150,7 @@ The `serialized` argument is an array of JS objects, one for each NestedSortable
 
 
 
-Due to the nature of the NestedSortable, the contents of `o` and `hash` are a little more complex. In the original Sortables, it is basically a flat array with the ids of the elements in the order they are positioned.
+Due to the nature of the NestedSortable, the contents of `o` and `hash` are a little more complex. In the [http://interface.eyecon.ro/docs/sort original Sortables], it is basically a flat array with the ids of the elements in the order they are positioned.
 
 The first difference is that, instead of the whole element id, exactly as in the HTML id, the NestedSortable will only write a portion of that id, filtered by a regular expression, thanks to the `serializeRegExp`. If you don't want to mess with this option, simply name your elements with ids in the format `some_pretty-funky-name-LASTNAMEORNUMBER`, where `LASTNAMEORNUMBER` should identify the element in your database, for saving purposes. I added this option because it simplifies a little the job you will have on the server side implementation.
 
@@ -166,6 +166,8 @@ Instead of being boring and wasteful by providing a formal grammar representing 
 
 {{{
 //o:
+{
+ o:
 [
   {
     "id":1, 
@@ -187,9 +189,10 @@ Instead of being boring and wasteful by providing a formal grammar representing 
         }
       ]
   }
-]
-//hash:
+],
+hash:
 "list-container[0][id]=1&list-container[1][id]=2&list-container[1][children][0][id]=3&list-container[1][children][0][children][0][id]=4&list-container[1][children][0][children][1][id]=5"
+}
 }}}
 
 
