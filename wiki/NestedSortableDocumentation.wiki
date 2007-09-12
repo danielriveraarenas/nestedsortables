@@ -75,14 +75,21 @@ $('#list-container').NestedSortable(
 
 == Configuration Parameters ==
 
-The NestedSortable plugin will add two functions to the jQuery object: `NestedSortable` and `NestedSortableDestroy`. The first will configure the nested sortable and takes a object of configuration parameters, the second undo such configuration and takes no parameters.
+The NestedSortable plugin will add two functions to the jQuery object: `NestedSortable` and `NestedSortableDestroy`. The first will configure the nested sortable and takes a object of configuration parameters, the second will undo such configuration and takes no parameters.
 
-`NestedSortable` needs to be called on a jQuery object after selecting the elements that will be list containers. If you have only one list you should probably use `$.NestedSortable("#element_id")` to select it.
+`NestedSortable` needs to be called on a jQuery object after selecting the elements that will be the list containers. If you have only one list you should probably use `$.NestedSortable("#element_id")` to select it.
 
-The table bellow shows all the parameters that can be passed to the `NestedSortable`. These parameters are passed as an js object. Use the `{}` notation to create such object. Many of those options are inherited from of the original Interface's Sortable.
+The table bellow shows all the parameters that can be passed to the `NestedSortable`. These parameters are passed as a JS object. Use the `{}` notation to create such object. Many of those options are inherited from of the original Interface's Sortable.
 
-|| Parameter Name || Type || Value Type || Description ||
-|| accept || mandatory || String || Css class name of the elements that are going to the sorted. They have to be inside
+Native options are exclusive to the NestedSortable plugin. Inherited came from Interface's Sortable.
+
+|| Parameter Name  || Value Type || Type / Default || Description ||
+|| accept ||  String || mandatory || Css class name of the elements that are going to the sorted. They have to be inside the selected list container. ||
+|| rightToLeft || Boolean || native / `false` || If you set this options, the indentation will be applied from right to left. Useful for right-to-left reading languages. ||
+|| nestingPxSpace || Integer || native / `30` || The indentation of the nested elements, in pixels. An "margin" css style will be applied to the nested list containers. ||
+|| autoScroll || Boolean || native / `true` || By default, when you are dragging an element and reach the top or bottom edge of the screen, your browser window scroll automatically to reveal the NestedSortable elements that are not being displayed. ||
+|| scrollSensitivity || Integer || native / 20 || How close to the edge you need to be in order for the autoScroll to happen. Only applied when is autoScroll is on. ||
+|| scrollSpeed|| Integer || native / 20 || How fast will the window be scrolled by autoScroll. Only applied when is autoScroll is on. ||
 
 = TODO for next versions = 
 
