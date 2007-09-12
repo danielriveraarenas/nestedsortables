@@ -1,10 +1,15 @@
 /**
  * 
  * Nested Sortable Plugin for jQuery/Interface.
+ * 
+ * Version 1.0
  *  
- * Copyright (c) 2007 Bernardo de P�dua dos Santos
+ * Copyright (c) 2007 Bernardo de Padua dos Santos
  * Dual licensed under the MIT (MIT-LICENSE.txt) 
  * and GPL (GPL-LICENSE.txt) licenses.
+ * 
+ *  http://code.google.com/p/nestedsortables/
+ * 
  */
 jQuery.iNestedSortable = {
 	/*
@@ -399,7 +404,9 @@ jQuery.iNestedSortable = {
 	},
 	insertOnTop: function (e) {
 		jQuery.iNestedSortable.updateCurrentNestingClass(e, e);
+		jQuery.iNestedSortable.beforeHelperRemove(e);
 		jQuery(e).prepend(jQuery.iSort.helper.get(0));
+		jQuery.iNestedSortable.afterHelperInsert(e);
 	},
 	beforeHelperRemove : function (e) {
 		//hides the nesting when it becomes empty
@@ -413,9 +420,10 @@ jQuery.iNestedSortable = {
 	},
 	afterHelperInsert : function (e) {
 		//displays the nesting after something is inserted
-		jQuery.iSort.helper
-			.parent()
-			.show();
+		var parent = jQuery.iSort.helper.parent();
+		if(parent.get(0) !== e) {
+			parent.show();
+		}
 		e.nestedSortCfg.remeasured = false;
 	},
 	updateCurrentNestingClass : function(e, nestingElem) {
@@ -469,8 +477,7 @@ jQuery.iNestedSortable = {
 						rightToLeft : conf.rightToLeft ? true : false , 
 						nestingPxSpace : parseInt(conf.nestingPxSpace, 10) || 30 ,
 						currentNestingClass :  conf.currentNestingClass ? conf.currentNestingClass : "",
-						currentParentClass : conf.currentParentClass ? conf.currentParentClass : "",
-						nestingLimit : conf.nestingLimit ? conf.nestingLimit : false,
+						nestingLimit : conf.nestingLimit ? conf.nestingLimit : false, //not implemented yet
 						autoScroll : conf.autoScroll !== undefined ? conf.autoScroll == true : true,
 						scrollSensitivity: conf.scrollSensitivity ? conf.scrollSensitivity : 20,
 						scrollSpeed: conf.scrollSpeed ? conf.scrollSpeed : 20,
