@@ -29,6 +29,32 @@ Include the dependencies on your HTML file.
 
 }}}
 
+Include the HTML that represents your nested list. I recommend you to use an UL with LIs to represent the list, but you can actually use any pair of HTML elements that can be nested.
+
+{{{
+<ul id="list-container">
+  <li class="sortable-element-class" id="ele-1">
+    Element 1
+  </li>
+  <li class="sortable-element-class" id="ele-2">
+    Element 2
+  </li>
+  <li class="sortable-element-class" id="ele-3">
+    Element 3
+    <ul>
+      <li class="sortable-element-class" id="ele-4">
+        Element 4
+        <ul>
+          <li class="sortable-element-class" id="ele-5">
+            Element 5
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+}}}
+
 {{{
 $('#list-container').NestedSortable(
 	{
