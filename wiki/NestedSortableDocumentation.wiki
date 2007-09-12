@@ -2,7 +2,7 @@
 
 = Introduction =
 
-The NestedSortable jQuery Plugin is built on top of the popular Interface plugin. NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time. It is based on Interface's Sortables and works just like it. Some examples of possible usages:
+The !NestedSortable jQuery Plugin is built on top of the popular Interface plugin. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on Interface's Sortables and works just like it. Some examples of possible usages:
 
  * Organizing a table of contents
  * Organizing a list of hierarchical pages (it was originally created with this goal, for WordPress)
@@ -10,12 +10,32 @@ The NestedSortable jQuery Plugin is built on top of the popular Interface plugin
 
 Perhaps the easier way to get what it does it by looking at the demo. It was designed as part of a Google Summer of Code project for WordPress, in 2007. 
 
-= Details =
+= Dependencies = 
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * jQuery 1.1 or 1.2
+ * Interface 1.2 (only needs the components bellow, in that order)
+   * iutil
+   * idrag
+   * idrop
+   * isortable
+
+= Usage =
+
+== Basic Usage ==
+
+Include the dependencies on your HTML file.
+
+{{{
+
+}}}
+
+{{{
+$('#list-container').NestedSortable(
+	{
+		accept: 'sortable-element-class',
+	}
+);
+}}}
 
 = TODO for next versions = 
 
