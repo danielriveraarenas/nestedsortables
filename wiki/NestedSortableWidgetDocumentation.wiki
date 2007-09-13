@@ -1,8 +1,11 @@
 #summary Documentation for the NestedSortable Widget.
 = Introduction =
 
-Add your content here.
+The !NestedSortable Widget (from now on just _widget_) is built on top of the plain !NestedSortable and is a component that will, basically, do everything for you, as long as you provide it with a data source that will pass in your list of nested elements in JSON format. Given that list, it will build the HTML for the whole component, construct the NestedSortables and show visual clues as to when things are being loaded or saved. 
 
+The list items can have multiple columns, since the widget will draw your list in a way that it looks like a table. The widget also has support for pagination of the list, both on the client (you don't have to show the whole list at once) and the server (you don't have to show everything at once). This can be a necessity when you are sorting a list with a large number of items and is the most complex feature it implements. The widget code, perhaps surprisingly, is almost 3 times larger than the !NestedSortable plugin's code. The good news is that is all already written for you and with it in your hands you will be able to create a list that can be sorted and nested by your user in no time.
+
+You should check the demo, to really get a grasp of its functionalities.
 
 = Details =
 
