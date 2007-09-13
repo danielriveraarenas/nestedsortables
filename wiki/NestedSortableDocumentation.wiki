@@ -200,12 +200,11 @@ hash:   "list-container[0][id]=1&
 
 = Known Bugs =
 
-Currently this plugin has no know bugs of its own. Interface 1.2, however, was built for jQuery 1.1 and does have a few issues, specially with animations, when you use it jQuery 1.2. You might encounter issues with the animation options in the !NestedSortables, which are inherited from Interface. jQuery 1.2 was just released, lets hope Interface is updated to support it. The combination used in the demo is using jQuery 1.2 and Interface 1.2, and at least in those examples, doesn't generate any errors.
+Currently this plugin has no know bugs of its own. Interface 1.2, however, was built for jQuery 1.1 and does have a few issues, specially with animations, when you use it with jQuery 1.2. You might encounter issues with the animation options in the !NestedSortables, which are inherited from Interface. jQuery 1.2 was just released, lets hope Interface is updated to support it. The combination used in the demo is using jQuery 1.2 and Interface 1.2, and at least in those examples, doesn't generate any errors.
 
 = TODO for next versions = 
 
  * Provide an option to limit the levels of nesting that can be used
  * Allow the user to define elements that aren't containers (eg.: nothing can be nested into it). It would allow it to be used for organizing files and folders, for instance.
-
 
 
