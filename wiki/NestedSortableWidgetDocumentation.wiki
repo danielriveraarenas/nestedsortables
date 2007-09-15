@@ -121,6 +121,8 @@ First, all the options of the underlying [NestedSortableDocumentation NestedSort
 
 The table bellow shows all the parameters that can be passed to the `NestedSortableWidget`.
 
+TODO: Describe all the options here.
+
 || *Parameter Name*  || *Value Type* || *Type/Default* || *Description* ||
 || name || string || optional / `'nested-sortable-widget`' || ||
 || loadUrl || string || mandatory || ||
@@ -155,6 +157,7 @@ The table bellow shows all the parameters that can be passed to the `NestedSorta
 
 == Data Source ==
 
+TODO: describe all the details about the data source here.
 
 = Known Bugs =
 
@@ -167,4 +170,5 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
  
