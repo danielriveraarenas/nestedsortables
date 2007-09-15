@@ -15,8 +15,8 @@ You can download the widget package (both the compressed and regular JS file, a 
 
   [http://nestedsortables.googlecode.com/files/NestedSortableWidget-1.0.zip NestedSortable Widget 1.0]
 
-You can also get the uncompressed code, as well as the test code used in the demo, directly from the SVN server:
-  [http://nestedsortables.googlecode.com/svn/tags/1.0/ Source]
+You can also get the uncompressed code, as well as the test code used in the demo:
+  [http://nestedsortables.googlecode.com/files/nestedSortables.1.0.complete.with.tests.zip NestedSortables Source 1.0]
 
 You will also need the dependencies.
 
@@ -170,5 +170,6 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
  
  
