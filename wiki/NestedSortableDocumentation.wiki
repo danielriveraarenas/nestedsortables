@@ -13,9 +13,9 @@ Perhaps the easier way to get what it does it by [http://www.bernardopadua.com/n
 = Download = 
 
 I have compiled a compressed version which has only 5kB:
-  [http://nestedsortables.googlecode.com/files/inestedsortable-1.0.pack.js NestedSortable Packed]
-You can also get the uncompressed code, as well as the test code used in the demo, directly from the SVN server: 
-  [http://nestedsortables.googlecode.com/svn/tags/1.0/ Source]
+  [http://nestedsortables.googlecode.com/files/inestedsortable-1.0.pack.js NestedSortable 1.0]
+You can also get the uncompressed code, as well as the test code used in the demo:
+  [http://nestedsortables.googlecode.com/files/nestedSortables.1.0.complete.with.tests.zip NestedSortables Source 1.0]
 
 You will also need to download the dependencies.
 
@@ -219,6 +219,7 @@ Currently this plugin has no know bugs of its own. Interface 1.2, however, was b
  * Allow the user to define elements that aren't containers (eg.: nothing can be nested into it). It would allow it to be used for organizing files and folders, for instance.
 
 
+ 
  
  
  
