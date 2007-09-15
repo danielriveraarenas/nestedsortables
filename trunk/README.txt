@@ -3,5 +3,6 @@ This file includes both Nested Sortable jQuery plugins, along with the test file
 For documentation and more information please check:
 http://nestedsortables.googlecode.com/
 
+Licensed under the GPL and MIT licenses.
 
 (c) 2007 - Bernardo de Pádua dos Santos - http://bitsinashortbit.wordpress.com
