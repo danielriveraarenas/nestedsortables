@@ -5,7 +5,7 @@ The !NestedSortable Widget (from now on just _widget_) is built on top of the pl
 
 The list items can have multiple columns, since the widget will draw your list in a way that looks like a table. The widget also has support for pagination of the list, both on the client (you don't have to show the whole list at once) and the server (you don't have to download the whole list at once). This can be a necessity when you are sorting a list with a large number of items. The widget code, perhaps surprisingly, is almost 3 times larger than the [NestedSortableDocumentation NestedSortable plugin's] code. The good news is that all already written for you and with it in your hands you will be able to create a list that can be sorted and nested by your user in no time.
 
-You should [http://www.bernardopadua.com/nestedSortables/test/widget/ check the demo], to really get a grasp of its main functionalities.
+You should [http://www.bernardopadua.com/nestedSortables/test/widget/ check the demo], to really get a grasp of its main functionalities. Note that the data source used in the demo is a little stupid: it won't save the order of the elements, it will just pretend it did.
 
 = Download =
 
@@ -33,3 +33,76 @@ It was built on the latest versions of both jQuery and Interface.
  * [http://jollytoad.googlepages.com/json.js toJSON plugin] (only needed if you want to *send* the data back to the server in JSON format - just skip it if you are not sure)
 
 Those dependencies have to be loaded in your HTML file in that order and before the widget itself.
+
+= Usage = 
+
+== Basic Usage ==
+
+
+First you need to set up your data source, which will provide the list of nested elements to be displayed by the widget, in JSON format. This data source should also be capable of receiving data from the widget, once the user saves the order of the elements, and update your database so that. More details about this data source will be given bellow. For testing purposes, the easiest data source you could create is a plain text file with the contents of your list in JSON. It obviously won't save your list order, but will allow you to view the list. So, create a file, named `my_list_json.js`, with the following contents:
+
+{{{
+{
+  "requestFirstIndex" : 0,
+  "firstIndex" : 0,
+  "count": 4,
+  "totalCount" : 4,
+  "columns":["Title(ID)", "Owner", "Updated"],
+  "items": 
+  [
+    {
+      "id":1, 
+      "info":["Page Title(1)", "Bernardo Pádua", "2007-06-09 2:44 pm"]
+    },
+    {
+      "id":2, 
+      "info":["Page Title(2)", "Bernardo Pádua", "2007-06-09 2:44 pm"],
+      "children": 
+        [
+          {
+            "id":3, 
+            "info":["Page Title(3)", "Bernardo Pádua", "2007-06-09 2:44 pm"],
+            "children": [
+              {
+                "id":4, 
+                "info":["Page Title(4)", "Bernardo Pádua", "2007-06-09 2:44 pm"]
+              }
+            ]
+          }
+        ]
+    }
+  ]
+}
+
+}}}
+
+Now include the dependencies and the plugin itself on your HTML file.
+
+{{{
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="interface.js"></script>
+<script type="text/javascript" src="inestedsortable.js"></script>
+<script type="text/javascript" src="jquery.nestedsortablewidget.js"></script>
+}}}
+
+You will also need to include the CSS for the component, if you don't want it to look too ugly. Also be aware this CSS loads a couple of images (included in the download), so you need to make sure they are in your server as well.
+
+{{{
+<link rel="stylesheet" href="../../src/widget/style/nestedsortablewidget.css" type="text/css">
+}}}
+
+In you HTML file, create an empty HTML element (usually a `DIV`) where the component will be drawn. The contents of this element will be deleted once the widget is configured.
+
+{{{
+ <div id="my_widget"></div>
+}}}
+
+Add the code that will configure the widget. Once this code is executed, the widget will fetch the list contents from the loadUrl and display it for you.
+
+{{{
+jQuery( function($) {
+  $('#my_widget').NestedSortableWidget({
+	loadUrl: "my_list_json.js"
+  });
+});
+}}}
