@@ -3,9 +3,11 @@
 
 The !NestedSortable Widget (from now on just _widget_) is built on top of the plain [NestedSortableDocumentation NestedSortable] and is a component that will, basically, do everything for you, as long as you provide it with a data source that will pass in your list of nested elements in JSON format. Given that list, it will build the HTML for the whole component, construct the [NestedSortableDocumentation NestedSortables] and show visual clues as to when things are being loaded or saved. 
 
-The list items can have multiple columns, since the widget will draw your list in a way that looks like a table. The widget also has support for pagination of the list, both on the client (you don't have to show the whole list at once) and the server (you don't have to download the whole list at once). This can be a necessity when you are sorting a list with a large number of items. The widget code, perhaps surprisingly, is almost 3 times larger than the [NestedSortableDocumentation NestedSortable plugin's] code. The good news is that all already written for you and with it in your hands you will be able to create a list that can be sorted and nested by your user in no time.
+The list items can have multiple columns, since the widget will draw your list in a way that looks like a table. The widget also has support for pagination of the list, both on the client (you don't have to show the whole list at once) and the server (you don't have to download the whole list at once). This can be a necessity when you are sorting a list with a large number of items. The widget code, perhaps surprisingly, is almost 3 times larger than the [NestedSortableDocumentation NestedSortable plugin's] code. The good news is that all is already written for you and with it in your hands you will be able to create a list that can be sorted and nested by your user in no time.
 
 You should [http://www.bernardopadua.com/nestedSortables/test/widget/ check the demo], to really get a grasp of its main functionalities. Note that the data source used in the demo is a little stupid: it won't save the order of the elements, it will just pretend it did.
+
+
 
 = Download =
 
@@ -97,7 +99,7 @@ In you HTML file, create an empty HTML element (usually a `DIV`) where the compo
  <div id="my_widget"></div>
 }}}
 
-Add the code that will configure the widget. Once this code is executed, the widget will fetch the list contents from the loadUrl and display it for you.
+Add the JS code that will configure the widget. Once this code is executed, the widget will fetch the list contents from the loadUrl and display it for you.
 
 {{{
 jQuery( function($) {
@@ -107,3 +109,62 @@ jQuery( function($) {
 });
 }}}
  
+== Configuration Parameters ==
+
+The !NestedSortable plugin will add three functions to the jQuery object: `NestedSortableWidget`, `NestedSortableWidgetDestroy` and `NestedSortableWidgetSave`. The first will configure the widget and takes a object of configuration parameters. The other two should be called on already built widgets and take no parameters.
+
+`NestedSortableWidget` needs to be called on a jQuery object after selecting the element that will hold the component. You should probably use `$.NestedSortable("#element_id").NestedSortableWidget({(...)})` to do it.
+
+Like in the regular [NestedSortableDocumentation NestedSortable], you configure the widget by passing a single object to the `NestedSortableWidget` method. Use the `{}` notation to create such object. Lots of things can be configured in the widget.
+
+First, all the options of the underlying [NestedSortableDocumentation NestedSortable] and Interface's Sortable can be altered, by passing an object to the `nestedSortCfg` property. You can also change the names of the classes used to draw the component, by passing an object to the `classes` property. You can also change the text used in the widget, by passing an object to the `text` property. Finally, other options change the way things are displayed, loaded and saved, and allow you to add callbacks that are executed at special moments of the widget's life.
+
+The table bellow shows all the parameters that can be passed to the `NestedSortableWidget`.
+
+|| *Parameter Name*  || *Value Type* || *Type/Default* || *Description* ||
+|| name || string || optional / `'nested-sortable-widget`' || ||
+|| loadUrl || string || mandatory || ||
+|| saveUrl || string || optional / same as loadUrl || ||
+|| loadUrlParams || Object || optional || ||
+|| saveUrlParams || Object || optional || ||
+|| loadRequestType|| string || optional / `'GET'` || ||
+|| saveRequestType|| string || optional / `'POST'` ||  ||
+|| serializeWithJSON || boolean || optional / `false` ||  ||
+|| onLoad|| Function || optional ||  ||
+|| onInitialLoad || Function || optional ||  ||
+|| onLoadError || Function || optional ||  ||
+|| onSave || Function || optional ||  ||
+|| onSaveError || Function || optional ||  ||
+|| onDestroy || Function || optional ||  ||
+|| nestedSortCfg || Object || optional ||  ||
+|| colsWidth || float or Array of floats || optional / 150 ||  ||
+|| whiteMargin|| float || optional / 2 ||  ||
+|| padding || float or Array of floats|| optional / 4 ||  ||
+|| measureUnit || string || optional / 'px' ||  ||
+|| handle|| boolean || optional / `false` ||  ||
+|| paginate || boolean || optional / `false` ||  ||
+|| greedy || boolean || optional / `false` ||  ||
+|| incremental || boolean || optional / `false` ||  ||
+
+|| itemsPerPage || integer || optional / `10` ||  ||
+|| startPage || integer || optional / `1` ||  ||
+|| pageChangeTimer || integer || optional / `"500"` ||  ||
+|| fadeOutHover || boolean || optional / `false` ||  ||
+|| transitionAnim || string || optional / `'slide-parallel'` ||  ||
+|| transitionOut || Function || optional / `false` ||  ||
+|| transitionIn || Function || optional / `false` ||  ||
+
+== Data Source ==
+
+
+= Known Bugs =
+
+As of version 1.0, there are 2 minor cosmetic bugs, one for IE6 and the other in Safari. They are not show stoppers. There is another bug in Incremental mode, which is only a little annoying, so I don't recommend using incremental mode. 
+
+Refer to [http://code.google.com/p/nestedsortables/issues/list?q=label:NestedSortableWidget the issues list for more details].
+
+Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially with animations, when you use it with jQuery 1.2. So, with jQuery 1.2, you might encounter issues with the animation options in the !NestedSortables, which are inherited from Interface. jQuery 1.2 was just released, lets hope Interface is updated to support it. The combination used in the demo is using jQuery 1.2 and Interface 1.2, and at least in those examples, doesn't generate any errors. The `fadeOutHover` option will be deactivated when using jQuery 1.2, due to one of those incompatibilities.
+
+= TODO for next versions = 
+
+ * More configuration options (as needed by the users)
