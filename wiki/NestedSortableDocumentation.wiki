@@ -10,16 +10,27 @@ The !NestedSortable [http://jquery.com/ jQuery] Plugin is built on top of the po
 
 Perhaps the easier way to get what it does it by [http://www.bernardopadua.com/nestedSortables/test/nested_sortable/ looking at the demo]. This plugin was designed as part of a Google Summer of Code project for !WordPress, in 2007. 
 
+= Download = 
+
+I have compiled a compressed version which has only 5kB:
+  [NestedSortable Packed http://nestedsortables.googlecode.com/files/inestedsortable-1.0.pack.js]
+You can also get the uncompressed code, as well as the test code used in the demo, directly from the SVN server: 
+  [Source http://nestedsortables.googlecode.com/svn/tags/1.0/]
+
+You will also need to download the dependencies.
+
 = Dependencies = 
 
 It was built on the latest versions of both jQuery and Interface. 
 
- * jQuery 1.1 or above (tested with 1.2)
- * Interface 1.2 or above (only needs the components bellow, in that order)
+ * [http://code.google.com/p/jqueryjs/downloads/detail?name=jquery-1.2.pack.js jQuery]1.1 or above (tested with 1.2)
+ * [http://interface.eyecon.ro/interface/interface_1.2.zip Interface 1.2] or above (only needs the components bellow, in that order)
    * iutil.js
    * idrag.js
    * idrop.js
    * isortables.js
+
+Those dependencies have to be loaded in your HTML file in that order and before the NestedSortable plugin itself.
 
 = Usage =
 
@@ -208,4 +219,5 @@ Currently this plugin has no know bugs of its own. Interface 1.2, however, was b
  * Allow the user to define elements that aren't containers (eg.: nothing can be nested into it). It would allow it to be used for organizing files and folders, for instance.
 
 
+ 
  
