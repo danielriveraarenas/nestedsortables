@@ -1141,9 +1141,6 @@ jQuery.NestedSortableWidget = {
 					whiteMargin: conf.whiteMargin ? conf.whiteMargin : 2,
 					padding: conf.padding ? conf.padding : 4,
 					measureUnit: conf.measureUnit ? conf.measureUnit : "px",
-					transitionAnim: conf.transitionAnim ? conf.transitionAnim : 'slide-parallel',
-					transitionOut: typeof conf.transitionOut =='function' ? conf.transitionOut : false,
-					transitionIn: typeof conf.transitionIn =='function' ? conf.transitionIn : false,
 					handle: conf.handle ? conf.handle : false,
 										
 					//configuration that only matters when pagination is on
@@ -1154,7 +1151,10 @@ jQuery.NestedSortableWidget = {
 					startPage : parseInt(conf.startPage, 10) || 1,
 					pageChangeTimer : conf.pageChangeTimer ? conf.pageChangeTimer : "500",
 					fadeOutHover: conf.fadeOutHover ? conf.fadeOutHover : true,
-					fadeOutProperty: conf.fadeOutProperty ? conf.fadeOutProperty : 'opacity'
+					fadeOutProperty: conf.fadeOutProperty ? conf.fadeOutProperty : 'opacity',
+					transitionAnim: conf.transitionAnim ? conf.transitionAnim : 'slide-parallel',
+					transitionOut: typeof conf.transitionOut =='function' ? conf.transitionOut : false,
+					transitionIn: typeof conf.transitionIn =='function' ? conf.transitionIn : false
 				};
 				
 				//css classes for generated elements
