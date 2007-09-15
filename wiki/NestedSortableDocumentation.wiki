@@ -36,7 +36,7 @@ Those dependencies have to be loaded in your HTML file in that order and before 
 
 == Basic Usage ==
 
-Include the dependencies and the plugin itself on your HTML file.
+Include the dependencies and the plugin itself in your HTML file.
 
 {{{
 <script type="text/javascript" src="jquery.js"></script>
@@ -46,7 +46,7 @@ Include the dependencies and the plugin itself on your HTML file.
 
 Include the HTML that represents your nested list. I recommend you to use an UL with LIs to represent the list, but you can actually use any pair of HTML elements that can be nested. The elements that are being sorted (the ones with the "accept" class) should have an ID, so the list can be serialized and sent back to the server.
 
-Be aware than when a new nesting is created (eg. you make an element a child of a childless element), the plugin will create a new HTML element of the same type of the container element (in this example an UL) with all css classes this element has, inside the parent element (in this example an LI). 
+Be aware than when a new nesting is created (eg. you make an element a child of a childless element), the plugin will create a new HTML element of the same type of the container element (in this example an UL) with all CSS classes this element has, inside the parent element (in this example an LI). 
 
 {{{
 <ul id="list-container">
@@ -219,6 +219,7 @@ Currently this plugin has no know bugs of its own. Interface 1.2, however, was b
  * Allow the user to define elements that aren't containers (eg.: nothing can be nested into it). It would allow it to be used for organizing files and folders, for instance.
 
 
+ 
  
  
  
