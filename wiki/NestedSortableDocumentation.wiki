@@ -23,7 +23,7 @@ You will also need to download the dependencies.
 
 It was built on the latest versions of both jQuery and Interface. 
 
- * [http://code.google.com/p/jqueryjs/downloads/detail?name=jquery-1.2.pack.js jQuery]1.1 or above (tested with 1.2)
+ * [http://code.google.com/p/jqueryjs/downloads/detail?name=jquery-1.2.pack.js jQuery] 1.1 or above (tested with 1.2)
  * [http://interface.eyecon.ro/interface/interface_1.2.zip Interface 1.2] or above (only needs the components bellow, in that order)
    * iutil.js
    * idrag.js
@@ -219,6 +219,7 @@ Currently this plugin has no know bugs of its own. Interface 1.2, however, was b
  * Allow the user to define elements that aren't containers (eg.: nothing can be nested into it). It would allow it to be used for organizing files and folders, for instance.
 
 
+ 
  
  
  
