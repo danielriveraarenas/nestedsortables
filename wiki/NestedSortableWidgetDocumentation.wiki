@@ -76,7 +76,7 @@ First you need to set up your data source, which will provide the list of nested
 
 }}}
 
-Now include the dependencies and the plugin itself on your HTML file.
+Now include the dependencies and the plugin itself in your HTML file.
 
 {{{
 <script type="text/javascript" src="jquery.js"></script>
@@ -106,3 +106,4 @@ jQuery( function($) {
   });
 });
 }}}
+ 
