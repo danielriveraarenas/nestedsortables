@@ -125,35 +125,35 @@ TODO: Describe all the options here.
 
 || *Parameter Name*  || *Value Type* || *Type/Default* || *Description* ||
 || name || string || optional / `'nested-sortable-widget`' || The name of name of parameter that will be passed to the saveUrl when saving the page order. Also used internally for the element ids. If you want to have more than one widget in the same page,  you have to configure unique names for them. ||
-|| loadUrl || string || mandatory || ||
-|| saveUrl || string || optional / same as loadUrl || ||
-|| loadUrlParams || Object || optional || ||
-|| saveUrlParams || Object || optional || ||
-|| loadRequestType|| string || optional / `'GET'` || ||
-|| saveRequestType|| string || optional / `'POST'` ||  ||
-|| serializeWithJSON || boolean || optional / `false` ||  ||
-|| onLoad|| Function || optional ||  ||
-|| onInitialLoad || Function || optional ||  ||
-|| onLoadError || Function || optional ||  ||
-|| onSave || Function || optional ||  ||
-|| onSaveError || Function || optional ||  ||
-|| onDestroy || Function || optional ||  ||
-|| nestedSortCfg || Object || optional ||  ||
-|| colsWidth || float or Array of floats || optional / 150 ||  ||
-|| whiteMargin|| float || optional / 2 ||  ||
-|| padding || float or Array of floats|| optional / 4 ||  ||
-|| measureUnit || string || optional / 'px' ||  ||
-|| handle|| boolean || optional / `false` ||  ||
-|| paginate || boolean || optional / `false` ||  ||
-|| greedy || boolean || optional / `false` ||  ||
-|| incremental || boolean || optional / `false` ||  ||
-|| itemsPerPage || integer || optional / `10` ||  ||
-|| startPage || integer || optional / `1` ||  ||
-|| pageChangeTimer || integer || optional / `"500"` ||  ||
-|| fadeOutHover || boolean || optional / `false` ||  ||
-|| transitionAnim || string || optional / `'slide-parallel'` ||  ||
-|| transitionOut || Function || optional / `false` ||  ||
-|| transitionIn || Function || optional / `false` ||  ||
+|| loadUrl || string || mandatory || This is the URL that will return the JSON for the items list, by default via a GET request. If you want to pass query string parameters to it, use `loadUrlParams`.  ||
+|| saveUrl || string || optional / same as loadUrl || This is the URL where the widget will save the altered items disposition, using 'POST' by default. This will, by default, be the same as loadUrl. If you want to pass query string parameters to it, use `saveUrlParams`. ||
+|| loadUrlParams || Object || optional || A JS Object whose properties will be converted to a query string and passed to the loadUrl, along with the parameters the widget itself will add. ||
+|| saveUrlParams || Object || optional || A JS Object whose properties will be converted to a query string and passed to the saveUrl, along with the parameters the widget itself will add. ||
+|| loadRequestType|| string || optional / `'GET'` || Can be set to 'GET' or 'POST' to set up what type of HTTP request you want to use when loading the items JSON. ||
+|| saveRequestType|| string || optional / `'POST'` || Can be set to 'GET' or 'POST' to set up what type of HTTP request you want to use when saving the items disposition. ||
+|| serializeWithJSON || boolean || optional / `false` || By default, the items disposition will be sent to the server using the "query string parameters" standard, which most server side languages will interpret and generate the apropriate data structures (usually Arrays or Hashes) for you to access, automatically, in you server script. If you prefer, you can turn this on to send the items disposition in JSON format instead, which you will need to interpret on the server, probably using a library. This option requires the JSON jQuery plugin, listed in the dependencies. ||
+|| onLoad|| Function || optional || This is a callback, to which you may pass in a variable that holds a reference to a JS function. All callbacks will receive a reference to the widget element as `this`. This callback will be fired whenever a  new page is fetched from the server, including the first one.  ||
+|| onInitialLoad || Function || optional || This is a callback, to which you may pass in a variable that holds a reference to a JS function. All callbacks will receive a reference to the widget element as `this`. This callback will be fired after the widget is loaded for the first time, but not after loading other pages. ||
+|| onLoadError || Function || optional || This is a callback, to which you may pass in a variable that holds a reference to a JS function. All callbacks will receive a reference to the widget element as `this`. This callback will be fired after there is an error loading data from the server. ||
+|| onSave || Function || optional || This is a callback, to which you may pass in a variable that holds a reference to a JS function. All callbacks will receive a reference to the widget element as `this`. This callback will be fired after the items disposition is successfully saved in the server.  ||
+|| onSaveError || Function || optional || This is a callback, to which you may pass in a variable that holds a reference to a JS function. All callbacks will receive a reference to the widget element as `this`. This callback will be fired after there is an error saving the items disposition in the server.   ||
+|| onDestroy || Function || optional || This is a callback, to which you may pass in a variable that holds a reference to a JS function. All callbacks will receive a reference to the widget element as `this`. This callback will be fired after widget is destroyed using the `NestedSortableWidgetDestroy`. ||
+|| nestedSortCfg || Object || optional || This object of properties will be passed to the underlying [NestedSortableDocumentation NestedSortable] plugin, when they are constructed. Use it to set the any preferences you want for them. ||
+|| colsWidth || float or Array of floats || optional / 150 || This will allow you to configure the size of the columns after the first one, which will auto-stretch. If you pass it a single float, all the columns will have the same width. Otherwise, pass in an array of floats, with the column widths in the order they appear, from left to right. ||
+|| whiteMargin|| float || optional / 2 || The size of the white margin which divides the rows and columns in the table. ||
+|| padding || float or Array of floats|| optional / 4 || The padding that will be applied inside the cells of the table. If you pass it a single float, it will be the padding for all the directions. If you pass it an array of 4 floats, they will configure the padding in the following order: `[top, right, bottom, left]` ||
+|| measureUnit || string || optional / 'px' || The measure unit used in the generated CSS for some of the dimensions specified above. ||
+|| handle|| boolean || optional / `false` || If you set this to true, instead of dragging the element by clicking in the entire row, the user will have to drag a handle that is placed in the first column of each row, whose text contents can be configured. ||
+|| paginate || boolean || optional / `false` || If you set this to true, the widget will display the items across different pages, each with an approximate maximum number of items. All options bellow only work when `paginate` is `true`. ||
+|| greedy || boolean || optional / `false` || When true, the widget will ask the server to send the whole list of items at once, and will cache those items, as the next pages are displayed. In effect, data will only be loaded from the server once, when the widget is built. When false, the default, the widget will only ask the server to send the items that are going to be displayed next, and will make new requests to the server whenever a page that wasn't loaded before is displayed.||
+|| incremental || boolean || optional / `false` || When true, the widget will display all the items together, in the same user view, and will augment the list incrementally. Eg.: when the user presses 'Next Entries', the items corresponding to the next page will be appended in the bottom of the list. This works but has some tiny bugs (if you are interested try it and see if they bother you). ||
+|| itemsPerPage || integer || optional / `10` || How many items, at least, will be shown on each page. The widget will always show complete hierarchies in a page, and sometimes more elements will have to be shown. Eg.: You are paging at 10 items per page, your 9th item is a root element with 5 children, in this case all its childrens will be displayed and you will have 14 items in one page. ||
+|| startPage || integer || optional / `1` || Sometimes you may want to begin displaying the list from somewhere in the middle of it. If you have, say, 10 items per page and set this as 5, the first page the widget will display will have (approximately) items from indexes 40 to 50.  ||
+|| pageChangeTimer || integer || optional / `"500"` || When you hover an item on the the page change box, it will wait a while until it changes the page, to prevent unwanted page changes. You can set this amount of time here, in miliseconds. ||
+|| fadeOutHover || boolean || optional / `true` || When set to true, the page change box will gradually fade as it gets closer to the time the next page will be loaded. This is currently disabled when using jQuery 1.2, as an Interface 1.2 incompatibility will prevent it from working.  ||
+|| transitionAnim || string || optional / `'slide-parallel'` || When changing from one page to the next, the transition is so quick it might not be noticed by the user. So, by default, we apply an animation to make it obvious to the user something was loaded. The "new page in" and "old page out" animations may be applied in parallel or series. The predefined options are `"slide-parallel"`, `"slide-series"`, `"fade-series"`, `"normal-parallel"`, `"normal-series"` and `"none"` (no animation at all). You may also define custom transitions, by setting this to `"custom-series"` or `"custom-parallel"` and defining the animation functions using the callbacks bellow. ||
+|| transitionOut || Function || optional || Pass in a function that should make the old page disappear, probably using an animation. `this` inside your callback will point to the  jQuery object with the element in question selected. Also, a single parameter will be passed in to your callback, with a function. You must execute this function right after your animation ends (probably by passing it as a callback to you animation function).  ||
+|| transitionIn || Function || optional || Pass in a function that should make the new page appear, probably using an animation. `this` inside your callback will point to the  jQuery object with the element in question selected. Also, a single parameter will be passed in to your callback, with a function. You must execute this function right after your animation ends (probably by passing it as a callback to you animation function). ||
 
 == Data Source ==
 
@@ -170,6 +170,7 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
  
  
  
