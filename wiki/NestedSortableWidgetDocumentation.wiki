@@ -155,18 +155,18 @@ The table bellow shows all the parameters that can be passed to the `NestedSorta
 
 == More Details about Pagination ==
 
-In the demo I am showing it being used with pagination, with 5 items per page, on a dataset of about 30 items. I set up a simple PHP page as a demo data source that will spit clusters of a bigger JSON with the whole data, according to the page requested (actually, you request the first item and the total number of items you want, as I will explain). Optionally, you may simplify the data source and always reply with the whole dataset, pagination will still happen in the client side. Or your data source may be “greedy” and reply with a bigger chunk than the one requested. The component will be smart enough not to request any data it already has. Using Firebug in Firefox allows you to see very easily when and what data is being requested/returned.
+In the [http://www.bernardopadua.com/nestedSortables/test/widget/ demo] I am showing the widget being used with pagination on a dataset of about 30 items. I put up a simple PHP page as a demo data source that will spit clusters of a bigger JSON with the whole data, according to the page requested. Optionally, you may simplify the data source and always reply with the whole dataset, pagination will still happen on the client side. Or your data source may be “greedy” and reply with a bigger chunk than the one requested. The component will be smart enough not to request any data it already has. Using Firebug in Firefox allows you to see very easily when and what data is being requested/returned.
 
-In most cases I think sending the whole chunk of data could be the simpler and also the faster way to handle pagination, specially in the Wordpress page list use case. It would be very unlikely, to have a user with more than, say, 100 pages to order, which are still very fast to load at once (I am guessing it would take less than 5kB for 100 items). If you do that, the client will still see the data paginated, but the server doesn’t need to worry about it at all. The component obviously has support for no pagination as well, you only have to turn a flag off, and in this case the client will see all the data at once.
+You will notice that in my demo a page won’t always have 5 items, sometimes it will have more: this is by design, as if I was to enforce only 5 items per page we would have to break hierarchies in half, what would be weird for the user and terrible to program as well.
 
-You will notice that in my demo a page won’t always have 5 items, sometimes it will have more: this is by design, as if I was to enforce only 5 items per page we would have to break hierarchies in half, what would be weird for the user and terrible to program, as well, as I have discussed in earlier posts. The way I figured to solve the inconsistencies and avoid duplicate items among pages is described in the following paragraphs:
+Initially, when the widget is loaded, it requests the first item of the page being loaded. If loading the third page with 5 elements per page, that would be the element with the zero-based index order of 15. But it will actually only display the first element after the one with index 15 that doesn’t have any parents - we will call it a ‘root’ element from now on. And it will display at least 5 items, since it will always show complete hierarchies.
 
-First, what does the component displays in each page then? Initially, when it is loaded, it requests the first item of the page being loaded. If loading the third page with 5 elements per page, that would be the element with the zero-based index order of 15. But it will actually display the first element after the one with index 15 that doesn’t have any parents - we will call it a ‘root’ element from now on. And it will display at least 5 items, since it will always show complete hierarchies.
-
-When the component needs some data to display a page, it will make a request with 2 parameters:
+When the component needs some data to display a page, it will make an HTTP request with 2 parameters:
 
  * `firstIndex` (what is the zero-based ordered position of the next item I want to fetch and display. Note the component actually wants to display, as the first item in the page being shown to the user, the first root element after it, but it doesn’t know in advance what it is )
  * `count` (how many items, at minimum, should be returned)
+
+If those parameters are not supplied, your server side script should understand the widget is requesting the whole list (when there is no pagination or the `greedy` option is on).
 
 The server should reply with the data, in JSON format, that, besides the data itself, has the following parameters:
 
@@ -177,11 +177,102 @@ The server should reply with the data, in JSON format, that, besides the data it
 
 Note that the server should always return the whole data that the component wanted to display. Eg: if we request firstIndex = 10, count=5, the server could return firstIndex = 5, count=20, but not firstIndex = 5, count=8.
 
-To be brief: The server should always return what the component wants to display right now, but it could also return more, to the left, or to the right. I know it may sound a little confusing, but it is actually not that big deal.
-
 == Data Source ==
 
-TODO: describe all the details about the data source here.
+There are two basic things you will need to implement on the server to be able to use the widget: Loading and Saving. This is what we are calling the "data source".
+
+=== Loading ===
+
+Loading is basically fetching your list of items and sending it to the widget in JSON format. This is fairly easy, as there are lots of JSON libraries out there, all you will have to do is generate an array or equivalent in your server side language. If you want pagination on the server side, in order to only send the user the data he is going to display in the next page, you need to read the `firstIndex` and `count` request parameters that will be passed in and only return the data in that range, following the rules given in the *More Details about Pagination* section, of not breaking hierarchies. If you read *Basic Usage* and *More Details about Pagination* you should have a good idea of the format of the JSON data you need to return. You could look at the `tests/widget` folder at the [http://nestedsortables.googlecode.com/files/nestedSortables.1.0.complete.with.tests.zip widget's source archive] for a simple implementation of the loading operation in PHP. 
+
+=== Saving ===
+
+Saving should be pretty easy as well. By default, your script will be passed in an array/hash in the form of query string parameters, so you should be able to access it instantaneously in your server side script. I will give a PHP representation of an example which should make the format pretty obvious. This is what I call a "cluster" of data sent by the widget:
+
+{{{
+/*
+Represents the following disposition of 7 items
+  1
+  3
+  2
+  5
+  |- 4
+    |- 6
+    |- 7
+*/
+$REQUEST['nested-sortable-widget']['firstIndex'] = 0 
+$REQUEST['nested-sortable-widget']['count'] = 7
+$REQUEST['nested-sortable-widget']['items'] = 
+  array(
+    array(
+      "id" => 1
+    ),
+    array(
+      "id" => 3
+    ),
+    array(
+      "id" => 2
+    ),
+    array(
+      "id" => 5, 
+      "children" =>
+        array(
+          "id" => 4, 
+          "children"=>
+            array(
+              array(
+                "id" => 6
+              ),
+              array(
+                "id" => 7
+              )
+            )
+          }
+        )
+    )
+  );
+}}}
+
+`nested-sortable-widget` is the default name for the parameter, but the parameter name will be the name of your widget (see `name` under configuration options). 
+
+When pagination is enabled, the widget will only send to the server items in the pages that were loaded AND whose order was altered. There are two details your save script will need to be aware of then:
+
+ * Your script can receive more than one cluster at once. In that case, $REQUEST['nested-sortable-widget'] will be a numbered array, whose elements will be clusters like the one given above. That will happen when the user alters, for instance, only page 1 and page 3, but leaves page 2 untouched. In this example we would have two clusters `$REQUEST['nested-sortable-widget'][0]` and `$REQUEST['nested-sortable-widget'][1]`. If only one cluster is sent it will be accessed directly from `$REQUEST['nested-sortable-widget']`, so you need to check if the parameter passed in is a numeric array.
+ * Your script needs to understand the "firstIndex" parameter: it is the "ordered" index of the first item whose order is being saved.
+
+There is one trap at which you may fall when using pagination and when you save the order of your pages using numeric indexes: You will need to increment the order of all the elements following the items of the page being saved. This can be done by running a single SQL UPDATE. 
+
+To make this section more colorful, I will provide a real life save method, from my !WordPress implementation, that saves one of those clusters of items (the items in !WordPress are "pages"). This is a recursive function, and $pages_array will initially receive the contents of `$REQUEST['nested-sortable-widget']['items']`.
+
+{{{
+function save_page_order($pages_array, $parent_id = 0) {
+  global $wpdb;
+  $first_page = $wpdb->escape($pages_array[0]['id']);
+  $current_menu_order = get_post_field('menu_order', $first_page, 'db');
+  if(is_wp_error($current_menu_order)) return false;
+  if($parent_id === 0) {
+    //shifts the menu order for all the root pages after the ones we
+    //will alter
+    $num_root_pages = count($pages_array);
+    $query_ret = $wpdb->query("UPDATE $wpdb->posts SET menu_order = menu_order + $num_root_pages WHERE  post_type = 'page' AND post_parent = 0 AND menu_order > $current_menu_order");
+    if($query_ret === false) return false;
+    }
+    foreach ($pages_array as $index => $page) {
+    $page_id = $wpdb->escape($page['id']);
+
+    $query_ret = $wpdb->query("UPDATE $wpdb->posts SET post_parent = '$parent_id', menu_order = '$current_menu_order' WHERE id ='$page_id'");
+
+    if($query_ret === false) return false;
+
+    $current_menu_order++;
+    if (is_array($page['children'])) {
+      //does it for the children as well
+      if (!$this->save_page_order($page['children'], $page_id)) return false;
+    }
+  }
+  return true;
+}
+}}}
 
 = Known Bugs =
 
@@ -194,6 +285,8 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
+ 
  
  
  
