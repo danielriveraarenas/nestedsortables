@@ -238,7 +238,7 @@ $REQUEST['nested-sortable-widget']['items'] =
 When pagination is enabled, the widget will only send to the server items in the pages that were loaded AND whose order was altered. There are two details your save script will need to be aware of then:
 
  * Your script can receive more than one cluster at once. In that case, `$REQUEST['nested-sortable-widget']` will be a numbered array, whose elements will be clusters like the one given above. That will happen when the user alters, for instance, only page 1 and page 3, but leaves page 2 untouched. In this example we would have two clusters `$REQUEST['nested-sortable-widget'][0]` and `$REQUEST['nested-sortable-widget'][1]`. If only one cluster is sent it will be accessed directly from `$REQUEST['nested-sortable-widget']`, so you need to check if the parameter passed in is a numeric array.
- * Your script needs to understand the "firstIndex" parameter: it is the "ordered" index of the first item whose order is being saved.
+ * Your script needs to understand the `firstIndex` parameter: it is the "ordered" index of the first item whose order is being saved.
 
 There is one trap at which you may fall when using pagination and when you save the order of your pages using numeric indexes: You will need to increment the order of all the elements following the items of the page being saved. This can be done by running a single SQL UPDATE. 
 
@@ -285,13 +285,3 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
