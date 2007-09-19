@@ -121,8 +121,6 @@ First, all the options of the underlying [NestedSortableDocumentation NestedSort
 
 The table bellow shows all the parameters that can be passed to the `NestedSortableWidget`.
 
-TODO: Describe all the options here.
-
 || *Parameter Name*  || *Value Type* || *Type/Default* || *Description* ||
 || name || string || optional / `'nested-sortable-widget`' || The name of name of parameter that will be passed to the saveUrl when saving the page order. Also used internally for the element ids. If you want to have more than one widget in the same page,  you have to configure unique names for them. ||
 || loadUrl || string || mandatory || This is the URL that will return the JSON for the items list, by default via a GET request. If you want to pass query string parameters to it, use `loadUrlParams`.  ||
@@ -155,6 +153,32 @@ TODO: Describe all the options here.
 || transitionOut || Function || optional || Pass in a function that should make the old page disappear, probably using an animation. `this` inside your callback will point to the  jQuery object with the element in question selected. Also, a single parameter will be passed in to your callback, with a function. You must execute this function right after your animation ends (probably by passing it as a callback to you animation function).  ||
 || transitionIn || Function || optional || Pass in a function that should make the new page appear, probably using an animation. `this` inside your callback will point to the  jQuery object with the element in question selected. Also, a single parameter will be passed in to your callback, with a function. You must execute this function right after your animation ends (probably by passing it as a callback to you animation function). ||
 
+== More Details about Pagination ==
+
+In the demo I am showing it being used with pagination, with 5 items per page, on a dataset of about 30 items. I set up a simple PHP page as a demo data source that will spit clusters of a bigger JSON with the whole data, according to the page requested (actually, you request the first item and the total number of items you want, as I will explain). Optionally, you may simplify the data source and always reply with the whole dataset, pagination will still happen in the client side. Or your data source may be “greedy” and reply with a bigger chunk than the one requested. The component will be smart enough not to request any data it already has. Using Firebug in Firefox allows you to see very easily when and what data is being requested/returned.
+
+In most cases I think sending the whole chunk of data could be the simpler and also the faster way to handle pagination, specially in the Wordpress page list use case. It would be very unlikely, to have a user with more than, say, 100 pages to order, which are still very fast to load at once (I am guessing it would take less than 5kB for 100 items). If you do that, the client will still see the data paginated, but the server doesn’t need to worry about it at all. The component obviously has support for no pagination as well, you only have to turn a flag off, and in this case the client will see all the data at once.
+
+You will notice that in my demo a page won’t always have 5 items, sometimes it will have more: this is by design, as if I was to enforce only 5 items per page we would have to break hierarchies in half, what would be weird for the user and terrible to program, as well, as I have discussed in earlier posts. The way I figured to solve the inconsistencies and avoid duplicate items among pages is described in the following paragraphs:
+
+First, what does the component displays in each page then? Initially, when it is loaded, it requests the first item of the page being loaded. If loading the third page with 5 elements per page, that would be the element with the zero-based index order of 15. But it will actually display the first element after the one with index 15 that doesn’t have any parents - we will call it a ‘root’ element from now on. And it will display at least 5 items, since it will always show complete hierarchies.
+
+When the component needs some data to display a page, it will make a request with 2 parameters:
+
+ * `firstIndex` (what is the zero-based ordered position of the next item I want to fetch and display. Note the component actually wants to display, as the first item in the page being shown to the user, the first root element after it, but it doesn’t know in advance what it is )
+ * `count` (how many items, at minimum, should be returned)
+
+The server should reply with the data, in JSON format, that, besides the data itself, has the following parameters:
+
+ * `requestFirstIndex` (what firstIndex was requested)
+ * `count` (how many items were actually returned, which should be greater or equal to what was requested)
+ * `firstIndex` (what was the index of the first element actually returned; ideally, it should be the first root item after requestFirstIndex , but it could be also be any root element before it, it could even be ‘0′, if the server decided to return the whole dataset )
+ * `totalCount` (how many items does the dataset has in total)
+
+Note that the server should always return the whole data that the component wanted to display. Eg: if we request firstIndex = 10, count=5, the server could return firstIndex = 5, count=20, but not firstIndex = 5, count=8.
+
+To be brief: The server should always return what the component wants to display right now, but it could also return more, to the left, or to the right. I know it may sound a little confusing, but it is actually not that big deal.
+
 == Data Source ==
 
 TODO: describe all the details about the data source here.
@@ -170,6 +194,7 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
  
  
  
