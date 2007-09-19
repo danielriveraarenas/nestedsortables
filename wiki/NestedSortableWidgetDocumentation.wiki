@@ -7,7 +7,7 @@ The list items can have multiple columns, since the widget will draw your list i
 
 You should [http://www.bernardopadua.com/nestedSortables/test/widget/ check the demo], to really get a grasp of its main functionalities. Note that the data source used in the demo is a little stupid: it won't save the order of the elements, it will just pretend it did.
 
-This widget was designed as part of a Google Summer of Code project for WordPress, in 2007, in order to provide a easy way for users to sort their pages. You can see it in action for WordPress [http://bitsinashortbit.wordpress.com/2007/09/03/first-showcase-of-page-sorting-in-wordpress/ in my blog].
+This widget was designed as part of a Google Summer of Code project for !WordPress, in 2007, in order to provide a easy way for users to sort their pages. You can see it in action for !WordPress [http://bitsinashortbit.wordpress.com/2007/09/16/the-final-bits-of-gsoc/ in my blog].
 
 = Download =
 
@@ -285,6 +285,7 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
  
  
  
