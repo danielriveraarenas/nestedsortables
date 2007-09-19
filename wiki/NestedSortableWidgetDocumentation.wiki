@@ -124,7 +124,7 @@ The table bellow shows all the parameters that can be passed to the `NestedSorta
 TODO: Describe all the options here.
 
 || *Parameter Name*  || *Value Type* || *Type/Default* || *Description* ||
-|| name || string || optional / `'nested-sortable-widget`' || ||
+|| name || string || optional / `'nested-sortable-widget`' || The name of name of parameter that will be passed to the saveUrl when saving the page order. Also used internally for the element ids. If you want to have more than one widget in the same page,  you have to configure unique names for them. ||
 || loadUrl || string || mandatory || ||
 || saveUrl || string || optional / same as loadUrl || ||
 || loadUrlParams || Object || optional || ||
@@ -170,6 +170,7 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
  
  
  
