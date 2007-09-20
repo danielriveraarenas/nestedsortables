@@ -323,7 +323,9 @@ jQuery.iNestedSortable = {
 	shouldNestItem : function(e, precedingItem ) {
 		//there should be a preceding item to be able to nest
 		if(!precedingItem) {return false;}
-		
+		if(e.nestedSortCfg.noNestingClass &&
+			jQuery(precedingItem).filter("." + e.nestedSortCfg.noNestingClass).get(0) === precedingItem)
+			{return false;}
 		//This code is to limit the levels of nesting that can be achieved
 		//Development of this is currently halted.
 		/*
@@ -474,6 +476,7 @@ jQuery.iNestedSortable = {
 				function() {
 					this.isNestedSortable = true;
 					this.nestedSortCfg = {
+						noNestingClass : conf.noNestingClass ? conf.noNestingClass : false,
 						rightToLeft : conf.rightToLeft ? true : false , 
 						nestingPxSpace : parseInt(conf.nestingPxSpace, 10) || 30 ,
 						currentNestingClass :  conf.currentNestingClass ? conf.currentNestingClass : "",
