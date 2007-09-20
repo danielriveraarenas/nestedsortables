@@ -26,7 +26,7 @@
 <script type="text/javascript" src="../../externals/released-externals/interface-1.2.js"></script>
 
 <!--Nested Sortables-->
-<script type="text/javascript" src="../../compressed/nested_sortable/inestedsortable.js"></script>
+<script type="text/javascript" src="../../src/nested_sortable/inestedsortable.js"></script>
 
 		<style type="text/css">
 			div.wrap {
@@ -94,6 +94,7 @@
 $('#left-to-right').NestedSortable(
 	{
 		accept: 'page-item1',
+		noNestingClass: "no-nesting",
 		opacity: .8,
 		helperclass: 'helper',
 		onChange: function(serialized) {
@@ -110,23 +111,23 @@ $('#left-to-right').NestedSortable(
 
         <div class="wrap">
             <ul id="left-to-right" class="page-list">
-                <li id="ele-1" class="clear-element page-item1 left">
-                    <div class='sort-handle'>Element 1</div>
+                <li id="ele-1" class="clear-element page-item1 left no-nesting">
+                    <div class='sort-handle'>File 1</div>
                 </li>
-                <li id="ele-2" class="clear-element page-item1 left">
-                    <div class='sort-handle'>Element 2</div>
+                <li id="ele-2" class="clear-element page-item1 left no-nesting">
+                    <div class='sort-handle'>File 2</div>
                 </li>
                 <li id="ele-3" class="clear-element page-item1 left">
-                    <div class='sort-handle'>Element 3</div>
+                    <div class='sort-handle'>Folder 1</div>
                 </li>
                  <li id="ele-4" class="clear-element page-item1 left">
-                    <div class='sort-handle'>Element 4</div>
+                    <div class='sort-handle'>Folder 2</div>
 					<ul class="page-list">
 		                <li id="ele-5" class="clear-element page-item1 left">
-		                 	<div class='sort-handle'>Element 5</div>
+		                 	<div class='sort-handle'>Folder 3</div>
 							<ul  class="page-list" >
-				                <li id="ele-6" class="clear-element page-item1 left">
-	                            	<div class='sort-handle'>Element 6</div>
+				                <li id="ele-6" class="clear-element page-item1 left no-nesting">
+	                            	<div class='sort-handle'>File 3</div>
 				                </li>
 							</ul>
 						</li>
@@ -270,6 +271,7 @@ jQuery( function($) {
 $('#left-to-right').NestedSortable(
 	{
 		accept: 'page-item1',
+		noNestingClass: "no-nesting",
 		opacity: 0.8,
 		helperclass: 'helper',
 		onChange: function(serialized) {
