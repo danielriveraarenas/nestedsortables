@@ -41,7 +41,7 @@ Those dependencies have to be loaded in your HTML file in that order and before 
 == Basic Usage ==
 
 
-First you need to set up your data source, which will provide the list of nested elements to be displayed by the widget, in JSON format. This data source should also be capable of receiving data from the widget, once the user saves the order of the elements, and update your database so that. More details about this data source will be given bellow. For testing purposes, the easiest data source you could create is a plain text file with the contents of your list in JSON. It obviously won't save your list order, but will allow you to view the list. So, create a file, named `my_list_json.js`, with the following contents:
+First you need to set up your data source, which will provide the list of nested elements to be displayed by the widget, in JSON format. This data source should also be capable of receiving data from the widget, once the user saves the order of the elements, and update your database to reflect that. More details about this data source will be given bellow. For testing purposes, the easiest data source you could create is a plain text file with the contents of your list in JSON format. It obviously won't save your list order, but will allow you to view the list. So, create a file, named `my_list_json.js`, with the following contents:
 
 {{{
 {
@@ -113,7 +113,7 @@ jQuery( function($) {
 
 The !NestedSortable plugin will add three functions to the jQuery object: `NestedSortableWidget`, `NestedSortableWidgetDestroy` and `NestedSortableWidgetSave`. The first will configure the widget and takes a object of configuration parameters. The other two should be called on already built widgets and take no parameters.
 
-`NestedSortableWidget` needs to be called on a jQuery object after selecting the element that will hold the component. You should probably use `$.NestedSortable("#element_id").NestedSortableWidget({(...)})` to do it.
+`NestedSortableWidget` needs to be called on a jQuery object after selecting the element that will hold the component. You should probably use `$("#element_id").NestedSortableWidget({(...)})` to do it.
 
 Like in the regular [NestedSortableDocumentation NestedSortable], you configure the widget by passing a single object to the `NestedSortableWidget` method. Use the `{}` notation to create such object. Lots of things can be configured in the widget.
 
@@ -285,3 +285,4 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
