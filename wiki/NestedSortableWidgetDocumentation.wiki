@@ -1,7 +1,7 @@
 #summary Documentation for the NestedSortable Widget.
 = Introduction =
 
-The NestedSortable Widget (from now on just _widget_) is a component that allows you to create a multi-columned table of entries that can be sorted and nested very easily by your user, using drag-and-drop, with full support for pagination.
+The !NestedSortable Widget (from now on just _widget_) is a component that allows you to create a multi-columned table of entries that can be sorted and nested very easily by your user, using drag-and-drop, with full support for pagination.
 
 It is built on top of the plain [NestedSortableDocumentation NestedSortable] plugin and will, basically, do almost all the work you would have to do if you were to use the regular [NestedSortableDocumentation NestedSortable], as long as you provide it with a data source that will pass in your list of nested elements in JSON format. Given that list, it will build the HTML for the whole component, construct the [NestedSortableDocumentation NestedSortable] and show visual clues as to when things are being loaded or saved. 
 
@@ -287,5 +287,6 @@ Interface 1.2 was built for jQuery 1.1 and does have a few issues, specially wit
 = TODO for next versions = 
 
  * More configuration options (as needed by the users)
+ 
  
  
