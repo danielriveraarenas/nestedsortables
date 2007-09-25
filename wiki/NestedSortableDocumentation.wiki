@@ -216,7 +216,7 @@ Currently this plugin has no know bugs of its own. Interface 1.2, however, was b
 = TODO for next versions = 
 
  * Provide an option to limit the levels of nesting that can be used
- * Allow the user to define elements that aren't containers (eg.: nothing can be nested into it). It would allow it to be used for organizing files and folders, for instance.
+ * ~~Allow the user to define elements that aren't containers (eg.: nothing can be nested into it). It would allow it to be used for organizing files and folders, for instance.~~ (already implemented in trunk, see use the noNestingClass option).
 
 
  
