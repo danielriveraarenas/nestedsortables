@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../../externals/jquery-src/event/event.js"></script>
 <script type="text/javascript" src="../../externals/jquery-src/fx/fx.js"></script>-->
 <!--stable-->
-<script type="text/javascript" src="../../externals/released-externals/jquery-1.2.pack.js"></script>
+<script type="text/javascript" src="../../externals/released-externals/jquery-1.1.4.js"></script>
 
 <!--Interface-->
 <!--development-->
@@ -26,7 +26,7 @@
 <script type="text/javascript" src="../../externals/released-externals/interface-1.2.js"></script>
 
 <!--Nested Sortables-->
-<script type="text/javascript" src="../../src/nested_sortable/inestedsortable.js"></script>
+<script type="text/javascript" src="../../compressed/nested_sortable/inestedsortable.js"></script>
 
 		<style type="text/css">
 			div.wrap {
@@ -87,7 +87,7 @@
 
     <body>
 
-        <h3>Left to Right nesting showing serialization.</h3>
+        <h3>Left to Right nesting showing serialization and noNestingClass.</h3>
 
 <pre>
 //Code:
@@ -112,22 +112,22 @@ $('#left-to-right').NestedSortable(
         <div class="wrap">
             <ul id="left-to-right" class="page-list">
                 <li id="ele-1" class="clear-element page-item1 left no-nesting">
-                    <div class='sort-handle'>File 1</div>
+                    <div class='sort-handle'><img src="file.gif" align="left"/>File 1</div>
                 </li>
                 <li id="ele-2" class="clear-element page-item1 left no-nesting">
-                    <div class='sort-handle'>File 2</div>
+                    <div class='sort-handle'><img src="file.gif" align="left"/>File 2</div>
                 </li>
                 <li id="ele-3" class="clear-element page-item1 left">
-                    <div class='sort-handle'>Folder 1</div>
+                    <div class='sort-handle'><img src="folder.gif" align="left"/>Folder 1</div>
                 </li>
                  <li id="ele-4" class="clear-element page-item1 left">
-                    <div class='sort-handle'>Folder 2</div>
+                    <div class='sort-handle'><img src="folder.gif" align="left"/>Folder 2</div>
 					<ul class="page-list">
 		                <li id="ele-5" class="clear-element page-item1 left">
-		                 	<div class='sort-handle'>Folder 3</div>
+		                 	<div class='sort-handle'><img src="folder.gif" align="left"/>Folder 3</div>
 							<ul  class="page-list" >
 				                <li id="ele-6" class="clear-element page-item1 left no-nesting">
-	                            	<div class='sort-handle'>File 3</div>
+	                            	<div class='sort-handle'><img src="file.gif" align="left"/>File 3</div>
 				                </li>
 							</ul>
 						</li>
