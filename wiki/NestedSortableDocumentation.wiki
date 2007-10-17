@@ -7,6 +7,7 @@ The !NestedSortable [http://jquery.com/ jQuery] Plugin is built on top of the po
  * Organizing a table of contents
  * Organizing a list of hierarchical pages (it was originally created with this goal, for !WordPress)
  * Organizing categories
+ * Organizing files and folders
 
 Perhaps the easier way to get what it does it by [http://www.bernardopadua.com/nestedSortables/test/nested_sortable/ looking at the demo]. This plugin was designed as part of a Google Summer of Code project for !WordPress, in 2007. 
 
@@ -20,17 +21,16 @@ Perhaps the easier way to get what it does it by [http://www.bernardopadua.com/n
 = Download = 
 
 I have compiled a compressed version which has only 5kB:
-  [http://nestedsortables.googlecode.com/files/inestedsortable-1.0.pack.js NestedSortable 1.0]
-You can also get the uncompressed code, as well as the test code used in the demo:
-  [http://nestedsortables.googlecode.com/files/nestedSortables.1.0.complete.with.tests.zip NestedSortables Source 1.0]
+  [http://nestedsortables.googlecode.com/files/inestedsortable-1.0.1.pack.js NestedSortable 1.0.1] (You will also need to download the dependencies)
 
-You will also need to download the dependencies.
+You can also get the whole code, as well as the test code used in the demo:
+  [http://nestedsortables.googlecode.com/files/nestedSortables.1.0.1.complete.with.tests.zip NestedSortables Source 1.0.1]
 
 = Dependencies = 
 
 It was built on the latest versions of both jQuery and Interface. 
 
- * [http://code.google.com/p/jqueryjs/downloads/detail?name=jquery-1.2.pack.js jQuery] 1.1 or above (currently with jQuery 1.2 there is an [http://code.google.com/p/nestedsortables/issues/detail?id=4 IE-specific  problem] caused by Interface incompatibility - thanks to n3dst4 for reporting it)
+ * [http://jqueryjs.googlecode.com/files/jquery-1.1.4.pack.js jQuery] 1.1.4 (currently with jQuery 1.2 there is an [http://code.google.com/p/nestedsortables/issues/detail?id=4 IE-specific  problem] caused by Interface incompatibility - thanks to n3dst4 for reporting it, so I recomend sticking to 1.1)
  * [http://interface.eyecon.ro/interface/interface_1.2.zip Interface 1.2] or above (only needs the components bellow, in that order)
    * iutil.js
    * idrag.js
