@@ -10,6 +10,13 @@ The !NestedSortable [http://jquery.com/ jQuery] Plugin is built on top of the po
 
 Perhaps the easier way to get what it does it by [http://www.bernardopadua.com/nestedSortables/test/nested_sortable/ looking at the demo]. This plugin was designed as part of a Google Summer of Code project for !WordPress, in 2007. 
 
+= Change Log = 
+
+== 1.0 ==
+ * Initial Release
+== 1.0.1 ==
+ * Added noNestingClass option, to prevent nesting in some elements.
+
 = Download = 
 
 I have compiled a compressed version which has only 5kB:
@@ -103,6 +110,7 @@ Native options are exclusive to the !NestedSortable plugin. Inherited options ca
 || `scrollSpeed` || Integer || native / 20 || How fast will the window be scrolled by autoScroll. Only applied when is autoScroll is on. ||
 || `serializeRegExp` || RegExp || native / `/[^\-]*$/` || Regular expression that will be used to select only a part of the element id, when using serialization. The default will select only what comes after the last `-`, so if you have elements with ids such as `my-sortable-element-NUMBER`, only `NUMBER` will appear in the serialization, to identify the element that is in a certain position. You usually want to use that to filter only the element DB id. Refer to serialization in the docs. ||
 || `currentNestingClass` || String || native / "" || Css class that will be applied, only when dragging, to the nesting where the dragged element is currently in. Provides the user with some visual aid to help identify who is going to be the parent of the element being dragged.||
+|| `noNestingClass` || String || native / "" || Elements that have this CSS class, in addition to the `accept` class, won't receive elements as children (eg.: will only be nodes in the tree).||
 || `activeclass` || String || inherited || When an acceptable draggable is moved the droppable (the list container for the !NestedSortable) gets this class ||
 || `hoverclass` || String || inherited || When an acceptable draggable is inside the droppable (the list container for the !NestedSortable), the droppable gets this class. ||
 || `helperclass` || String || inherited || The Helper is used to point the place where the item will be positioned. This is the css class the will be applied to the helper. ||
