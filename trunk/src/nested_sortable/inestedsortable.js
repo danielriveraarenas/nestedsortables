@@ -2,8 +2,15 @@
  * 
  * Nested Sortable Plugin for jQuery/Interface.
  * 
- * Version 1.0
+ * Version 1.0.1
  *  
+ *Change Log:
+ * 1.0 
+ *       Initial Release
+ * 1.0.1
+ *       Added noNestingClass option to prevent nesting in some elements.
+ *
+ *
  * Copyright (c) 2007 Bernardo de Padua dos Santos
  * Dual licensed under the MIT (MIT-LICENSE.txt) 
  * and GPL (GPL-LICENSE.txt) licenses.
