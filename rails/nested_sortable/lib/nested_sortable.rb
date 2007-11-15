@@ -137,6 +137,20 @@ module NestedSortable
       end
     end
 
+    # Builds an returns an array with the ordered items of a hierarchy and all
+    # its child hierarchies. They array has the following format:
+    #   [
+    #     {:id => 1, :info=>["Column 1 data", "Column 2 data"], :childrenCount=>0},
+    #     {
+    #       :id => 2,
+    #       :info=>["a", "b"],
+    #       :childrenCount=>1
+    #       :children=> [
+    #         {:id=>3, :info=>["a", "b"], :childCount=>0}
+    #       ]
+    #     }
+    #   ]
+    # 
     def items_array_for_hierarchy(parent_id = nil, should_count = false)
       returned_items = []
       fetched_items = []
@@ -178,6 +192,7 @@ module NestedSortable
       end
     end
 
+    # Saves the order of a continuous chunk of items, grouped in an array
     def save_order_of_items_chunk(chunk, parent_id = nil)
       chunk = chunk.collect{|i| i.last} if chunk.is_a?(Hash) #converts hash to array
       self.class.nested_sortable_model.send(:with_scope, {:find=>{:conditions=> @nested_sortable_conditions } } ) do
@@ -236,6 +251,14 @@ module NestedSortable
         end
       end
       return first_item_pos
+    end
+  end
+  module ExtendedController
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+    module ClassMethods
+
     end
   end
 end
