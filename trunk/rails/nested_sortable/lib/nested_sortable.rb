@@ -9,6 +9,7 @@ module NestedSortable
     module ClassMethods
       public
       def nested_sortable_data_source_for(model, options = {})
+        include NestedSortable::ExtendedController
         class <<self
           attr_reader :nested_sortable_model 
           attr_reader :nested_sortable_options 
@@ -16,7 +17,7 @@ module NestedSortable
         @nested_sortable_model = model.to_s.camelize.constantize
         @nested_sortable_options = default_options_for_data_source.merge(options)
         @nested_sortable_options[:columns] ||= auto_generated_columns_option
-
+        
         define_method(@nested_sortable_options[:action]) do
           @nested_sortable_conditions = build_conditions
           if(request.post? || request.put?)
@@ -34,7 +35,13 @@ module NestedSortable
         end
         public @nested_sortable_options[:action]
       end
-
+    end
+  end
+  module ExtendedController
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+    module ClassMethods
       private
       def default_options_for_data_source
         {
@@ -57,11 +64,10 @@ module NestedSortable
           [key.to_sym, key.to_s.titleize()] 
         end
       end
-
     end
-
+    
     private
-
+    
     def build_conditions
       conditions = self.class.nested_sortable_options[:conditions]
       if(conditions.respond_to?(:call))
@@ -251,14 +257,6 @@ module NestedSortable
         end
       end
       return first_item_pos
-    end
-  end
-  module ExtendedController
-    def self.included(base)
-      base.extend(ClassMethods)
-    end
-    module ClassMethods
-
     end
   end
 end
