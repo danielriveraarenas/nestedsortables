@@ -1,5 +1,10 @@
 #summary Documentation for the NestedSortable jQuery/Interface plugin
 
+= Important =
+This code is unmaintained for years and, while it still works, depends on a deprecated library (Interface). 
+
+I recommend using the plugin from Manuele J Sarfatti [http://mjsarfatti.com/sandbox/nestedSortable/], who sparred me from all the work of having to port this to jQueryUI.
+
 = Introduction =
 
 The !NestedSortable [http://jquery.com/ jQuery] Plugin is built on top of the popular [http://interface.eyecon.ro Interface plugin]. jQuery is a "no-nonsense", fast, small, and extremelly easy to use !JavaScript framework that is taking the world by storm. !NestedSortable provides you with a way to easily build lists of elements that can be vertically sorted and nested (eg. one element can be made son of another) at the same time, using "Drag and Drop". It is based on [http://interface.eyecon.ro/docs/sort Interface's Sortables] and works on top of it. So, a !NestedSortable will also have all the configuration options which are present in a regular Sortable in Interface. Some examples of possible usages:
