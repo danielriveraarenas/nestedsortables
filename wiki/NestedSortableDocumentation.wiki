@@ -1,9 +1,10 @@
 #summary Documentation for the NestedSortable jQuery/Interface plugin
 
 = Important =
-This code is unmaintained for years and, while it still works, depends on a deprecated library (Interface). 
+*This code is unmaintained for years and, while it still works, depends on a deprecated library (Interface). 
 
-I recommend using the plugin from Manuele J Sarfatti [http://mjsarfatti.com/sandbox/nestedSortable/], who sparred me from all the work of having to port this to jQueryUI.
+I recommend using the plugin from Manuele J Sarfatti [http://mjsarfatti.com/sandbox/nestedSortable/], who spared me from all the work of having to port this to jQueryUI.*
+
 
 = Introduction =
 
